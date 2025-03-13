@@ -17,7 +17,7 @@ public class Detail {
     private Long id;
 
     @Column(name = "title",nullable = false)
-    private String title; // 제목 , 본문( 복싱화, 샌드백, 본싱글러브(온즈별),질문 제목)
+    private String title; // 제목 , 본문( 복싱화, 샌드백, 복싱글러브(온즈별),질문 제목)
 
 
     @Column(name = "description",nullable = false)

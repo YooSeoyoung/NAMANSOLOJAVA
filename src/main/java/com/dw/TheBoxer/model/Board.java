@@ -3,6 +3,7 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.xml.stream.events.Comment;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,12 @@ public class Board {
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 작성일
 
-
     @ManyToOne
     @JoinColumn(name = "category_name")
     private Category category; // 카테고리 (단방향)
 
     @OneToMany(mappedBy = "board")
-    private List<Review> reviewList= new ArrayList<>();
+    private List<Comment> commentList= new ArrayList<>();
 
 
 }
