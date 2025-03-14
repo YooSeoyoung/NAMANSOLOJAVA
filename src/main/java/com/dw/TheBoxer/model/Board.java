@@ -24,6 +24,13 @@ public class Board {
     @Column(name="is_active")
     private Boolean isActive = true; // 게시판 삭제 시, false로 변경
 
+    @Column(name = "title",nullable = false)
+    private String title; // 제목 , 본문( 복싱화, 샌드백, 복싱글러브(온즈별),질문 제목)
+
+
+    @Column(name = "content",nullable = false)
+    private String content; // 설명
+
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user; // 유저(단방향)
