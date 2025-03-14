@@ -49,7 +49,7 @@ public class User {
     @OneToMany(mappedBy = "receiver")
     private List<FriendRequest> receivedRequests = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "friendship",
             joinColumns = @JoinColumn(name = "user_id"),

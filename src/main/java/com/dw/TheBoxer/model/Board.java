@@ -41,11 +41,11 @@ public class Board {
     @JoinColumn(name = "category_name")
     private Category category; // 카테고리 (단방향)
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board") // 댓글 모음
     private List<Comment> commentList= new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
-    private List<Like> likeList= new ArrayList<>();
+    @OneToMany(mappedBy = "board") // 좋아요 모음
+    private List<Great> greatList = new ArrayList<>();
 
 
 }
