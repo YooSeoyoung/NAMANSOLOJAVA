@@ -3,7 +3,6 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.xml.stream.events.Comment;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,9 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Comment> commentList= new ArrayList<>();
+
+    @OneToMany(mappedBy = "board")
+    private List<Like> likeList= new ArrayList<>();
 
 
 }

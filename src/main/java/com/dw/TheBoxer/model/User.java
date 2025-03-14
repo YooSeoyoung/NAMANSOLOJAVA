@@ -4,6 +4,9 @@ import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -39,5 +42,22 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority; // 권한
+
+    @OneToMany(mappedBy = "sender")
+    private List<FriendRequest> sendRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver")
+    private List<FriendRequest> receivedRequests = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "friendship",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User> friends;
+
+
+
+
 
 }
