@@ -37,6 +37,9 @@ public class Board {
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 작성일
 
+    @Column(name = "modified_date")
+    private LocalDate modifiedDate; // 수정일
+
     @ManyToOne
     @JoinColumn(name = "category_name")
     private Category category; // 카테고리 (단방향)
@@ -46,6 +49,12 @@ public class Board {
 
     @OneToMany(mappedBy = "board") // 좋아요 모음
     private List<Great> greatList = new ArrayList<>();
+
+    @Column(name = "count_like")
+    private Long countLike; // 좋아요 수
+
+    @Column(name = "count_dislike")
+    private Long countDisLike; // 싫어요 수
 
 
 }

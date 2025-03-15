@@ -1,0 +1,60 @@
+User(추가)
+
+
+    @OneToMany(mappedBy = "sender")  // 친구 요청한 사람 (양방향)
+    private List<FriendRequest> sendRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver") // 친구 요청 받은 사람 (양방향)
+    private List<FriendRequest> receivedRequests = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)  // 요청 승인 후 서로 누가 현재 친구로 되어있는지 
+    @JoinTable(
+            name = "friendship",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User> friends;
+
+// 새로운 클래스
+public class FriendRequest { // 친구요청 및 받는 클래스
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_name")
+    private User sender;  // 하나의 유저가 많은 요청이 가능함
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_name")
+    private User receiver; //하나의 유저가 많은 요청을 받을 수 있음
+
+    private boolean approved = false;  // 기본적으로 요청은 승인 X
+}
+
+
+Great(삭제)
+
+  @Column(name = "feed_back")
+    private Boolean feedBack; // true이면 좋아요 false이면 좋아요 취소
+-----> 위 컬러만 있고 밑에 있던 isActive 삭제
+
+
+Schedule(수정)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "start_date", updatable = false)
+    private LocalDate startDate;//복싱 관련 일정 시작일
+
+    @Column(name = "last_date", updatable = false)
+    private LocalDate lastDate; //일정이 끝나는 날짜 2025-01-01
+
+    @Column(name = "title")
+    private String title; // 제목(단증 취득 시기, 2025년 청소년 아마추어 대회 )
+
+    @Column(name = "content")
+    private String content; //단증 취득 같은 경우 각 지역마다 시행하는 장소는 복싱협회 사이트에서 확인이 가능합니다
+}

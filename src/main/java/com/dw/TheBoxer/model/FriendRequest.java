@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "friend_request")
-public class FriendRequest {
+public class FriendRequest { // 친구요청 및 받는 클래스
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
