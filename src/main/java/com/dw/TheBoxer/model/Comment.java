@@ -25,6 +25,9 @@ public class Comment { // 댓글 기능
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 작성일
 
+    @Column(name = "modified_date")
+    private LocalDate modifiedDate; // 수정일
+
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;

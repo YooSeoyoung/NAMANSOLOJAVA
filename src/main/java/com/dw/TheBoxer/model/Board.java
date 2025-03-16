@@ -32,7 +32,7 @@ public class Board {
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user; // 유저(단방향)
+    private User user; //하나의 유저가 많은 Board를 가질 수 있음
 
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 작성일
@@ -56,5 +56,8 @@ public class Board {
     @Column(name = "count_dislike")
     private Long countDisLike; // 싫어요 수
 
+    @ManyToOne
+    @JoinColumn(name = "tag_id")  // 각 게시글은 하나의 태그를 가짐
+    private Tag tag;  // 게시글에 연결된 태그
 
 }

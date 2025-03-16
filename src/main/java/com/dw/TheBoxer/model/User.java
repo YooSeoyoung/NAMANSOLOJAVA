@@ -4,6 +4,7 @@ import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,18 +44,14 @@ public class User {
     @JoinColumn(name = "user_authority")
     private Authority authority; // 권한
 
-    @OneToMany(mappedBy = "sender")
-    private List<FriendRequest> sendRequests = new ArrayList<>();
+    @Column(name = "add_date", updatable = false)
+    private LocalDate addDate; // 회원가입일자
 
-    @OneToMany(mappedBy = "receiver")
-    private List<FriendRequest> receivedRequests = new ArrayList<>();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "friendship",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<User> friends;
+//    @OneToMany(mappedBy = "sender")
+//    private List<FriendRequest> sendRequests = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "receiver")
+//    private List<FriendRequest> receivedRequests = new ArrayList<>();
 
 
 
