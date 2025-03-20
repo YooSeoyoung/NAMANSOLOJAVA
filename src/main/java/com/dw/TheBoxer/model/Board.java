@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,11 @@ public class Board {
     @JoinColumn(name = "user_name")
     private User user; // 하나의 유저가 많은 Board를 가질 수 있음
 
-    @Column(name = "add_date", updatable = false)
-    private LocalDate addDate; // 작성일
+    @Column(name = "add_date_time", updatable = false)
+    private LocalDateTime addDate; // 작성일
 
-    @Column(name = "modified_date")
-    private LocalDate modifiedDate; // 수정일
+    @Column(name = "modified_date_time")
+    private LocalDateTime modifiedDate; // 수정일
 
     @ManyToOne
     @JoinColumn(name = "category_name")

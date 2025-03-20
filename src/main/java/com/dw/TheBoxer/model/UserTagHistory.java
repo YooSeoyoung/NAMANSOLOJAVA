@@ -3,6 +3,8 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,4 +20,7 @@ public class UserTagHistory {
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
+
+    @Column(name = "used_time")
+    private LocalDateTime usedTime;
 }

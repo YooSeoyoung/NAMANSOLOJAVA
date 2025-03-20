@@ -14,9 +14,6 @@ import java.util.List;
 @Table(name = "tag")
 public class Tag {
     @Id
-    @Column(name = "id")
-    private Long id;
-
     @Column(name = "name")
     private String name;
 
