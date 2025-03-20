@@ -18,6 +18,4 @@ public class UserTagHistory {
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
-
-
 }

@@ -31,7 +31,7 @@ public class Board {
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user; //하나의 유저가 많은 Board를 가질 수 있음
+    private User user; // 하나의 유저가 많은 Board를 가질 수 있음
 
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 작성일
@@ -44,10 +44,10 @@ public class Board {
     private Category category; // 카테고리 (단방향)
 
     @OneToMany(mappedBy = "board") // 댓글 모음
-    private List<Comment> commentList= new ArrayList<>();
+    private List<Comment> commentList;
 
     @OneToMany(mappedBy = "board") // 좋아요 모음
-    private List<Great> greatList = new ArrayList<>();
+    private List<Great> greatList;
 
     @Column(name = "count_like")
     private Long countLike; // 좋아요 수

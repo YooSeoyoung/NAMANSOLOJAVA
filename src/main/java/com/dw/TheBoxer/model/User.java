@@ -41,7 +41,7 @@ public class User {
 
     @OneToMany
     @JoinColumn(name = "user_calender")
-    private List<Calendar> calendars; // 기념일, 유저 한 명은 많은 기념일을 가지지만 같은 기념일 가지지 않음
+    private List<Calendar> calendars; // 기념일, 유저 한 명은 많은 기념일을 가지지만 다른 이와 같은 기념일 가지지 않음
 
     @ManyToOne
     @JoinColumn(name = "user_authority")
