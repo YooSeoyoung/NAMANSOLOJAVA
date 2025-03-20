@@ -40,10 +40,6 @@ public class Board {
     @Column(name = "modified_time")
     private LocalDateTime modifiedTime; // 수정시간
 
-    @ManyToOne
-    @JoinColumn(name = "category_name")
-    private Category category; // 카테고리 (단방향)
-
     @OneToMany(mappedBy = "board") // 댓글 모음
     private List<Comment> commentList;
 

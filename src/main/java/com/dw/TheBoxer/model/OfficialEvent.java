@@ -25,10 +25,10 @@ public class OfficialEvent {
     private LocalDate eventDate; // 기념일 날짜
 
     @Column(name = "event_type")
-    private String eventType; // 100일, 발렌타인, 크리스마스 등
+    private String eventType; // 발렌타인, 크리스마스 등
 
     @Column(name = "weather_info")
-    private String weatherInfo; // 날씨 API 결과 (JSON or TEXT)
+    private String weatherInfo; // 날씨 API 결과 (TEXT)
 
     @Column(name = "alert_sent")
     private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
