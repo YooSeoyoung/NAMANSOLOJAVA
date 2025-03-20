@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.enums.Visibility;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,9 @@ public class Feed {
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user; // 유저 개인은 피드를 생성하고,
-    // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨. 피드 공유 설정에 대한 컬럼 필요한가?
+    private User user; // 유저 개인은 피드를 생성하고, 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
+
+    @Column(name = "visibility", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Visibility visibility; // ENUM 수정 필요
 }

@@ -36,7 +36,7 @@ public class Comment { // 댓글 기능
     @JoinColumn(name = "user_name")
     private User user;
 
-    @Column(name = "rating",nullable = false)
+    @Column(name = "rating")
     @Enumerated(EnumType.STRING)
     private Rating rating; // ENUM 수정 필요
 }
