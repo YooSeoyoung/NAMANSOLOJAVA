@@ -26,9 +26,9 @@ public class Feed {
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user; // 유저 개인은 피드를 생성하고, 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
+    private User user; // 유저 개인은 피드를 생성함.
 
     @Column(name = "visibility", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Visibility visibility; // ENUM 수정 필요
+    private Visibility visibility; // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
 }

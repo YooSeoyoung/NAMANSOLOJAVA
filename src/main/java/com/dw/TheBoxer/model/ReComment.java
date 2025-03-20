@@ -3,7 +3,7 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,10 +21,10 @@ public class ReComment {  // 대댓글 기능
     private String content;
 
     @Column(name = "add_date", updatable = false)
-    private LocalDate addDate;
+    private LocalDateTime addDate; //
 
     @Column(name = "modified_date")
-    private LocalDate modifiedDate; // 수정일
+    private LocalDateTime modifiedDate; // 수정시간
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
