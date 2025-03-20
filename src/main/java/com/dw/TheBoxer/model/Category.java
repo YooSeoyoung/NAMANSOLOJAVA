@@ -14,5 +14,5 @@ import lombok.*;
 @Table(name = "category")
 public class Category {
     @Id
-    private String name; // 장비, 기술, 루틴, 식단, 질문
+    private String name; // 맛집, 호텔, 관광지, 포토존
 }
