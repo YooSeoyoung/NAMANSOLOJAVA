@@ -21,8 +21,8 @@ public class Feed {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "add_time")
+    private LocalDateTime addTime;
 
     @ManyToOne
     @JoinColumn(name = "user_name")

@@ -34,11 +34,11 @@ public class Board {
     @JoinColumn(name = "user_name")
     private User user; // 하나의 유저가 많은 Board를 가질 수 있음
 
-    @Column(name = "add_date_time", updatable = false)
-    private LocalDateTime addDate; // 작성일
+    @Column(name = "add_time", updatable = false)
+    private LocalDateTime addTime; // 작성시간
 
-    @Column(name = "modified_date_time")
-    private LocalDateTime modifiedDate; // 수정일
+    @Column(name = "modified_time")
+    private LocalDateTime modifiedTime; // 수정시간
 
     @ManyToOne
     @JoinColumn(name = "category_name")
