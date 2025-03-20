@@ -14,7 +14,6 @@ import lombok.*;
 @Entity
 @Table(name = "great")
 public class Great { // 좋아요 기능
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,5 +29,4 @@ public class Great { // 좋아요 기능
     @Column(name = "reaction")
     @Enumerated(EnumType.STRING)
     private Reaction reaction; // ENUM
-    
 }

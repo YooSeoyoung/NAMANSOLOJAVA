@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Entity
-@Table(name = "schedule")
-public class Schedule { //일정표
+@Table(name = "calendar")
+public class Calendar { //일정표
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

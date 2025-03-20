@@ -13,7 +13,6 @@ import lombok.*;
 @Entity
 @Table(name = "category")
 public class Category {
-
     @Id
     private String name; // 장비, 기술, 루틴, 식단, 질문
 }

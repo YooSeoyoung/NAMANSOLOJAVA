@@ -39,7 +39,4 @@ public class Comment { // 댓글 기능
     @Column(name = "rating",nullable = false)
     @Enumerated(EnumType.STRING)
     private Rating rating; // ENUM 수정 필요
-
-
-
 }

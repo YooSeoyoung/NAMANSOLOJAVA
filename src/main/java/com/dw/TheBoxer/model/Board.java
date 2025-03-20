@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "board")
 public class Board {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +22,11 @@ public class Board {
     @Column(name="is_active")
     private Boolean isActive = true; // 게시판 삭제 시, false로 변경
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title; // 제목 , 본문( 복싱화, 샌드백, 복싱글러브(온즈별),질문 제목)
 
 
-    @Column(name = "content",nullable = false)
+    @Column(name = "content", nullable = false)
     private String content; // 설명
 
     @ManyToOne
@@ -55,9 +54,4 @@ public class Board {
 
     @Column(name = "count_dislike")
     private Long countDisLike; // 싫어요 수
-
-    @ManyToOne
-    @JoinColumn(name = "tag_id")  // 각 게시글은 하나의 태그를 가짐
-    private Tag tag;  // 게시글에 연결된 태그
-
 }

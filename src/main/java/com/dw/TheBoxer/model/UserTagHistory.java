@@ -1,6 +1,5 @@
 package com.dw.TheBoxer.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,17 +9,15 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "friendship")
-public class FriendShip {
+@Table(name = "user_tag_history")
+public class UserTagHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user;  // 친구 관계의 한쪽 유저
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "friend_name")
-    private User friend;  // 친구 관계의 다른 유저
+
 }

@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "recomment")
 public class ReComment {  // 대댓글 기능
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

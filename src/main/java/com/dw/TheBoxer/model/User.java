@@ -40,8 +40,8 @@ public class User {
     private String phoneNumberF; // 여자 번호
 
     @OneToMany
-    @JoinColumn(name = "user_schedule")
-    private List<Schedule> schedules; // 기념일, 유저 한 명은 많은 기념일을 가지지만 같은 기념일을 가지진 않음
+    @JoinColumn(name = "user_calender")
+    private List<Calendar> calendars; // 기념일, 유저 한 명은 많은 기념일을 가지지만 같은 기념일 가지지 않음
 
     @ManyToOne
     @JoinColumn(name = "user_authority")
@@ -49,4 +49,11 @@ public class User {
 
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
+
+    @ManyToMany
+    @JoinTable(
+            name = "board_tag",
+            joinColumns = @JoinColumn(name = "user_name"),
+            inverseJoinColumns = @JoinColumn(name = "tag_name"))
+    private List<Tag> tags;
 }
