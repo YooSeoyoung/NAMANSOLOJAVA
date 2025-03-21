@@ -19,8 +19,8 @@ public class Great { // 좋아요 기능
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board; // 유저(단방향)
+    @JoinColumn(name = "feed_id")
+    private Feed feed; // 유저(단방향)
 
     @ManyToOne
     @JoinColumn(name = "user_name")

@@ -29,8 +29,8 @@ public class Comment { // 댓글 기능
     private LocalDateTime modifiedTime; // 수정시간
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "feed_id")
+    private Feed feed;
 
     @ManyToOne
     @JoinColumn(name = "user_name")

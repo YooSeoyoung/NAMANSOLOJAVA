@@ -52,7 +52,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "board_tag",
+            name = "feed_tag",
             joinColumns = @JoinColumn(name = "user_name"),
             inverseJoinColumns = @JoinColumn(name = "tag_name"))
     private List<Tag> tags;

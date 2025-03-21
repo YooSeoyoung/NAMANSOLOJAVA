@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,4 +32,10 @@ public class Feed {
     @Column(name = "visibility", nullable = false)
     @Enumerated(EnumType.STRING)
     private Visibility visibility; // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
+
+    @OneToMany(mappedBy = "feed")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "feed")
+    private List<Great> greats;
 }

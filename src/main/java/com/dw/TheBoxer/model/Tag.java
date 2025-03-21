@@ -19,8 +19,8 @@ public class Tag {
 
     @ManyToMany
     @JoinTable(
-            name = "board_tag",
+            name = "feed_tag",
             joinColumns = @JoinColumn(name = "tag_name"),
-            inverseJoinColumns = @JoinColumn(name = "board_id"))  // 여러 태그는 여러 게시글을 가질 수 있음
-    private List<Board> boards;  // 해당 태그가 포함된 게시글 목록
+            inverseJoinColumns = @JoinColumn(name = "feed_id"))  // 여러 태그는 여러 게시글을 가질 수 있음
+    private List<Feed> feeds;  // 해당 태그가 포함된 게시글 목록
 }
