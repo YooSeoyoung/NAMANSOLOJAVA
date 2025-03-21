@@ -50,6 +50,10 @@ public class User {
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
 
+    @OneToMany
+    @JoinColumn(name = "user_tag_history")
+    private List<UserTagHistory> userTagHistories;
+
     @ManyToMany
     @JoinTable(
             name = "feed_tag",
