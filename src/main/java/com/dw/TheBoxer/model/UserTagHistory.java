@@ -18,6 +18,10 @@ public class UserTagHistory {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "tag_name")
+    private Tag tag;  // 유저가 사용한 태그
+
+    @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
 
