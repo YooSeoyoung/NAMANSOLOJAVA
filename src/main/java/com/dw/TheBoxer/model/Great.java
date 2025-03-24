@@ -20,11 +20,11 @@ public class Great { // 좋아요 기능
 
     @ManyToOne
     @JoinColumn(name = "feed_id")
-    private Feed feed; // 유저(단방향)
+    private Feed feed; // 유저
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user; // 유저(단방향)
+    private User user; // 유저
 
     @Column(name = "reaction")
     @Enumerated(EnumType.STRING)
