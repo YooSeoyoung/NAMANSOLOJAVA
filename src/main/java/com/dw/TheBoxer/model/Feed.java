@@ -19,8 +19,8 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "add_time")
     private LocalDateTime addTime;

@@ -54,9 +54,9 @@ public class User {
     @Column(name = "phone_number_f", nullable = false)
     private String phoneNumberF; // 여자 번호
 
-    @OneToMany
-    @JoinColumn(name = "user_calender")
-    private List<Calendar> calendars; // 기념일, 유저 한 명은 많은 기념일을 가지지만 다른 이와 같은 기념일 가지지 않음
+    @OneToOne
+    @JoinColumn(name = "calender")
+    private Calendar calendar; // 기념일, 유저 한 명은 많은 기념일을 가지지만 다른 이와 같은 기념일 가지지 않음
 
     @ManyToOne
     @JoinColumn(name = "user_authority")
@@ -64,11 +64,4 @@ public class User {
 
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
-
-    @ManyToMany
-    @JoinTable(
-            name = "feed_tag",
-            joinColumns = @JoinColumn(name = "user_name"),
-            inverseJoinColumns = @JoinColumn(name = "tag_name"))
-    private List<Tag> tags;
 }
