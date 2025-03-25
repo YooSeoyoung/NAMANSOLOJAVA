@@ -13,8 +13,8 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@Table(name = "feed")
-public class Feed {
+@Table(name = "story")
+public class Story {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,9 +33,9 @@ public class Feed {
     @Enumerated(EnumType.STRING)
     private Visibility visibility; // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "story")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "story")
     private List<Great> greats;
 }

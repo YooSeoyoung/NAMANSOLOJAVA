@@ -1,7 +1,6 @@
 package com.dw.TheBoxer.model;
 
 
-import com.dw.TheBoxer.enums.Gender;
 import com.dw.TheBoxer.enums.Reaction;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +19,7 @@ public class Great { // 좋아요 기능
 
     @ManyToOne
     @JoinColumn(name = "feed_id")
-    private Feed feed; // 유저
+    private Story story; // 유저
 
     @ManyToOne
     @JoinColumn(name = "user_name")

@@ -3,22 +3,23 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "calendar")
-public class Calendar { // 일정표
+@Table(name = "story_tag")
+public class StoryTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "user_calendar")
-    private List<UserCalendar> userCalendars;
+    @ManyToOne
+    @JoinColumn(name = "feed_id")
+    private Story story;
+
+    @ManyToOne
+    @JoinColumn(name = "tag_name")
+    private Tag tag;
 }

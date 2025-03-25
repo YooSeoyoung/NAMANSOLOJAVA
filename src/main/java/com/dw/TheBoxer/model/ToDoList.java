@@ -3,23 +3,21 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "feed_tag")
-public class FeedTag {
+@Table(name = "to_do_list")
+public class ToDoList { // 일정표
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "feed_id")
-    private Feed feed;
-
-    @ManyToOne
-    @JoinColumn(name = "tag_name")
-    private Tag tag;
+    @OneToMany
+    @JoinColumn(name = "to_do")
+    private List<ToDo> toDos;
 }

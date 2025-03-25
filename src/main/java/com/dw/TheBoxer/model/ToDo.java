@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Entity
-@Table(name = "user_calendar")
-public class UserCalendar {
+@Table(name = "to_do")
+public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,4 +25,13 @@ public class UserCalendar {
 
     @Column(name = "last_date")
     private LocalDate lastDate; // 여행 일정 끝나는 날
+
+    @Column(name = "picture_url")
+    private String pictureUrl;
+
+    @Column(name = "memo")
+    private String memo;
+
+    @Column(name = "calendar_alert")
+    private Boolean calendarAlert;
 }

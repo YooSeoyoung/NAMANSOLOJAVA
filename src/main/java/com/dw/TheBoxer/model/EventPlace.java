@@ -26,7 +26,4 @@ public class EventPlace {
     @ManyToOne
     @JoinColumn(name = "category_name")
     private Category category; // 맛집, 호텔, 관광지, 포토존
-
-    @Column(name = "event_date")
-    private LocalDate eventDate;
 }

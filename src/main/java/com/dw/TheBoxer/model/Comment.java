@@ -1,6 +1,5 @@
 package com.dw.TheBoxer.model;
 
-import com.dw.TheBoxer.enums.Rating;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,10 +28,13 @@ public class Comment { // 댓글 기능
     private LocalDateTime modifiedTime; // 수정시간
 
     @ManyToOne
-    @JoinColumn(name = "feed_id")
-    private Feed feed;
+    @JoinColumn(name = "story_id")
+    private Story story;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
+
+    @Column(name = "comment_alert")
+    private Boolean commentAlert;
 }
