@@ -18,7 +18,7 @@ public class Great { // 좋아요 기능
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "feed_id")
+    @JoinColumn(name = "story_id")
     private Story story; // 유저
 
     @ManyToOne
@@ -28,4 +28,7 @@ public class Great { // 좋아요 기능
     @Column(name = "reaction")
     @Enumerated(EnumType.STRING)
     private Reaction reaction; // ENUM
+
+    @Column(name = "alert_sent", nullable = false)
+    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
 }

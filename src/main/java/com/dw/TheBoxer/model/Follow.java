@@ -29,6 +29,6 @@ public class Follow {
     @Column(name = "add_time", nullable = false)
     private LocalDateTime addTime; // 생성시간 지정 -> 유저 요청시간, 레포지토리에 매핑 LocalDateTime.now();
 
-    @Column(name = "follow_alert")
-    private Boolean followAlert;
+    @Column(name = "alert_sent", nullable = false)
+    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
 }

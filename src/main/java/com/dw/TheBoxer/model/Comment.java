@@ -35,6 +35,6 @@ public class Comment { // 댓글 기능
     @JoinColumn(name = "user_name")
     private User user;
 
-    @Column(name = "comment_alert")
-    private Boolean commentAlert;
+    @Column(name = "alert_sent", nullable = false)
+    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
 }
