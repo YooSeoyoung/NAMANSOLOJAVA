@@ -22,8 +22,4 @@ public class EventPlace {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "category_name")
-    private Category category; // 맛집, 호텔, 관광지, 포토존
 }

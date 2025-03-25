@@ -1,27 +1,29 @@
 package com.dw.TheBoxer.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 @Entity
-@Table(name = "user_recommend")
-public class UserRecommend {
+@Table(name = "category_place")
+public class CategoryPlace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
-    private User user;
+    @JoinColumn(name = "category")
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "recommend_place")
     private RecommendPlace recommendPlace;
+
+    @ManyToOne
+    @JoinColumn(name = "event_place")
+    private EventPlace eventPlace;
 }

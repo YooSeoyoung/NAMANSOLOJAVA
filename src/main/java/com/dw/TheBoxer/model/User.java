@@ -53,12 +53,8 @@ public class User {
     @Column(name = "phone_number_f", nullable = false)
     private String phoneNumberF; // 여자 번호
 
-    @OneToOne
-    @JoinColumn(name = "calender", nullable = false)
-    private ToDoList toDoList; // 기념일, 유저 한 명은 많은 기념일을 가지지만 다른 이와 같은 기념일 가지지 않음
-
     @ManyToOne
-    @JoinColumn(name = "user_authority", nullable = false)
+    @JoinColumn(name = "ROLE_authority", nullable = false)
     private Authority authority; // 권한
 
     @Column(name = "add_date", updatable = false)
