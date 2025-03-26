@@ -30,6 +30,9 @@ public class RecommendPlace {
     @Column(nullable = false)
     private Double longitude; // 경도
 
-    @Column(length = 1000)
+    @Column(name = "description", length = 1000)
     private String description; // 상세 설명 (선택)
+
+    @Column(name = "detail")
+    private String detail;
 }
