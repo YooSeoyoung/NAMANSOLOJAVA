@@ -23,8 +23,8 @@ public class Album {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
+    @Column(name = "add_date")
+    private LocalDateTime addDate; // 등록 및 수정 일자
 
     @ManyToOne
     @JoinColumn(name = "user_name")
