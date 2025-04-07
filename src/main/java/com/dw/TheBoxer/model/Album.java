@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AlbumDTO;
 import com.dw.TheBoxer.enums.Visibility;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,8 +24,8 @@ public class Album {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "add_time")
-    private LocalDateTime addTime;
+    @Column(name = "add_date")
+    private LocalDateTime addDate;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
