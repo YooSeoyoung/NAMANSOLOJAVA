@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Entity
-@Table(name = "to_do")
+@Table(name = "todo")
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +29,10 @@ public class ToDo {
 //    @Column(name = "memo")
 //    private String memo;
 
-
+    @Column(name = "type", nullable = false)
+    private String type;
 
     @ManyToOne
-    @JoinColumn(name = "user_name", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     private User user;
 }
