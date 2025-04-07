@@ -1,4 +1,4 @@
-package com.dw.TheBoxer.dto;
+package com.dw.TheBoxer.DTO;
 
 
 import lombok.*;

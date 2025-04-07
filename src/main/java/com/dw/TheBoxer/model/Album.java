@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AlbumDTO;
 import com.dw.TheBoxer.enums.Visibility;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,11 @@ public class Album {
     private String title;
 
     @Column(name = "add_date")
+<<<<<<< HEAD
+    private LocalDateTime addDate;
+=======
     private LocalDateTime addDate; // 등록 및 수정 일자
+>>>>>>> 39ac10673c54e7f8686b8685d0450766faa96e6c
 
     @ManyToOne
     @JoinColumn(name = "user_name")

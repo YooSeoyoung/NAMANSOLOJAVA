@@ -1,14 +1,8 @@
-package com.dw.TheBoxer.dto;
+package com.dw.TheBoxer.DTO;
 
-import com.dw.TheBoxer.enums.Visibility;
-import com.dw.TheBoxer.model.Comment;
-import com.dw.TheBoxer.model.Great;
-import com.dw.TheBoxer.model.User;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor

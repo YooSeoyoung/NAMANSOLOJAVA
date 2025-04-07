@@ -1,4 +1,4 @@
-package com.dw.TheBoxer.dto;
+package com.dw.TheBoxer.DTO;
 
 import lombok.*;
 
@@ -7,8 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class FollowingDTO {
+public class FollowerDTO {
     private Long id;
-    private String followingName;
+    private String followerName;
 
 }
