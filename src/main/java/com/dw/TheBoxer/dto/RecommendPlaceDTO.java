@@ -7,8 +7,9 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @Setter
-public class RecommendPlaceDTO {
-    private String name;
+public class RecommendPlaceDTO { // 유저 조회용
+    private String categoryName;
+    private String placeName;
     private String address;
     private String city;
     private String description;
