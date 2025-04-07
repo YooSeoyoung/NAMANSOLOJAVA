@@ -3,9 +3,6 @@ package com.dw.TheBoxer.DTO;
 import com.dw.TheBoxer.enums.AlarmType;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

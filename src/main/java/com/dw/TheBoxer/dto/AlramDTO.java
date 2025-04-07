@@ -1,8 +1,6 @@
 package com.dw.TheBoxer.DTO;
 
 import com.dw.TheBoxer.enums.AlarmType;
-import com.dw.TheBoxer.model.User;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
