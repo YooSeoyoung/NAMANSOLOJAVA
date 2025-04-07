@@ -21,11 +21,9 @@ public class Comment { // 댓글 기능
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "add_time", updatable = false)
-    private LocalDateTime addDate; // 작성시간
-
-    @Column(name = "modified_time")
-    private LocalDateTime modifiedTime; // 수정시간
+    @Column(name = "add_date")
+    private LocalDateTime addDate; // 작성 및 수정시간
+    
 
     @ManyToOne
     @JoinColumn(name = "story_id")
