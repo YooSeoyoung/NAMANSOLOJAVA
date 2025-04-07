@@ -2,7 +2,7 @@ package com.dw.TheBoxer.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 public class ToDoTravelDTO {
     private String title;
-    private LocalDateTime startDateTime;
-    private LocalDateTime lastDateTime;
+    private LocalDate startDate;
+    private LocalDate lastDate;
     private String pictureURL; // 사진 경로
     private String type;
 }

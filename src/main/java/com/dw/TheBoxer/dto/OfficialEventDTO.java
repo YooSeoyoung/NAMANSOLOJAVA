@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @Setter
-public class ToDoDTO {
-    private String title;
-    private LocalDate startDate;
-    private String type;
+public class OfficialEventDTO {
+    private String eventTitle;
+    private LocalDate eventDate;
 }
