@@ -10,8 +10,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "media")
-public class
-Media {
+public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
