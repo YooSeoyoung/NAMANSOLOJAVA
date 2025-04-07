@@ -29,12 +29,11 @@ public class Comment { // 댓글 기능
 
     @ManyToOne
     @JoinColumn(name = "story_id")
-    private Story story;
+    private Album album;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
 
-    @Column(name = "alert_sent", nullable = false)
-    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
+
 }

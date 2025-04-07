@@ -3,8 +3,6 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @Entity
 @Table(name = "event_place")
-public class EventPlace {
+public class EventPresent {  // 선물 랭킹
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -3,8 +3,6 @@ package com.dw.TheBoxer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,7 +10,8 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "media")
-public class Media {
+public class
+Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +26,11 @@ public class Media {
 
     @ManyToOne
     @JoinColumn(name = "story_id")
-    private Story story;
+    private Album album;
+
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
 
     @Column(name = "picture_url")
     private String pictureUrl;

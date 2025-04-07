@@ -10,16 +10,16 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "story_tag")
-public class StoryTag {
+public class AlbumTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "feed_id")
-    private Story story;
+    @JoinColumn(name = "album_id")
+    private Album album;
 
     @ManyToOne
-    @JoinColumn(name = "tag_name")
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 }

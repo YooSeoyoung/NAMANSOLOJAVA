@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "story")
-public class Story {
+public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,11 +35,10 @@ public class Story {
     private Visibility visibility; // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
 
     @OneToMany(mappedBy = "story")
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "story")
-    private List<Great> greats;
+    private List<Great> greats = new ArrayList<>();
 
-    @Column(name = "alert_sent", nullable = false)
-    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
+
 }

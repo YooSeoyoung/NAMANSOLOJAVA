@@ -26,11 +26,10 @@ public class ToDo {
     @Column(name = "last_date", nullable = false)
     private LocalDate lastDate; // 여행 일정 끝나는 날
 
-    @Column(name = "memo")
-    private String memo;
+//    @Column(name = "memo")
+//    private String memo;
 
-    @Column(name = "alert_sent", nullable = false)
-    private Boolean alertSent; // 알람 발송 여부. 기본 false. 레포지토리에서 설정
+
 
     @ManyToOne
     @JoinColumn(name = "user_name", nullable = false)

@@ -23,7 +23,7 @@ public class CategoryPlace {
     @JoinColumn(name = "recommend_place")
     private RecommendPlace recommendPlace;
 
-    @ManyToOne
-    @JoinColumn(name = "event_place")
-    private EventPlace eventPlace;
+//    @ManyToOne
+//    @JoinColumn(name = "event_place")
+//    private EventPlace eventPlace;
 }
