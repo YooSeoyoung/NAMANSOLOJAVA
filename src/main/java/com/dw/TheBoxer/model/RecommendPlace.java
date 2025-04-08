@@ -1,5 +1,7 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.RecommendPlaceAdmDTO;
+import com.dw.TheBoxer.DTO.RecommendPlaceDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,4 +37,17 @@ public class RecommendPlace {
 
     @Column(name = "detail")
     private String detail;
+
+    public RecommendPlaceAdmDTO admDTO() {
+        return new RecommendPlaceAdmDTO(this.name, this.address,
+                this.city, this.latitude,
+                this.longitude, this.description,
+                this.detail);
+    }
+
+    public RecommendPlaceDTO placeDTO() {
+        return new RecommendPlaceDTO(this.name, this.address,
+                this.city, this.description,
+                this.detail);
+    }
 }

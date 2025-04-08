@@ -40,6 +40,18 @@ public class Media {
     private MediaType mediaType;
 
     public MediaDTO toDTO() {
-        return new MediaDTO(toDo.getId(), recommendPlace.getId(), album.getId(), mediaUrl, mediaType);
+        if (!toDo.equals(new ToDo())) {
+            return new MediaDTO(toDo.getId(), null,
+                    null, mediaUrl,
+                    mediaType.name());
+        } else if (!recommendPlace.equals((new RecommendPlace()))) {
+            return new MediaDTO(null, recommendPlace.getId(),
+                    null, mediaUrl,
+                    mediaType.name());
+        } else {
+            return new MediaDTO(null, null,
+                    album.getId(), mediaUrl,
+                    mediaType.name());
+        }
     }
 }
