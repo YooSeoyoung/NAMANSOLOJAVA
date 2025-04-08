@@ -24,10 +24,8 @@ public class Great { // 좋아요 기능
     @ManyToOne
     @JoinColumn(name = "username")
     private User user; // 유저
-//
-//    @Column(name = "reaction")
-//    @Enumerated(EnumType.STRING)
-//    private Reaction reaction; // ENUM
+
+
 
     public GreatDTO toDTO(){
         return new GreatDTO(

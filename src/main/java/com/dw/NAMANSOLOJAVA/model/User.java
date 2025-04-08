@@ -1,13 +1,20 @@
 package com.dw.NAMANSOLOJAVA.model;
 
+import com.dw.NAMANSOLOJAVA.DTO.LoginDTO;
 import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
 import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
 import com.dw.NAMANSOLOJAVA.DTO.UserUpdateDTO;
 import com.dw.NAMANSOLOJAVA.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,49 +23,30 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Table(name = "user")
-public class User {
+//UserDetails(security)의 구현체를 구현해서 override 하기
+public class User implements UserDetails {
     @Id
     @Column(name="username", nullable = false, unique = true,updatable = false)
     private String username; // 유저명
-
-
     @Column(name="password", nullable = false)
     private String password; // 비밀번호
-
-
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender; // ENUM
-
-
     @Column(name = "real_name_m", nullable = false)
     private String realNameM; // 남자 이름
-
-
     @Column(name = "real_name_f", nullable = false)
     private String realNameF; // 여자 이름
-
-
     @Column(name="email_m", nullable = false)
     private String emailM; // 남자 이메일
-
-
     @Column(name="email_f", nullable = false)
     private String emailF; // 여자 이메일
-
-
     @Column(name = "birth_m", nullable = false)
     private LocalDate birthM; // 남자 생일
-
-
     @Column(name = "birth_f", nullable = false)
     private LocalDate birthF; // 여자 생일
-
-
     @Column(name = "phone_number_m", nullable = false)
     private String phoneNumberM; // 남자 번호
-
-
     @Column(name = "phone_number_f", nullable = false)
     private String phoneNumberF; // 여자 번호
     @ManyToOne
@@ -118,5 +106,43 @@ public class User {
                 this.recommentAlert,this.todoAlert,
                 pictureAndVideoDTO
         );
+    }
+
+    public LoginDTO toLoginDTO(){
+        return new LoginDTO(
+                this.username,null
+        );
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(authority.getAuthorityName()));
+    }
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+        // 만료 여부 : 초깃값은 true
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+        // 잠겨있는지
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+        // 만료 여부 : 초깃값은 true
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
