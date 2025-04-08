@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.UserUpdateDTO;
 import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
@@ -86,4 +87,21 @@ import java.time.LocalDate;
         private Boolean recommentAlert= true;
         @Column(name = "todo_alert", nullable = false)
         private Boolean todoAlert= true;
+
+    public UserUpdateDTO toUserUpdateDTO() {
+        if (gender == Gender.MALE) {
+            return new UserUpdateDTO(
+                    this.gender.name(), this.realNameM,
+                    this.emailM, this.phoneNumberM
+            );
+        } else if (gender == Gender.FEMALE) {
+            return new UserUpdateDTO(
+                    this.gender.name(), this.realNameF,
+                    this.emailF, this.phoneNumberF
+            );
+        } else {
+            // 예외 던지거나, 기본값 처리
+            throw new IllegalStateException("Gender 정보가 없습니다.");
+        }
+    }
 }

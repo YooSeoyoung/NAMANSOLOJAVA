@@ -1,5 +1,7 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AddOrUpdateCommentDTO;
+import com.dw.TheBoxer.DTO.CommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +24,7 @@ public class Comment { // 댓글 기능
     private String content;
 
     @Column(name = "add_date")
-<<<<<<< HEAD
     private LocalDateTime addDate; // 작성시간
-=======
-    private LocalDateTime addDate; // 작성 및 수정시간
-    
->>>>>>> 39ac10673c54e7f8686b8685d0450766faa96e6c
 
     @ManyToOne
     @JoinColumn(name = "story_id")
@@ -36,6 +33,20 @@ public class Comment { // 댓글 기능
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
+
+    public AddOrUpdateCommentDTO toAddOrUpdateCommentDTO(){
+        return  new AddOrUpdateCommentDTO(
+                this.content, this.addDate, this.album.getId()
+        );
+    }
+
+    public CommentDTO toCommentDTO(){
+        return new CommentDTO(
+                this.id, this.content,
+                this.addDate, this.album.getId(),
+                this.user.getUsername()
+        );
+    }
 
 
 }

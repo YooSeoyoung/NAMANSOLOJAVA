@@ -1,6 +1,7 @@
 package com.dw.TheBoxer.model;
 
 
+import com.dw.TheBoxer.DTO.GreatDTO;
 import com.dw.TheBoxer.enums.Reaction;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,5 +30,11 @@ public class Great { // 좋아요 기능
 //    @Enumerated(EnumType.STRING)
 //    private Reaction reaction; // ENUM
 
-
+    public GreatDTO toDTO(){
+        return new GreatDTO(
+                this.id,
+                this.album.getId(),
+                this.user.getUsername()
+        );
+    }
 }

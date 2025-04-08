@@ -1,6 +1,7 @@
 package com.dw.TheBoxer.model;
 
 import com.dw.TheBoxer.DTO.MediaDTO;
+import com.dw.TheBoxer.DTO.PictureAndVideoDTO;
 import com.dw.TheBoxer.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,5 +54,9 @@ public class Media {
                     album.getId(), mediaUrl,
                     mediaType.name());
         }
+    }
+    public PictureAndVideoDTO toPictureAndVideoDTO() {
+        return new PictureAndVideoDTO
+                (this.mediaUrl, mediaType.name());
     }
 }

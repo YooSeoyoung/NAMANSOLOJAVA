@@ -1,5 +1,7 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AddOrUpdateReCommentDTO;
+import com.dw.TheBoxer.DTO.ReCommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +34,18 @@ public class ReComment {  // 대댓글 기능
     @JoinColumn(name = "user_name")
     private User user;
 
+    public AddOrUpdateReCommentDTO toAddOrUpdateReCommentDTO(){
+        return new AddOrUpdateReCommentDTO(
+                this.content, this.addDate,
+                this.comment.getId()
+        );
+    }
+    public ReCommentDTO toRecommentDTO(){
+        return new ReCommentDTO(
+                this.id, this.content,
+                this.addDate, this.comment.getId(),
+                this.user.getUsername()
+        );
+    }
 
 }

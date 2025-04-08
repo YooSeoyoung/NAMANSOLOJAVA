@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AlbumTagDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,10 @@ public class AlbumTag {
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
+    public AlbumTagDTO toDTO(){
+        return new AlbumTagDTO(
+                this.id,this.album.getId(),this.tag.getName()
+        );
+    }
 }

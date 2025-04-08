@@ -1,6 +1,8 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.AddOrUpdateAlbumDTO;
 import com.dw.TheBoxer.DTO.AlbumDTO;
+import com.dw.TheBoxer.DTO.PictureAndVideoDTO;
 import com.dw.TheBoxer.enums.Visibility;
 import jakarta.persistence.*;
 import lombok.*;
@@ -49,4 +51,12 @@ public class Album {
 
     @OneToMany(mappedBy = "story")
     private List<Great> greats = new ArrayList<>();
+
+    public AddOrUpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){
+        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+        return  new AddOrUpdateAlbumDTO(
+                this.title, this.visibility.name(),
+                mediaDTOs
+        );
+    }
 }

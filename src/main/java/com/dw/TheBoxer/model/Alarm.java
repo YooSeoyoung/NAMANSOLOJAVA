@@ -1,6 +1,8 @@
 package com.dw.TheBoxer.model;
 
 
+import com.dw.TheBoxer.DTO.AddAlarmDTO;
+import com.dw.TheBoxer.DTO.AlarmDTO;
 import com.dw.TheBoxer.enums.AlarmType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,4 +43,19 @@ public class Alarm {
 
     @Column(name = "weather_info")
     private String weatherInfo; // 날씨 API 결과 (TEXT)
+
+    public AddAlarmDTO toAddAlarmDTO(){
+        return new AddAlarmDTO(
+                this.user.getUsername(), this.alarmType.name(),
+                this.message, this.weatherInfo
+        );
+    }
+    public AlarmDTO toAlarmDTO(){
+        return new AlarmDTO(
+                this.id, this.user.getUsername(),
+                this.alarmType.name(), this.message,
+                this.addDate,this.isRead,
+                this.weatherInfo
+        );
+    }
 }
