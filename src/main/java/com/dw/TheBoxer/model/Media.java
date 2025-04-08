@@ -16,15 +16,15 @@ public class Media {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "todo")
+    @JoinColumn(name = "todo_id")
     private ToDo toDo;
 
     @ManyToOne
-    @JoinColumn(name = "recommend_place")
+    @JoinColumn(name = "recommend_place_id")
     private RecommendPlace recommendPlace;
 
     @ManyToOne
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "album_id")
     private Album album;
 
     @ManyToOne
