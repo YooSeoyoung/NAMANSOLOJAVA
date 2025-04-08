@@ -31,4 +31,10 @@ public class UserController {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(media), HttpStatus.OK);
     }
 
+    @GetMapping("/check-id/{userName}")
+    public ResponseEntity<Boolean> checkId(@PathVariable String userName){
+        return new ResponseEntity<>(userService.checkId(userName),HttpStatus.OK);
+    }
+
+
 }
