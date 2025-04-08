@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class AlramDTO{
+public class AlarmDTO {
     private Long id;
     private String username;
     private AlarmType alarmType;
