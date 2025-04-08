@@ -53,7 +53,7 @@ public class UserController {
                 userService.getIdByEmail(email,realName),
                 HttpStatus.OK);
     }
-    @GetMapping("/find-user/email")
+    @GetMapping("/find-user/phone")
     public ResponseEntity<String> getIdByPhone(@RequestParam String phone, @RequestParam String realName) {
         return new ResponseEntity<>(
                 userService.getIdByPhone(phone,realName),
