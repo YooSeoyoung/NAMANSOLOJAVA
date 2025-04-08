@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 public class AddAlarmDTO {
     private String user;
-    private AlarmType alarmType;
+    private String alarmType;
     private String message;
     private String weatherInfo; // EVENT이면 사용 없으면 "" 빈문자열로 처리
 }
