@@ -2,6 +2,7 @@ package com.dw.TheBoxer.model;
 
 import com.dw.TheBoxer.DTO.AddOrUpdateAlbumDTO;
 import com.dw.TheBoxer.DTO.AlbumDTO;
+import com.dw.TheBoxer.DTO.CommentDTO;
 import com.dw.TheBoxer.DTO.PictureAndVideoDTO;
 import com.dw.TheBoxer.enums.Visibility;
 import jakarta.persistence.*;
@@ -63,8 +64,12 @@ public class Album {
 
     public AlbumDTO toAlbumDTO(List<Media> mediaList) {
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
-        return new AddOrUpdateAlbumDTO(
-                this.title, this.visibility.name(),
+        List<CommentDTO> commentDTOList= comments.stream().map(Comment::toCommentDTO).toList();
+        List<String> greatList = greats.stream().map(great -> great.getUser().getUsername()).toList();
+        return new AlbumDTO(
+                this.id, this.title, this.addDate,
+                this.user.getUsername(), this.visibility.name(),
+                commentDTOList,greatList,
                 mediaDTOs, this.location
         );
     }

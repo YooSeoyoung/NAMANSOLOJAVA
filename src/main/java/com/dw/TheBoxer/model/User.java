@@ -69,7 +69,7 @@ public class User {
 
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
-    
+
     @Column(name ="d_day")
     private  LocalDate dDay; //만난 날짜
 

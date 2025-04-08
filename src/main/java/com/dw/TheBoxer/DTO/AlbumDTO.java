@@ -13,7 +13,7 @@ import java.util.List;
 public class AlbumDTO {
     private Long id;
     private String title;
-    private LocalDateTime addTime;
+    private LocalDateTime addDate;
     private String username;
     private String visibility;
     private List<CommentDTO> comments;
