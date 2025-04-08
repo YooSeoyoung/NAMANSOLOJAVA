@@ -32,4 +32,5 @@ public class UserDTO {
     private Boolean recommendAlert;
     private Boolean recommentAlert;
     private Boolean todoAlert;
+    private String pictureURL;
 }
