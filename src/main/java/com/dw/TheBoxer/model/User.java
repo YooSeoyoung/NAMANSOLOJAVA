@@ -62,17 +62,13 @@ public class User {
 
     @Column(name = "phone_number_f", nullable = false)
     private String phoneNumberF; // 여자 번호
-
     @ManyToOne
     @JoinColumn(name = "ROLE_authority", nullable = false)
     private Authority authority; // 권한
-
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
-
     @Column(name ="d_day")
     private  LocalDate dDay; //만난 날짜
-
     // 알람 발송 여부. 기본 true
     @Column(name = "alarm_alert", nullable = false)
      private Boolean alarmAlert = true;
