@@ -13,5 +13,5 @@ public class MediaDTO {
     private Long recommendPlaceId;
     private Long albumId;
     private String mediaUrl;
-    private MediaType mediaType;
+    private String mediaType;
 }

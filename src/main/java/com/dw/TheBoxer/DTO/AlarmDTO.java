@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class AlarmDTO {
     private Long id;
     private String username;
-    private AlarmType alarmType;
+    private String alarmType;
     private String message;
     private LocalDateTime addDate;
     private boolean isRead;

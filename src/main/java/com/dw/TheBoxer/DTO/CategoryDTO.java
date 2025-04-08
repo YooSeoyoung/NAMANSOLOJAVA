@@ -7,6 +7,6 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @Setter
-public class CategoryDTO {
+public class CategoryDTO { // 보류
     private String categoryName;
 }

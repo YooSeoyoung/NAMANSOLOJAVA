@@ -11,5 +11,5 @@ import lombok.*;
 @ToString
 public class PictureAndVideoDTO {
     private String mediaUrl;
-    private MediaType mediaType;
+    private String mediaType;
 }
