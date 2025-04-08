@@ -18,26 +18,22 @@ public class CategoryPlaceService {
 //        return CategoryPlaceRepository.saveCategoryPlace(categoryPlaceDTO);
     }
 
-    @GetMapping("/all")
     public CategoryPlaceDTO getAllCategoryPlaces() {
         return null;
 //        return categoryPlaceRepository.getAllCategoryPlaces();
     }
 
-    @GetMapping("/single/{id}")
     public CategoryPlaceDTO getSingleCategoryPlace(Long id) {
         return null;
 //        return categoryPlaceRepository.getSingleCategoryPlace(id);
     }
 
-    @PutMapping("/update")
-    public CategoryPlaceDTO updateCategoryPlace(CategoryPlaceDTO categoryPlaceDTO) {
+    public CategoryPlaceDTO updateCategoryPlace(Long id, CategoryPlaceDTO categoryPlaceDTO) {
         return null;
 //        return categoryPlaceRepository.updateCategoryPlace(categoryPlaceDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteCategoryPlace(@PathVariable Long id) {
+    public String deleteCategoryPlace(Long id) {
         return null;
 //        return categoryPlaceRepository.deleteCategoryPlace(id);
     }

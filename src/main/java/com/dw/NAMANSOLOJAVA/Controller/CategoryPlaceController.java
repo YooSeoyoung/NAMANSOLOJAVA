@@ -14,7 +14,7 @@ public class CategoryPlaceController {
     CategoryPlaceService categoryPlaceService;
 
     @PostMapping("/save")
-    public ResponseEntity<CategoryPlaceDTO> saveCategoryPlace(CategoryPlaceDTO categoryPlaceDTO) {
+    public ResponseEntity<CategoryPlaceDTO> saveCategoryPlace(@RequestBody CategoryPlaceDTO categoryPlaceDTO) {
         return new ResponseEntity<>(categoryPlaceService.saveCategoryPlace(categoryPlaceDTO), HttpStatus.CREATED);
     }
 
@@ -28,9 +28,9 @@ public class CategoryPlaceController {
         return new ResponseEntity<>(categoryPlaceService.getSingleCategoryPlace(id), HttpStatus.OK);
     }
 
-    @PutMapping("/update/category-place")
-    public ResponseEntity<CategoryPlaceDTO> updateCategoryPlace(CategoryPlaceDTO categoryPlaceDTO) {
-        return new ResponseEntity<>(categoryPlaceService.updateCategoryPlace(categoryPlaceDTO), HttpStatus.ACCEPTED);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<CategoryPlaceDTO> updateCategoryPlaceById(@PathVariable Long id, @RequestBody CategoryPlaceDTO categoryPlaceDTO) {
+        return new ResponseEntity<>(categoryPlaceService.updateCategoryPlace(id, categoryPlaceDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")
