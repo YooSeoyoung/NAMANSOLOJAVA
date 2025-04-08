@@ -1,7 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
-import com.dw.NAMANSOLOJAVA.DTO.UserAddDateDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Exception.UnauthorizedUserException;
@@ -65,10 +64,19 @@ public class UserService {
 //    public UserDTO getUserById(String username) { //id를 통한 유저 조회
 //        return null;
 //    }
-public String getIdByEmail(String email,String realName) { // 이메일로 통하여 아이디 찾기
+    public String getIdByEmail(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 이메일로 통하여 아이디 찾기
     return null;
     }
-    public String getIdByPhone(String phone,String realName) { // 이메일로 통하여 아이디 찾기
+    public String getIdByPhone(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 전화번호로 통하여 아이디 찾기
+        return null;
+    }
+    public String UpdatePw(PasswordDTO passwordDTO) { // 전화번호로 통하여 아이디 찾기
+        return null;
+    }
+    public UserUpdateAndFIndDTO UpdateUserData(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
+        return null;
+    }
+    public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         return null;
     }
 

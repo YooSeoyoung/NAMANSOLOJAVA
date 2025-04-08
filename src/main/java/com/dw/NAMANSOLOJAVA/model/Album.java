@@ -1,9 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
-import com.dw.NAMANSOLOJAVA.DTO.AddOrUpdateAlbumDTO;
-import com.dw.NAMANSOLOJAVA.DTO.AlbumDTO;
-import com.dw.NAMANSOLOJAVA.DTO.CommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.enums.Visibility;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,22 +50,32 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private List<Great> greats = new ArrayList<>();
 
-    public AddOrUpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){
+    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList, List<AlbumTag> tagList){
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
-        return  new AddOrUpdateAlbumDTO(
-                this.title, this.visibility.name(),
-                mediaDTOs, this.latitude,
+        return  new UpdateAlbumDTO(
+                this.id, this.title, this.visibility.name(),
+                mediaDTOs,tagList,this.latitude,
+                this.longitude, this.location
+        );
+    }
+    public AddAlbumDTO toAddAlbumDTO(List<Media> mediaList, List<Tag> tagList){
+        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+        return  new AddAlbumDTO(
+               this.title, this.visibility.name(),
+                mediaDTOs,tagList,this.latitude,
                 this.longitude, this.location
         );
     }
 
-    public AlbumDTO toAlbumDTO(List<Media> mediaList) {
+    public AlbumDTO toAlbumDTO(List<Media> mediaList,List<AlbumTag> albumTagList) {
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
         List<CommentDTO> commentDTOList= comments.stream().map(Comment::toCommentDTO).toList();
         List<String> greatList = greats.stream().map(great -> great.getUser().getUsername()).toList();
+        List<String> userTagList = albumTagList.stream().map(albumTag -> albumTag.getTag().getName()).toList();
         return new AlbumDTO(
                 this.id, this.title, this.addDate,
                 this.user.getUsername(), this.visibility.name(),
+                userTagList,
                 commentDTOList,greatList,
                 mediaDTOs, this.location
         );
