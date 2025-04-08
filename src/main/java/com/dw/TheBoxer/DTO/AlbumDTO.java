@@ -19,4 +19,5 @@ public class AlbumDTO {
     private List<CommentDTO> comments;
     private List<String> greats;
     private List<PictureAndVideoDTO> url;
+    private String location;
 }

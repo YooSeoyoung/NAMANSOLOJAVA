@@ -26,7 +26,7 @@ public class RecommendPlace {
     private String address; // 주소 (지도 표시용)
 
     @Column(name = "city", nullable = false)
-    private String city;// 도
+    private String city; // 도
 
     @Column(name = "latitude", nullable = false)
     private Double latitude; // 위도

@@ -39,8 +39,8 @@ public class Album {
     @Column(name = "longitude", nullable = false)
     private Double longitude; // 경도
 
-    @Column(name = "address", nullable = false)
-    private String address; // 주소 (지도 표시용)
+    @Column(name = "location", nullable = false)
+    private String location; // 주소 (지도 표시용)
 
     @Column(name = "visibility", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -56,7 +56,16 @@ public class Album {
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
         return  new AddOrUpdateAlbumDTO(
                 this.title, this.visibility.name(),
-                mediaDTOs
+                mediaDTOs, this.latitude,
+                this.longitude, this.location
+        );
+    }
+
+    public AlbumDTO toAlbumDTO(List<Media> mediaList) {
+        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+        return new AddOrUpdateAlbumDTO(
+                this.title, this.visibility.name(),
+                mediaDTOs, this.location
         );
     }
 }
