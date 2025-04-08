@@ -11,5 +11,6 @@ public class AlbumTagDTO {
 
     private Long id;
     private Long albumId;
+    private Long tagId;
     private String tagName;
 }

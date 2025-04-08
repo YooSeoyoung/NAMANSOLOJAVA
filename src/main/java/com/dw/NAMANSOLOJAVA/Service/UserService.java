@@ -39,7 +39,6 @@ public class UserService {
 //        ).toDto();
         return null;
     }
-
     public User getCurrentUser() { //현재 유저
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -48,19 +47,15 @@ public class UserService {
         return userRepository.findById(authentication.getName())
                 .orElseThrow(()->new ResourceNotFoundException("No username"));
     }
-
     public boolean checkId(String username){
         return userRepository.existsById(username);
     }
-
     public List<UserAddDateDTO> getAllUsersAddDate() { // 관리자가 전체 유저/회원가입일 조회
         return null;
     }
-
     public UserAddDateDTO getUserByIdAdmin(String username) { //관리자가 username를 통한 유저/회원가입일 조회
      return null;
     }
-
 //    public UserDTO getUserById(String username) { //id를 통한 유저 조회
 //        return null;
 //    }
@@ -79,6 +74,11 @@ public class UserService {
     public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         return null;
     }
-
+    public UserAlarmSettingDTO AlarmSetting(UserAlarmSettingDTO userAlarmSettingDTO){
+        return null;
+    }
+    public List<MonthlyUserAlbumCountDTO> monthlyUserAlbumCount(MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO){
+        return null;
+    }
 
 }

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class AddOrUpdateReCommentDTO {
+    private Long id;
     private String content;
     private LocalDateTime addDate;
     private Long commentId;

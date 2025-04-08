@@ -26,7 +26,8 @@ public class AlbumTag {
 
     public AlbumTagDTO toDTO(){
         return new AlbumTagDTO(
-                this.id,this.album.getId(),this.tag.getName()
+                this.id,this.album.getId()
+                ,this.tag.getId(),this.tag.getName()
         );
     }
 }

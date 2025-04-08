@@ -50,19 +50,19 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private List<Great> greats = new ArrayList<>();
 
-    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList, List<AlbumTag> tagList){
+    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
         return  new UpdateAlbumDTO(
                 this.id, this.title, this.visibility.name(),
-                mediaDTOs,tagList,this.latitude,
+                mediaDTOs,this.latitude,
                 this.longitude, this.location
         );
     }
-    public AddAlbumDTO toAddAlbumDTO(List<Media> mediaList, List<Tag> tagList){
+    public AddAlbumDTO toAddAlbumDTO(List<Media> mediaList){
         List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
         return  new AddAlbumDTO(
                this.title, this.visibility.name(),
-                mediaDTOs,tagList,this.latitude,
+                mediaDTOs,this.latitude,
                 this.longitude, this.location
         );
     }

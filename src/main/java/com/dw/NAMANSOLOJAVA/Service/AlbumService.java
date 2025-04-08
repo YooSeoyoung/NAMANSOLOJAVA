@@ -13,11 +13,10 @@ public class AlbumService {
     public List<AlbumDTO> getAllAlbum(){
         return null;
     }
-
     public AlbumDTO getAlbumById(Long id){
         return  null;
     }
-    public UpdateAlbumDTO updateAlbumById(Long id, UpdateAlbumDTO updateAlbumDTO){
+    public UpdateAlbumDTO updateAlbum( UpdateAlbumDTO updateAlbumDTO){
         return null;
     }
     public AddAlbumDTO saveAlbum(AddAlbumDTO updateAlbumDTO){
@@ -26,7 +25,6 @@ public class AlbumService {
     public String deleteAlbumById(Long id){
         return null;
     }
-
     public AlbumDTO getAlbumByUsername(String username){
         return null;
     }

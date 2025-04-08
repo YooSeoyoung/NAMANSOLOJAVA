@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class AddOrUpdateCommentDTO {
+    private Long id;
     private String content;
     private LocalDateTime addDate;
     private Long albumId;
