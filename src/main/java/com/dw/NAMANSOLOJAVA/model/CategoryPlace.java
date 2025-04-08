@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
+import com.dw.NAMANSOLOJAVA.DTO.CategoryPlaceDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,8 @@ public class CategoryPlace {
 //    @ManyToOne
 //    @JoinColumn(name = "event_place")
 //    private EventPlace eventPlace;
+
+    public CategoryPlaceDTO toDTO() {
+        return new CategoryPlaceDTO(category.toDTO(), recommendPlace.getId());
+    }
 }
