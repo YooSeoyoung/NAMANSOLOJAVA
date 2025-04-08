@@ -2,14 +2,14 @@ package com.dw.NAMANSOLOJAVA.DTO;
 
 import lombok.*;
 
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UserUpdateDTO {
-    private String realName;
-    private String email;
-    private String phoneNumber;
+public class UpdateImageDDayDTO {
+    PictureAndVideoDTO mediaUrl;
+    LocalDate dDay;
 }

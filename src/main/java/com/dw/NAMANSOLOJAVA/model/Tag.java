@@ -17,7 +17,4 @@ public class Tag {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-//    @OneToMany(mappedBy = "tag")
-//    private List<UserTagHistory> userTagHistories;  // 이 태그를 사용한 유저들의 사용 이력
 }

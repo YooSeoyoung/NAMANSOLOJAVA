@@ -1,8 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
-import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserAddDateDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,17 +46,34 @@ public class UserController {
                 HttpStatus.OK);
     }
     @GetMapping("/find-user/email")
-    public ResponseEntity<String> getIdByEmail(@RequestParam String email, @RequestParam String realName) {
+    public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
         return new ResponseEntity<>(
-                userService.getIdByEmail(email,realName),
+                userService.getIdByEmail(userUpdateAndFIndDTO),
                 HttpStatus.OK);
     }
     @GetMapping("/find-user/phone")
-    public ResponseEntity<String> getIdByPhone(@RequestParam String phone, @RequestParam String realName) {
+    public ResponseEntity<String> getIdByPhone(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
         return new ResponseEntity<>(
-                userService.getIdByPhone(phone,realName),
+                userService.getIdByPhone(userUpdateAndFIndDTO),
                 HttpStatus.OK);
     }
-
+    @PutMapping("/modify-pw")
+    public ResponseEntity<String> UpdatePw(@RequestBody PasswordDTO passwordDTO) {
+        return new ResponseEntity<>(
+                userService.UpdatePw(passwordDTO),
+                HttpStatus.OK);
+    }
+    @PutMapping("/user-data")
+    public ResponseEntity<UserUpdateAndFIndDTO> UpdateUserData(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
+        return new ResponseEntity<>(
+                userService.UpdateUserData(userUpdateAndFIndDTO),
+                HttpStatus.OK);
+    }
+    @PutMapping("/user-data-image-dday")
+    public ResponseEntity<UpdateImageDDayDTO> UpdateUserDataImageDday(@RequestBody UpdateImageDDayDTO updateImageDDayDTO) {
+        return new ResponseEntity<>(
+                userService.UpdateUserDataImageDday(updateImageDDayDTO),
+                HttpStatus.OK);
+    }
 
 }

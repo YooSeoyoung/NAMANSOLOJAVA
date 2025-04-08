@@ -1,6 +1,8 @@
 package com.dw.NAMANSOLOJAVA.DTO;
 
 
+import com.dw.NAMANSOLOJAVA.model.AlbumTag;
+import com.dw.NAMANSOLOJAVA.model.Tag;
 import lombok.*;
 
 import java.util.List;
@@ -10,10 +12,12 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AddOrUpdateAlbumDTO {
+public class UpdateAlbumDTO {
+    private Long id;
     private String title;
     private String visibility;
     private List<PictureAndVideoDTO> mediaUrl;
+    private List<AlbumTag> usertagList;
     private Double latitude;
     private Double longitude;
     private String location;

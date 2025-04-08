@@ -87,6 +87,13 @@ public class User implements UserDetails {
         );
     }
 
+    public UpdateImageDDayDTO toUpdateImageDDayDTO(Media media){
+        PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
+        return new UpdateImageDDayDTO(
+                pictureAndVideoDTO,this.dDay
+        );
+    }
+
     public LoginDTO toLoginDTO(){
         return new LoginDTO(
                 this.username,null
