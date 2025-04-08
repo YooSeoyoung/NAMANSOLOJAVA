@@ -3,6 +3,8 @@ package com.dw.TheBoxer.DTO;
 
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,4 +13,6 @@ import lombok.*;
 public class AddOrUpdateAlbumDTO {
     private String title;
     private String visibility;
+    private List<PictureAndVideoDTO> url;
+
 }
