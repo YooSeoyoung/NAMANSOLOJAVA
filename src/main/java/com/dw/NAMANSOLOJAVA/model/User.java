@@ -27,9 +27,6 @@ public class User implements UserDetails {
     private String username; // 유저명
     @Column(name="password", nullable = false)
     private String password; // 비밀번호
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender; // ENUM
     @Column(name = "real_name_m", nullable = false)
     private String realNameM; // 남자 이름
     @Column(name = "real_name_f", nullable = false)
@@ -71,15 +68,15 @@ public class User implements UserDetails {
     @Column(name = "todo_alert", nullable = false)
     private Boolean todoAlert= true;
 
-    public UserUpdateDTO toUserUpdateDTO() {
+    public UserUpdateDTO toUserUpdateDTO(Gender gender) {
         if (gender == Gender.MALE) {
             return new UserUpdateDTO(
-                    this.gender.name(), this.realNameM,
+                    gender.name(), this.realNameM,
                     this.emailM, this.phoneNumberM
             );
         } else if (gender == Gender.FEMALE) {
             return new UserUpdateDTO(
-                    this.gender.name(), this.realNameF,
+                    gender.name(), this.realNameF,
                     this.emailF, this.phoneNumberF
             );
         } else {
@@ -92,7 +89,7 @@ public class User implements UserDetails {
         PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
         return new UserDTO(
                 this.username,null,this.realNameM,
-                this.realNameF,this.gender.name(),
+                this.realNameF,
                 this.emailM,this.emailF,this.birthM,
                 this.birthF,this.phoneNumberM,
                 this.phoneNumberF,this.authority.getAuthorityName(),
