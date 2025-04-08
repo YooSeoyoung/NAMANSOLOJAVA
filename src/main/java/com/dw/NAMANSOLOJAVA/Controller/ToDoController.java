@@ -24,12 +24,12 @@ public class ToDoController {
     }
 
     @GetMapping("/anniversary/{id}")
-    public AnniversaryDTO getAnniversaryById(Long id) {
+    public AnniversaryDTO getAnniversaryById(@PathVariable Long id) {
         return toDoService.getAnniversaryById(id);
     }
 
     @GetMapping("/travel/{id}")
-    public ToDoTravelDTO getToDoTravelById(Long id) {
+    public ToDoTravelDTO getToDoTravelById(@PathVariable Long id) {
         return toDoService.getToDoTravelById(id);
     }
 
