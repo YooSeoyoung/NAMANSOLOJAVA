@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "event_place")
+@Table(name = "event_present")
 public class EventPresent {  // 선물 랭킹
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
