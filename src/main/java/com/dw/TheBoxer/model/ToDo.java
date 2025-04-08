@@ -40,6 +40,9 @@ public class ToDo {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
+    @Column(name = "editable", nullable = false)
+    private Boolean editable = true;
+
     public AnniversaryDTO toAnniDTO() {
         return new AnniversaryDTO(this.title, this.startDate
                 , this.type);
