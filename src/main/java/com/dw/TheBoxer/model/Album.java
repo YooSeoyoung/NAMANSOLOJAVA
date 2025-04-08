@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@Table(name = "story")
+@Table(name = "album")
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +46,10 @@ public class Album {
     @Enumerated(EnumType.STRING)
     private Visibility visibility; // 피드는 유저 개인의 것이니 다른 사람과 기본 공유 설정은 안 됨.
 
-    @OneToMany(mappedBy = "story")
+    @OneToMany(mappedBy = "album")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "story")
+    @OneToMany(mappedBy = "album")
     private List<Great> greats = new ArrayList<>();
 
     public AddOrUpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){

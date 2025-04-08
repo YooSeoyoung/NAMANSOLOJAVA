@@ -17,8 +17,7 @@ import java.time.LocalDate;
 @Table(name = "user")
     public class User {
         @Id
-        @Setter
-        @Column(name="username")
+        @Column(name="username", nullable = false, unique = true)
         private String username; // 유저명
 
         @Setter

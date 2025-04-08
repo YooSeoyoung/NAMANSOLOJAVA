@@ -27,11 +27,11 @@ public class Comment { // 댓글 기능
     private LocalDateTime addDate; // 작성시간
 
     @ManyToOne
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "album_id")
     private Album album;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "username")
     private User user;
 
     public AddOrUpdateCommentDTO toAddOrUpdateCommentDTO(){

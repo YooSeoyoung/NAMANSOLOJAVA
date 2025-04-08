@@ -1,13 +1,12 @@
 package com.dw.TheBoxer.model;
 
-import com.dw.TheBoxer.DTO.MediaDTO;
-import com.dw.TheBoxer.DTO.ToDoDTO;
+import com.dw.TheBoxer.DTO.PictureAndVideoDTO;
+import com.dw.TheBoxer.DTO.AnniversaryDTO;
 import com.dw.TheBoxer.DTO.ToDoTravelDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -41,14 +40,14 @@ public class ToDo {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
-    public ToDoDTO todoDTO(List<MediaDTO> mediaDTOS) {
-        return new ToDoDTO(this.title, this.startDate,
-                mediaDTOS, this.type);
+    public AnniversaryDTO toAnniDTO() {
+        return new AnniversaryDTO(this.title, this.startDate
+                , this.type);
     }
 
-    public ToDoTravelDTO toTravelDTO(List<MediaDTO> mediaDTOS) {
+    public ToDoTravelDTO toTravelDTO(List<Media> mediaList) {
         return new ToDoTravelDTO(this.title, this.startDate,
-                this.lastDate, mediaDTOS
+                this.lastDate, mediaList.stream().map(Media::toPictureAndVideoDTO).toList()
                 , this.type);
     }
 }

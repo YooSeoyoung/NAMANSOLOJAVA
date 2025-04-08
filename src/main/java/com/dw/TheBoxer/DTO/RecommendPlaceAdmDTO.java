@@ -2,6 +2,8 @@ package com.dw.TheBoxer.DTO;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @ToString
@@ -9,6 +11,7 @@ import lombok.*;
 @Setter
 public class RecommendPlaceAdmDTO { // 어드민 추가용
     private String name;
+    private List<PictureAndVideoDTO> pictureAndVideoDTO;
     private String address;
     private String city;
     private Double latitude;

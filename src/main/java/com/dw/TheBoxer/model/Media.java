@@ -40,21 +40,6 @@ public class Media {
     @Column(name = "media_type")
     private MediaType mediaType;
 
-    public MediaDTO toDTO() {
-        if (!toDo.equals(new ToDo())) {
-            return new MediaDTO(toDo.getId(), null,
-                    null, mediaUrl,
-                    mediaType.name());
-        } else if (!recommendPlace.equals((new RecommendPlace()))) {
-            return new MediaDTO(null, recommendPlace.getId(),
-                    null, mediaUrl,
-                    mediaType.name());
-        } else {
-            return new MediaDTO(null, null,
-                    album.getId(), mediaUrl,
-                    mediaType.name());
-        }
-    }
     public PictureAndVideoDTO toPictureAndVideoDTO() {
         return new PictureAndVideoDTO
                 (this.mediaUrl, mediaType.name());
