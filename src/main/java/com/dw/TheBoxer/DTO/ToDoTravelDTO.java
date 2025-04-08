@@ -13,6 +13,6 @@ public class ToDoTravelDTO {
     private String title;
     private LocalDate startDate;
     private LocalDate lastDate;
-    private String pictureURL; // 사진 경로
+    private String mediaUrl; // 사진 경로
     private String type;
 }

@@ -13,6 +13,6 @@ import java.util.List;
 public class AddOrUpdateAlbumDTO {
     private String title;
     private String visibility;
-    private List<PictureAndVideoDTO> url;
+    private List<PictureAndVideoDTO> mediaUrl;
 
 }

@@ -1,5 +1,7 @@
 package com.dw.TheBoxer.DTO;
 
+import com.dw.TheBoxer.enums.MediaType;
+import jakarta.persistence.Column;
 import lombok.*;
 
 @NoArgsConstructor
@@ -8,6 +10,6 @@ import lombok.*;
 @Setter
 @ToString
 public class PictureAndVideoDTO {
-    private String pictureURL;
-    private String videoURL;
+    private String mediaUrl;
+    private MediaType mediaType;
 }

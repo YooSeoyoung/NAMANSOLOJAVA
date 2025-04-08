@@ -12,6 +12,6 @@ public class MediaDTO {
     private Long todoId;
     private Long recommendPlaceId;
     private Long albumId;
-    private String pictureURL;
+    private String mediaUrl;
     private MediaType mediaType;
 }

@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,11 @@ import java.time.LocalDate;
         @Setter
         @Column(name="password", nullable = false)
         private String password; // 비밀번호
+
+
+        @Column(name = "gender")
+        @Enumerated(EnumType.STRING)
+        private Gender gender; // ENUM
 
         @Setter
         @Column(name = "real_name_m", nullable = false)

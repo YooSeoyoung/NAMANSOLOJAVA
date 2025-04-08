@@ -1,6 +1,7 @@
 package com.dw.TheBoxer.DTO;
 
 
+import com.dw.TheBoxer.enums.Gender;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class UserDTO {
     private String password;
     private String realNameM;
     private String realNameF;
+    private String gender;
     private String emailM;
     private String emailF;
     private LocalDate birthM;
@@ -32,5 +34,5 @@ public class UserDTO {
     private Boolean recommendAlert;
     private Boolean recommentAlert;
     private Boolean todoAlert;
-    private String pictureURL;
+    private String mediaUrl;
 }
