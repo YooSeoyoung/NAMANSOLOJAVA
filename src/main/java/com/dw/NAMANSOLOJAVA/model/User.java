@@ -1,9 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
-import com.dw.NAMANSOLOJAVA.DTO.LoginDTO;
-import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserUpdateDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
@@ -111,6 +108,11 @@ public class User implements UserDetails {
     public LoginDTO toLoginDTO(){
         return new LoginDTO(
                 this.username,null
+        );
+    }
+    public UserAddDateDTO toUserAddDateDTO(){
+        return new UserAddDateDTO(
+                this.username,this.addDate
         );
     }
 

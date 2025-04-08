@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
+import com.dw.NAMANSOLOJAVA.DTO.UserAddDateDTO;
 import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +23,7 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserDTO registerUser(UserDTO userDTO){
+    public UserDTO registerUser(UserDTO userDTO){ // 회원가입
         Optional<User> user = userRepository.findById(userDTO.getUsername());
         if (user.isPresent()) {
             throw new InvalidRequestException("Username already exists");
@@ -39,7 +41,7 @@ public class UserService {
         return null;
     }
 
-    public User getCurrentUser() {
+    public User getCurrentUser() { //현재 유저
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new UnauthorizedUserException("User is not authenticated");
@@ -51,4 +53,24 @@ public class UserService {
     public boolean checkId(String username){
         return userRepository.existsById(username);
     }
+
+    public List<UserAddDateDTO> getAllUsersAddDate() { // 관리자가 전체 유저/회원가입일 조회
+        return null;
+    }
+
+    public UserAddDateDTO getUserByIdAdmin(String username) { //관리자가 username를 통한 유저/회원가입일 조회
+     return null;
+    }
+
+//    public UserDTO getUserById(String username) { //id를 통한 유저 조회
+//        return null;
+//    }
+public String getIdByEmail(String email,String realName) { // 이메일로 통하여 아이디 찾기
+    return null;
+    }
+    public String getIdByPhone(String phone,String realName) { // 이메일로 통하여 아이디 찾기
+        return null;
+    }
+
+
 }

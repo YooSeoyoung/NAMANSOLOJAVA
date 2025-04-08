@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
+import com.dw.NAMANSOLOJAVA.DTO.UserAddDateDTO;
 import com.dw.NAMANSOLOJAVA.DTO.UserDTO;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -22,18 +25,39 @@ public class UserController {
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
     }
-
-    // JWT에서는 일반적으로 클라이언트가 현재 유저정보를 확인할 필요는 없음. 하지만,
-    // 추가적인 사용자 정보나 최신 권한 상태를 확인해야 할 때, 또는 토큰 자체에 담지 않은 정보를 제공할 필요가 있을 때 사용할 수 있음
-    // 조금 애매함
     @GetMapping("/current-user")
     public ResponseEntity<UserDTO> getCurrentUser(Media media) {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(media), HttpStatus.OK);
     }
 
-    @GetMapping("/check-id/{userName}")
-    public ResponseEntity<Boolean> checkId(@PathVariable String userName){
-        return new ResponseEntity<>(userService.checkId(userName),HttpStatus.OK);
+    @GetMapping("/check-id/{username}")
+    public ResponseEntity<Boolean> checkId(@PathVariable String username){
+        return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
+    }
+
+    @GetMapping("/all/add-date")
+    public ResponseEntity<List<UserAddDateDTO>> getAllUsersAddDate(){
+        return new ResponseEntity<>(
+                userService.getAllUsersAddDate(),
+                HttpStatus.OK);
+    }
+    @GetMapping("admin/id/{username}")
+    public ResponseEntity<UserAddDateDTO> getUserByIdAdim(@PathVariable String username) {
+        return new ResponseEntity<>(
+                userService.getUserByIdAdmin(username),
+                HttpStatus.OK);
+    }
+    @GetMapping("/find-user/email")
+    public ResponseEntity<String> getIdByEmail(@RequestParam String email, @RequestParam String realName) {
+        return new ResponseEntity<>(
+                userService.getIdByEmail(email,realName),
+                HttpStatus.OK);
+    }
+    @GetMapping("/find-user/email")
+    public ResponseEntity<String> getIdByPhone(@RequestParam String phone, @RequestParam String realName) {
+        return new ResponseEntity<>(
+                userService.getIdByPhone(phone,realName),
+                HttpStatus.OK);
     }
 
 
