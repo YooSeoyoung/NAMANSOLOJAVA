@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.MediaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class Media {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "todo")
+    @JoinColumn(name = "todo_id")
     private ToDo toDo;
 
     @ManyToOne
@@ -36,4 +37,8 @@ public class Media {
 
     @Column(name = "video_url")
     private String videoUrl;
+
+    public MediaDTO toDTO() {
+        return new MediaDTO(toDo.getId(), recommendPlace.getId(), album.getId(), pictureUrl, videoUrl);
+    }
 }
