@@ -27,6 +27,10 @@ public class UserController {
     public ResponseEntity<UserDTO> getCurrentUser(Media media) {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(media), HttpStatus.OK);
     }
+//    @GetMapping("/id/{id}")
+//    public ResponseEntity<UserDTO> getUserById(@PathVariable String username){
+//        return new ResponseEntity<>(userService.getUserById(username),HttpStatus.OK);
+//    }
 
     @GetMapping("/check-id/{username}")
     public ResponseEntity<Boolean> checkId(@PathVariable String username){
