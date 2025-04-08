@@ -10,8 +10,6 @@ import lombok.*;
 public class AlbumTagDTO {
 
     private Long id;
-
     private Long albumId;
-
     private String tagName;
 }
