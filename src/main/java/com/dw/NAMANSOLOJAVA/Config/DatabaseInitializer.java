@@ -1,4 +1,4 @@
-package dw.gameshop.config;
+package com.dw.NAMANSOLOJAVA.Config;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
