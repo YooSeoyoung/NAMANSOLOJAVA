@@ -1,5 +1,7 @@
 package com.dw.TheBoxer.model;
 
+import com.dw.TheBoxer.DTO.PictureAndVideoDTO;
+import com.dw.TheBoxer.DTO.UserDTO;
 import com.dw.TheBoxer.DTO.UserUpdateDTO;
 import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
@@ -103,5 +105,22 @@ import java.time.LocalDate;
             // 예외 던지거나, 기본값 처리
             throw new IllegalStateException("Gender 정보가 없습니다.");
         }
+    }
+
+    public UserDTO toUserDTO(Media media){
+        PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
+        return new UserDTO(
+                this.username,null,this.realNameM,
+                this.realNameF,this.gender.name(),
+                this.emailM,this.emailF,this.birthM,
+                this.birthF,this.phoneNumberM,
+                this.phoneNumberF,this.authority.getAuthorityName(),
+                this.addDate,this.dDay,
+                this.alarmAlert,this.commentAlert,
+                this.followAlert,this.greatAlert,
+                this.eventAlert,this.recommendAlert,
+                this.recommentAlert,this.todoAlert,
+                pictureAndVideoDTO
+        );
     }
 }
