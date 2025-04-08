@@ -35,9 +35,9 @@ public class User implements UserDetails {
     private String emailM; // 남자 이메일
     @Column(name="email_f", nullable = false)
     private String emailF; // 여자 이메일
-    @Column(name = "birth_m", nullable = false)
+    @Column(name = "birth_m", nullable = false, updatable = false)
     private LocalDate birthM; // 남자 생일
-    @Column(name = "birth_f", nullable = false)
+    @Column(name = "birth_f", nullable = false,updatable = false)
     private LocalDate birthF; // 여자 생일
     @Column(name = "phone_number_m", nullable = false)
     private String phoneNumberM; // 남자 번호
@@ -48,7 +48,7 @@ public class User implements UserDetails {
     private Authority authority; // 권한
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
-    @Column(name ="d_day")
+    @Column(name ="d_day", nullable = false)
     private  LocalDate dDay; //만난 날짜
     // 알람 발송 여부. 기본 true
     @Column(name = "alarm_alert", nullable = false)
@@ -67,7 +67,6 @@ public class User implements UserDetails {
     private Boolean recommentAlert= true;
     @Column(name = "todo_alert", nullable = false)
     private Boolean todoAlert= true;
-
 
 
     public UserDTO toUserDTO(Media media){

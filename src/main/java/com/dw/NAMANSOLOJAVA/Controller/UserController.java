@@ -33,13 +33,13 @@ public class UserController {
         return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
     }
 
-    @GetMapping("/all/add-date")
+    @GetMapping("/admin/all/add-date")
     public ResponseEntity<List<UserAddDateDTO>> getAllUsersAddDate(){
         return new ResponseEntity<>(
                 userService.getAllUsersAddDate(),
                 HttpStatus.OK);
     }
-    @GetMapping("admin/id/{username}")
+    @GetMapping("/admin/id/{username}")
     public ResponseEntity<UserAddDateDTO> getUserByIdAdim(@PathVariable String username) {
         return new ResponseEntity<>(
                 userService.getUserByIdAdmin(username),
@@ -73,6 +73,18 @@ public class UserController {
     public ResponseEntity<UpdateImageDDayDTO> UpdateUserDataImageDday(@RequestBody UpdateImageDDayDTO updateImageDDayDTO) {
         return new ResponseEntity<>(
                 userService.UpdateUserDataImageDday(updateImageDDayDTO),
+                HttpStatus.OK);
+    }
+    @PutMapping("/user/alarm-setting")
+    public ResponseEntity<UserAlarmSettingDTO> AlarmSetting(@RequestBody UserAlarmSettingDTO userAlarmSettingDTO) {
+        return new ResponseEntity<>(
+                userService.AlarmSetting(userAlarmSettingDTO),
+                HttpStatus.OK);
+    }
+    @GetMapping("/monthly/album-count")
+    public ResponseEntity<List<MonthlyUserAlbumCountDTO>> monthlyUserAlbumCount(@RequestBody MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO) {
+        return new ResponseEntity<>(
+                userService.monthlyUserAlbumCount(monthlyUserAlbumCountDTO),
                 HttpStatus.OK);
     }
 

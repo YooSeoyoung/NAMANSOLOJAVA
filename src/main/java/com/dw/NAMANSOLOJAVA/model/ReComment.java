@@ -36,6 +36,7 @@ public class ReComment {  // 대댓글 기능
 
     public AddOrUpdateReCommentDTO toAddOrUpdateReCommentDTO(){
         return new AddOrUpdateReCommentDTO(
+                this.id,
                 this.content, this.addDate,
                 this.comment.getId()
         );

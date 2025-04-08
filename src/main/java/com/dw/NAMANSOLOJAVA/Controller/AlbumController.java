@@ -30,10 +30,10 @@ public class AlbumController {
                 albumService.getAlbumById(id),
                 HttpStatus.OK);
     }
-    @PutMapping("/id/{id}")
-    public ResponseEntity <UpdateAlbumDTO> UpdateAlbumById(@PathVariable Long id, @RequestBody UpdateAlbumDTO updateAlbumDTO) {
+    @PutMapping("/update")
+    public ResponseEntity <UpdateAlbumDTO> UpdateAlbum( @RequestBody UpdateAlbumDTO updateAlbumDTO) {
         return new ResponseEntity<>(
-                albumService.updateAlbumById(id, updateAlbumDTO),
+                albumService.updateAlbum(updateAlbumDTO),
                 HttpStatus.OK);
     }
     @PostMapping("/save")

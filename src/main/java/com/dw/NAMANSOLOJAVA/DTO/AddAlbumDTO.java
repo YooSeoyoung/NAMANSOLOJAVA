@@ -14,7 +14,7 @@ public class AddAlbumDTO {
     private String title;
     private String visibility;
     private List<PictureAndVideoDTO> mediaUrl;
-    private List<Tag> tagList;
+//    private List<Tag> tagList;
     private Double latitude;
     private Double longitude;
     private String location;
