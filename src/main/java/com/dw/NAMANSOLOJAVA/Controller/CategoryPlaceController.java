@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/category_place")
+@RestController
+@RequestMapping("/api/categoryplace")
 public class CategoryPlaceController {
     @Autowired
     CategoryPlaceService categoryPlaceService;
@@ -27,7 +28,7 @@ public class CategoryPlaceController {
         return new ResponseEntity<>(categoryPlaceService.getSingleCategoryPlace(id), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/category-place")
     public ResponseEntity<CategoryPlaceDTO> updateCategoryPlace(CategoryPlaceDTO categoryPlaceDTO) {
         return new ResponseEntity<>(categoryPlaceService.updateCategoryPlace(categoryPlaceDTO), HttpStatus.ACCEPTED);
     }

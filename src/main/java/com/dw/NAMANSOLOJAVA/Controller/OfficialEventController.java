@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@RestController
+@RestController("/api/officialevent")
 public class OfficialEventController {
     @Autowired
     OfficialEventService officialEventService;
@@ -29,7 +29,7 @@ public class OfficialEventController {
         return new ResponseEntity<>(officialEventService.getAllOfficialEventByDate(date), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/single/update")
     public ResponseEntity<OfficialEventDTO> updateOfficialEvent(@RequestBody OfficialEventDTO officialEventDTO) {
         return new ResponseEntity<>(officialEventService.updateOfficialEvent(officialEventDTO), HttpStatus.OK);
     }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/recommendplace")
 public class RecommendPlaceController {
     @Autowired
     RecommendPlaceService recommendPlaceService;
@@ -24,7 +25,7 @@ public class RecommendPlaceController {
         return new ResponseEntity<>(recommendPlaceService.getRecommendPlace(), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/place")
     public ResponseEntity<RecommendPlaceDTO> updateRecommendPlace(@RequestBody RecommendPlaceDTO recommendPlaceDTO) {
         return new ResponseEntity<>(recommendPlaceService.updateRecommendPlace(recommendPlaceDTO),HttpStatus.OK);
     }
