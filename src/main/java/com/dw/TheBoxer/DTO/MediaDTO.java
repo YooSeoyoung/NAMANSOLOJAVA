@@ -1,5 +1,6 @@
 package com.dw.TheBoxer.DTO;
 
+import com.dw.TheBoxer.enums.MediaType;
 import lombok.*;
 
 @NoArgsConstructor
@@ -12,5 +13,5 @@ public class MediaDTO {
     private Long recommendPlaceId;
     private Long albumId;
     private String pictureURL;
-    private String videoURL;
+    private MediaType mediaType;
 }

@@ -1,6 +1,7 @@
 package com.dw.TheBoxer.model;
 
 import com.dw.TheBoxer.DTO.MediaDTO;
+import com.dw.TheBoxer.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,13 +33,13 @@ public class Media {
     @JoinColumn(name = "username")
     private User user;
 
-    @Column(name = "picture_url")
-    private String pictureUrl;
+    @Column(name = "media_url")
+    private String mediaUrl;
 
-    @Column(name = "video_url")
-    private String videoUrl;
+    @Column(name = "media_type")
+    private MediaType mediaType;
 
     public MediaDTO toDTO() {
-        return new MediaDTO(toDo.getId(), recommendPlace.getId(), album.getId(), pictureUrl, videoUrl);
+        return new MediaDTO(toDo.getId(), recommendPlace.getId(), album.getId(), mediaUrl, mediaType);
     }
 }

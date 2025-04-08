@@ -28,8 +28,17 @@ public class Album {
     private LocalDateTime addDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "username")
     private User user; // 유저 개인은 피드를 생성함.
+
+    @Column(name = "latitude", nullable = false)
+    private Double latitude; // 위도
+
+    @Column(name = "longitude", nullable = false)
+    private Double longitude; // 경도
+
+    @Column(name = "address", nullable = false)
+    private String address; // 주소 (지도 표시용)
 
     @Column(name = "visibility", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,6 +49,4 @@ public class Album {
 
     @OneToMany(mappedBy = "story")
     private List<Great> greats = new ArrayList<>();
-
-
 }

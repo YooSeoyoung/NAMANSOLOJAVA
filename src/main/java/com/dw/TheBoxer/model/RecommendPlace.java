@@ -27,7 +27,7 @@ public class RecommendPlace {
     @Column(name = "latitude", nullable = false)
     private Double latitude; // 위도
 
-    @Column(nullable = false)
+    @Column(name = "longitude", nullable = false)
     private Double longitude; // 경도
 
     @Column(name = "description", length = 1000)
