@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "story_tag")
+@Table(name = "album_tag")
 public class AlbumTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

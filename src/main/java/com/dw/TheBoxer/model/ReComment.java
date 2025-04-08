@@ -31,7 +31,7 @@ public class ReComment {  // 대댓글 기능
     private Comment comment;
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "username")
     private User user;
 
     public AddOrUpdateReCommentDTO toAddOrUpdateReCommentDTO(){

@@ -19,11 +19,11 @@ public class Great { // 좋아요 기능
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "album_id")
     private Album album; // 유저
 
     @ManyToOne
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "username")
     private User user; // 유저
 //
 //    @Column(name = "reaction")
