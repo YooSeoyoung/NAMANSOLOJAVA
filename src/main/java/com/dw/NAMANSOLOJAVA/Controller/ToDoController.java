@@ -4,6 +4,8 @@ import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,42 +16,52 @@ public class ToDoController {
     ToDoService toDoService;
 
     @GetMapping("/anniversary/all")
-    public List<AnniversaryDTO> getAllAnniversary() {
-        return toDoService.getAllAnniversary();
+    public ResponseEntity<List<AnniversaryDTO>> getAllAnniversary() {
+        return new ResponseEntity<>(toDoService.getAllAnniversary(), HttpStatus.OK);
     }
 
     @GetMapping("/travel/all")
-    public List<ToDoTravelDTO> getAllTravel() {
-        return toDoService.getAllTravel();
+    public ResponseEntity<List<ToDoTravelDTO>> getAllTravel() {
+        return new ResponseEntity<>(toDoService.getAllTravel(), HttpStatus.OK);
+    }
+
+    @PostMapping("/travel/save")
+    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO toDoTravelDTO) {
+        return new ResponseEntity<>(toDoService.saveTravel(toDoTravelDTO), HttpStatus.OK);
+    }
+
+    @PostMapping("/anniversary/save")
+    public ResponseEntity<AnniversaryDTO> saveAnniversary(@RequestBody AnniversaryDTO anniversaryDTO) {
+        return new ResponseEntity<>(toDoService.saveAnniversary(anniversaryDTO), HttpStatus.OK);
     }
 
     @GetMapping("/anniversary/{id}")
-    public AnniversaryDTO getAnniversaryById(@PathVariable Long id) {
-        return toDoService.getAnniversaryById(id);
+    public ResponseEntity<AnniversaryDTO> getAnniversaryById(@PathVariable Long id) {
+        return new ResponseEntity<>(toDoService.getAnniversaryById(id), HttpStatus.OK);
     }
 
     @GetMapping("/travel/{id}")
-    public ToDoTravelDTO getToDoTravelById(@PathVariable Long id) {
-        return toDoService.getToDoTravelById(id);
+    public ResponseEntity<ToDoTravelDTO> getToDoTravelById(@PathVariable Long id) {
+        return new ResponseEntity<>(toDoService.getToDoTravelById(id), HttpStatus.OK);
     }
 
     @PutMapping("/travel/update/{id}")
-    public ToDoTravelDTO updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
-        return toDoService.updateToDoTravelById(id, toDoTravelDTO);
+    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")
-    public AnniversaryDTO updateAnniversaryById(@PathVariable Long id, @RequestBody AnniversaryDTO anniversaryDTO) {
-        return toDoService.updateAnniversaryById(id, anniversaryDTO);
+    public ResponseEntity<AnniversaryDTO> updateAnniversaryById(@PathVariable Long id, @RequestBody AnniversaryDTO anniversaryDTO) {
+        return new ResponseEntity<>(toDoService.updateAnniversaryById(id, anniversaryDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/anniversary/delete/{id}")
-    public String deleteAnniversaryById(@PathVariable Long id) {
-        return toDoService.deleteAnniversaryById(id);
+    public ResponseEntity<String> deleteAnniversaryById(@PathVariable Long id) {
+        return new ResponseEntity<>(toDoService.deleteAnniversaryById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/travel/delete/{id}")
-    public String deleteTravelById(@PathVariable Long id) {
-        return toDoService.deleteTravelById(id);
+    public ResponseEntity<String> deleteTravelById(@PathVariable Long id) {
+        return new ResponseEntity<>(toDoService.deleteTravelById(id), HttpStatus.OK);
     }
 }

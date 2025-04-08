@@ -19,45 +19,46 @@ public class ToDoService {
 //        return toDoRepository.getAllAnniversary();
     }
 
-    @GetMapping("/travel/all")
     public List<ToDoTravelDTO> getAllTravel() {
         return null;
 //        return toDoRepository.getAllTravel();
     }
 
-    @GetMapping("/anniversary/{id}")
+    public AnniversaryDTO saveAnniversary(AnniversaryDTO anniversaryDTO) {
+        return null;
+    }
+
+    public ToDoTravelDTO saveTravel(ToDoTravelDTO toDoTravelDTO) {
+        return null;
+    }
+
     public AnniversaryDTO getAnniversaryById(Long id) {
         return null;
 //        return toDoRepository.getAnniversaryById(id);
     }
 
-    @GetMapping("/travel/{id}")
     public ToDoTravelDTO getToDoTravelById(Long id) {
         return null;
 //        return toDoRepository.getToDoTravelById();
     }
 
-    @PutMapping("/travel/update/{id}")
-    public ToDoTravelDTO updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
+    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO toDoTravelDTO) {
         return null;
 //        toDoRepository.updateToDoTravelById(id);
 //        toDoTravelDTO.getLastDate();
     }
 
-    @PutMapping("/anniversary/update/{id}")
-    public AnniversaryDTO updateAnniversaryById(@PathVariable Long id, @RequestBody AnniversaryDTO anniversaryDTO) {
+    public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO anniversaryDTO) {
         return null;
 //         toDoRepository.updateAnniversaryById(id);
     }
 
-    @DeleteMapping("/anniversary/delete/{id}")
-    public String deleteAnniversaryById(@PathVariable Long id) {
+    public String deleteAnniversaryById(Long id) {
         return null;
 //        toDoRepository.deleteAnniversaryById(id);
     }
 
-    @DeleteMapping("/travel/delete/{id}")
-    public String deleteTravelById(@PathVariable Long id) {
+    public String deleteTravelById(Long id) {
         return null;
 //        toDoRepository.deleteTravelById(id);
     }

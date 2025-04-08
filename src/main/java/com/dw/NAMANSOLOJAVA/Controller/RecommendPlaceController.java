@@ -31,7 +31,7 @@ public class RecommendPlaceController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteRecommendPlaceById(Long id) {
+    public ResponseEntity<String> deleteRecommendPlaceById(@PathVariable Long id) {
         return new ResponseEntity<>(recommendPlaceService.deleteRecommendPlace(id),HttpStatus.OK);
     }
 }
