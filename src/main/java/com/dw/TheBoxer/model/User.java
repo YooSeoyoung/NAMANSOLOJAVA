@@ -6,22 +6,23 @@ import com.dw.TheBoxer.DTO.UserUpdateDTO;
 import com.dw.TheBoxer.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @ToString
 @Entity
-@Table(name = "`user`")
+@Setter
+@Getter
+@Table(name = "user")
 public class User {
     @Id
-    @Setter
-    @Column(name="username", nullable = false, unique = true)
+    @Column(name="username", nullable = false, unique = true,updatable = false)
     private String username; // 유저명
 
-    @Setter
+
     @Column(name="password", nullable = false)
     private String password; // 비밀번호
 
@@ -30,35 +31,35 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender; // ENUM
 
-    @Setter
+
     @Column(name = "real_name_m", nullable = false)
     private String realNameM; // 남자 이름
 
-    @Setter
+
     @Column(name = "real_name_f", nullable = false)
     private String realNameF; // 여자 이름
 
-    @Setter
+
     @Column(name="email_m", nullable = false)
     private String emailM; // 남자 이메일
 
-    @Setter
+
     @Column(name="email_f", nullable = false)
     private String emailF; // 여자 이메일
 
-    @Setter
+
     @Column(name = "birth_m", nullable = false)
     private LocalDate birthM; // 남자 생일
 
-    @Setter
+
     @Column(name = "birth_f", nullable = false)
     private LocalDate birthF; // 여자 생일
 
-    @Setter
+
     @Column(name = "phone_number_m", nullable = false)
     private String phoneNumberM; // 남자 번호
 
-    @Setter
+
     @Column(name = "phone_number_f", nullable = false)
     private String phoneNumberF; // 여자 번호
 
@@ -66,11 +67,9 @@ public class User {
     @JoinColumn(name = "ROLE_authority", nullable = false)
     private Authority authority; // 권한
 
-    @Setter
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
-
-    @Setter
+    
     @Column(name ="d_day")
     private  LocalDate dDay; //만난 날짜
 
