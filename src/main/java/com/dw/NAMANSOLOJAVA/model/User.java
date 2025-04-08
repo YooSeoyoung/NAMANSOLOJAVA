@@ -68,22 +68,7 @@ public class User implements UserDetails {
     @Column(name = "todo_alert", nullable = false)
     private Boolean todoAlert= true;
 
-    public UserUpdateDTO toUserUpdateDTO(Gender gender) {
-        if (gender == Gender.MALE) {
-            return new UserUpdateDTO(
-                    gender.name(), this.realNameM,
-                    this.emailM, this.phoneNumberM
-            );
-        } else if (gender == Gender.FEMALE) {
-            return new UserUpdateDTO(
-                    gender.name(), this.realNameF,
-                    this.emailF, this.phoneNumberF
-            );
-        } else {
-            // 예외 던지거나, 기본값 처리
-            throw new IllegalStateException("Gender 정보가 없습니다.");
-        }
-    }
+
 
     public UserDTO toUserDTO(Media media){
         PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
