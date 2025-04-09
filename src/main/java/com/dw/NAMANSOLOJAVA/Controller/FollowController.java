@@ -37,6 +37,11 @@ public class FollowController {
         return new ResponseEntity<>(followService.getAllFollowByUsername(username), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<FollowDTO>> getSearchResultByName(@RequestParam String username) {
+        return new ResponseEntity<>(followService.getSearchResultByName(username), HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/following/{id}")
     public ResponseEntity<String> deleteFollowing(@PathVariable Long id) {
         return new ResponseEntity<>(followService.deleteFollowing(id), HttpStatus.ACCEPTED);

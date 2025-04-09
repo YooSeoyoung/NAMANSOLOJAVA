@@ -1,6 +1,7 @@
-INSERT INTO authority(authority_name) VALUES ('USER');
-INSERT INTO authority(authority_name) VALUES ('ADMIN');
+INSERT INTO authority(authority_name) VALUES ('ROLE_USER');
+INSERT INTO authority(authority_name) VALUES ('ROLE_ADMIN');
 
+INSERT INTO category (name) VALUES ('전체');
 INSERT INTO category (name) VALUES ('맛집');
 INSERT INTO category (name) VALUES ('호텔');
 INSERT INTO category (name) VALUES ('관광지');
