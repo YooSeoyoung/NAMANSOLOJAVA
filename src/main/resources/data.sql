@@ -95,3 +95,31 @@ INSERT INTO category_place (category_name, recommend_place_id) VALUES ('관광�
 INSERT INTO category_place (category_name, recommend_place_id) VALUES ('포토존', 1);
 INSERT INTO category_place (category_name, recommend_place_id) VALUES ('카페', 2);
 INSERT INTO category_place (category_name, recommend_place_id) VALUES ('포토존', 3);
+
+INSERT INTO tag (name) VALUES ('데이트'), ('야경'),
+('감성'), ('바다'),
+('뷰맛집'), ('인생샷'),
+('드라이브'), ('산책'),
+('실내'), ('더블데이트');
+
+INSERT INTO album (
+    title, add_date, username, latitude, longitude, location, visibility
+) VALUES (
+    '서울 야경 데이트', '2025-04-08 20:00:00', 'couple001',
+    37.5284, 126.9326, '서울특별시 영등포구 여의동로 330', 'PRIVATE'
+);
+
+INSERT INTO album (
+    title, add_date, username, latitude, longitude, location, visibility
+) VALUES (
+    '감성 카페 데이트', '2025-04-07 15:30:00', 'couple001',
+    37.5551, 126.9258, '서울특별시 마포구 홍익로 25', 'PRIVATE'
+);
+
+INSERT INTO album_tag (album_id, tag_id) VALUES (1, 1);
+INSERT INTO album_tag (album_id, tag_id) VALUES (1, 2);
+INSERT INTO album_tag (album_id, tag_id) VALUES (1, 5);
+
+INSERT INTO album_tag (album_id, tag_id) VALUES (2, 1);
+INSERT INTO album_tag (album_id, tag_id) VALUES (2, 3);
+INSERT INTO album_tag (album_id, tag_id) VALUES (2, 6);
