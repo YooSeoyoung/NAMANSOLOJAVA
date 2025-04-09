@@ -91,7 +91,7 @@ INSERT INTO recommend_place (
     NULL
 );
 
-INSERT INTO category_place (category, recommend_place) VALUES ('관광지', 3);
-INSERT INTO category_place (category, recommend_place) VALUES ('포토존', 3);
-INSERT INTO category_place (category, recommend_place) VALUES ('카페', 4);
-INSERT INTO category_place (category, recommend_place) VALUES ('포토존', 5);
+INSERT INTO category_place (category_name, recommend_place_id) VALUES ('관광지', 1);
+INSERT INTO category_place (category_name, recommend_place_id) VALUES ('포토존', 1);
+INSERT INTO category_place (category_name, recommend_place_id) VALUES ('카페', 2);
+INSERT INTO category_place (category_name, recommend_place_id) VALUES ('포토존', 3);
