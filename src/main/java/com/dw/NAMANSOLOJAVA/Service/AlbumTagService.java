@@ -11,18 +11,18 @@ import java.util.List;
 @Service
 public class AlbumTagService {
 
-    @Autowired
-    AlbumTagRepository albumTagRepository;
-
-    public List<AlbumTagDTO> SaveTagToAlbum(AlbumDTO albumDTO){
-        return  null;
-    }
-    public List<AlbumTagDTO> getAllAlbumTagByAlbumId(Long albumId){
-        return null;
-    }
-
-    public String  deleteAlbumTagById(Long id){
-        return null;
-    }
+//    @Autowired
+//    AlbumTagRepository albumTagRepository;
+//
+//    public List<AlbumTagDTO> SaveTagToAlbum(AlbumDTO albumDTO){
+//        return  null;
+//    }
+//    public List<AlbumTagDTO> getAllAlbumTagByAlbumId(Long albumId){
+//        return null;
+//    }
+//
+//    public String  deleteAlbumTagById(Long id){
+//        return null;
+//    }
 
 }

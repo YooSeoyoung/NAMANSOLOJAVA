@@ -15,27 +15,27 @@ import java.util.List;
 @RequestMapping("/api/tag")
 public class TagController {
 
-    @Autowired
-    TagService tagService;
-
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Tag> getTagId(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                tagService.getTagId(id),
-                HttpStatus.OK);
-    }
-
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Tag> getTagName(@PathVariable String name) {
-        return new ResponseEntity<>(
-                tagService.getTagName(name),
-                HttpStatus.OK);
-    }
-
-    @PostMapping("/save")
-    public ResponseEntity<Tag> saveTag(@RequestBody Tag tag) {
-        return new ResponseEntity<>(
-                tagService.saveTag(tag),
-                HttpStatus.OK);
-    }
+//    @Autowired
+//    TagService tagService;
+//
+//    @GetMapping("/id/{id}")
+//    public ResponseEntity<Tag> getTagId(@PathVariable Long id) {
+//        return new ResponseEntity<>(
+//                tagService.getTagId(id),
+//                HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/name/{name}")
+//    public ResponseEntity<Tag> getTagName(@PathVariable String name) {
+//        return new ResponseEntity<>(
+//                tagService.getTagName(name),
+//                HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/save")
+//    public ResponseEntity<Tag> saveTag(@RequestBody Tag tag) {
+//        return new ResponseEntity<>(
+//                tagService.saveTag(tag),
+//                HttpStatus.OK);
+//    }
 }

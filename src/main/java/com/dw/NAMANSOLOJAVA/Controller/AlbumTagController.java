@@ -16,25 +16,25 @@ import java.util.List;
 @RequestMapping("/api/album-tag")
 public class AlbumTagController {
 
-    @Autowired
-    AlbumTagService albumTagService;
-
-    @PostMapping("/save")
-    public ResponseEntity<List<AlbumTagDTO>>SaveTagToAlbum(@RequestBody AlbumDTO albumDTO) {
-        return new ResponseEntity<>(
-                albumTagService.SaveTagToAlbum(albumDTO),
-                HttpStatus.OK);
-    }
-    @GetMapping("/album-id/{albumId}")
-    public ResponseEntity<List<AlbumTagDTO>> getAllAlbumTagByAlbumId(@PathVariable Long albumId) {
-        return new ResponseEntity<>(
-                albumTagService.getAllAlbumTagByAlbumId(albumId),
-                HttpStatus.OK);
-    }
-    @DeleteMapping("/id/{id}")
-    public ResponseEntity<String> deleteAlbumTagById(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                albumTagService.deleteAlbumTagById(id),
-                HttpStatus.OK);
-    }
+//    @Autowired
+//    AlbumTagService albumTagService;
+//
+//    @PostMapping("/save")
+//    public ResponseEntity<List<AlbumTagDTO>>SaveTagToAlbum(@RequestBody AlbumDTO albumDTO) {
+//        return new ResponseEntity<>(
+//                albumTagService.SaveTagToAlbum(albumDTO),
+//                HttpStatus.OK);
+//    }
+//    @GetMapping("/album-id/{albumId}")
+//    public ResponseEntity<List<AlbumTagDTO>> getAllAlbumTagByAlbumId(@PathVariable Long albumId) {
+//        return new ResponseEntity<>(
+//                albumTagService.getAllAlbumTagByAlbumId(albumId),
+//                HttpStatus.OK);
+//    }
+//    @DeleteMapping("/id/{id}")
+//    public ResponseEntity<String> deleteAlbumTagById(@PathVariable Long id) {
+//        return new ResponseEntity<>(
+//                albumTagService.deleteAlbumTagById(id),
+//                HttpStatus.OK);
+//    }
 }

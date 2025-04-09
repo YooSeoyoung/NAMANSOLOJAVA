@@ -11,17 +11,17 @@ public class TagService {
     @Autowired
     TagRepository tagRepository;
 
-    public Tag getTagId(Long id){
-        return  null;
-    }
-
-    public Tag getTagName(String name){
-        return  null;
-    }
-
-    public Tag saveTag(Tag tag){
-        return  null;
-    }
+//    public Tag getTagId(Long id){
+//        return  null;
+//    }
+//
+//    public Tag getTagName(String name){
+//        return  null;
+//    }
+//
+//    public Tag saveTag(Tag tag){
+//        return  null;
+//    }
 
     // 삭제는 불가능( 타 유저가 사용 가능함)
 }
