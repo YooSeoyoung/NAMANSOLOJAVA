@@ -74,7 +74,8 @@ INSERT INTO user (
 
 INSERT INTO recommend_place (
     name, address, city, latitude, longitude, description, detail
-) VALUES
+) VALUES -- detail은 프론트에서 작성하여 보여줄 예정,
+-- sql의 제한 글자수때문에 detail을 sql에서 작성X
 (
     '한강공원', '서울특별시 영등포구 여의동로 330', '서울', 37.5284, 126.9326,
     '서울 대표 데이트 코스인 한강공원은 산책, 피크닉, 야경 감상 등 다양한 활동이 가능한 명소입니다.',
@@ -123,3 +124,15 @@ INSERT INTO album_tag (album_id, tag_id) VALUES (1, 5);
 INSERT INTO album_tag (album_id, tag_id) VALUES (2, 1);
 INSERT INTO album_tag (album_id, tag_id) VALUES (2, 3);
 INSERT INTO album_tag (album_id, tag_id) VALUES (2, 6);
+
+INSERT INTO great (album_id, username) VALUES (1, 'couple002'), (1, 'couple003'),
+(2, 'couple003');
+
+INSERT INTO comment (content, add_date, album_id, username) VALUES
+('야경 너무 예뻐요! 다음에 가봐야겠어요 ☺️', '2025-04-08 21:00:00', 1, 'couple002'),
+('진짜 좋아요~ 저도 예전에 갔었어요!', '2025-04-08 21:15:00', 1, 'couple003');
+
+INSERT INTO comment (content, add_date, album_id, username) VALUES
+('와 여기 인테리어가 대박인데요?', '2025-04-07 16:00:00', 2, 'couple002'),
+('디저트도 맛있어 보이네요 😋', '2025-04-07 16:05:00', 2, 'couple003');
+
