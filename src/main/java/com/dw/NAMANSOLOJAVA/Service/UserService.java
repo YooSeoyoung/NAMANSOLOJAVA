@@ -10,9 +10,11 @@ import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +86,7 @@ public class UserService {
         return userRepository.findById(authentication.getName())
                 .orElseThrow(()->new ResourceNotFoundException("No username"));
     }
+
     public boolean checkId(String username){
         return userRepository.existsById(username);
     }
@@ -94,18 +97,65 @@ public class UserService {
                 .map(user -> new UserAddDateDTO(user.getUsername(), user.getAddDate()))
                 .toList();
     }
+
     public UserAddDateDTO getUserByIdAdmin(String username) { //관리자가 username를 통한 유저/회원가입일 조회
-     return null;
+        Optional<User> userOptional = userRepository.findById(username);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("해당 유저를 찾을 수 없습니다: " + username);
+        }
+
+        User user = userOptional.get();
+
+        UserAddDateDTO dto = new UserAddDateDTO();
+        dto.setUsername(user.getUsername());
+        dto.setAddDate(user.getAddDate());
+
+        return dto;
     }
-    public String getIdByEmail(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 이메일로 통하여 아이디 찾기
-    return null;
+    // 이메일로 통하여 아이디 찾기
+    public String getIdByEmail(UserUpdateAndFIndDTO dto) {
+        Optional<User> userOpt = userRepository.findByEmailMAndEmailFAndPhoneNumberMAndPhoneNumberFAndRealNameMAndRealNameF(
+                dto.getEmailM(), dto.getEmailF(),
+                dto.getPhoneNumberM(), dto.getPhoneNumberF(),
+                dto.getRealNameM(), dto.getRealNameF());
+
+        return userOpt
+                .map(User::getUsername)
+                .orElseThrow(() -> new RuntimeException("일치하는 사용자를 찾을 수 없습니다."));
     }
+
     public String getIdByPhone(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 전화번호로 통하여 아이디 찾기
-        return null;
+        Optional<User> foundUser = userRepository
+                .findByPhoneNumberMAndRealNameMOrPhoneNumberFAndRealNameF(
+                        userUpdateAndFIndDTO.getPhoneNumberM(), userUpdateAndFIndDTO.getRealNameM(),
+                        userUpdateAndFIndDTO.getPhoneNumberF(), userUpdateAndFIndDTO.getRealNameF()
+                );
+
+        return foundUser
+                .map(User::getUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("일치하는 회원 정보를 찾을 수 없습니다."));
     }
-    public String UpdatePw(PasswordDTO passwordDTO) { // 전화번호로 통하여 아이디 찾기
-        return null;
+
+    @Transactional
+    public String UpdatePw(PasswordDTO passwordDTO) {
+        // 1. 유저 존재 여부 체크
+        User user = userRepository.findById(passwordDTO.getUsername())
+                .filter(u -> u.getEmailM().equals(passwordDTO.getEmail()) || u.getEmailF().equals(passwordDTO.getEmail()))
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없거나 이메일이 일치하지 않습니다."));
+
+        // 2. 비밀번호 일치 확인
+        if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())) {
+            throw new RuntimeException("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 3. 비밀번호 암호화 후 저장
+        String encodedPassword = bCryptPasswordEncoder.encode(passwordDTO.getNewPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+
+        return "비밀번호가 성공적으로 변경되었습니다.";
     }
+
     public UserUpdateAndFIndDTO UpdateUserData(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         return null;
     }
