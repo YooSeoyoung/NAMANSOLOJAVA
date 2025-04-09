@@ -66,12 +66,12 @@ public class Album {
                 this.longitude, this.location
         );
     }
-    public AddAlbumDTO toAddAlbumDTO(){
+    public AddAlbumDTO toAddAlbumDTO(List<Tag> tagList){
    List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new AddAlbumDTO(
                this.title, this.visibility.name(),
                 mediaDTO,this.latitude,
-                this.longitude, this.location
+                this.longitude, this.location,tagList
         );
     }
 
