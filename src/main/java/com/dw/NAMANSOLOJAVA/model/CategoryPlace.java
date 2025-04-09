@@ -17,11 +17,11 @@ public class CategoryPlace {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_name")
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "recommend_place")
+    @JoinColumn(name = "recommend_place_id")
     private RecommendPlace recommendPlace;
 
 //    @ManyToOne
