@@ -134,14 +134,14 @@ public class AlbumService {
     public String deleteAlbumById(Long id){
         List<Comment> comments =commentRepository.findByAlbumId(id);
         List<Long> commentId = comments.stream().map(Comment::getId).toList();
-        List<ReComment> reComments =recommentRepository.findByCommentId(commentId);
+        List<ReComment> reComments =recommentRepository.findByCommentIdIn(commentId);
         commentRepository.deleteAll(comments);
         recommentRepository.deleteAll(reComments);
         albumRepository.deleteById(id);
         return "정상 삭제되었습니다";
     }
     public List<AlbumDTO> getAlbumByUsername(String username){
-        List<Album> albums = albumRepository.findByUsername(username);
+        List<Album> albums = albumRepository.findByUser_Username(username);
         return albums.stream()
                 .map(album -> {
                     List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());

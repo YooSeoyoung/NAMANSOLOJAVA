@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AlbumRepository extends JpaRepository<Album,Long> {
 
-    List<Album> findByUsername(String username);
+    List<Album> findByUser_Username(String username);
 }

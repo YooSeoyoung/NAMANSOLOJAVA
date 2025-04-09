@@ -6,5 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RecommentRepository extends JpaRepository<ReComment,Long> {
- List<ReComment> findByCommentId(List<Long> commentIds);
+ List<ReComment> findByCommentIdIn(List<Long> commentIds);
+
+ void deleteAllByCommentId(Long commentId);
+
+
 }
