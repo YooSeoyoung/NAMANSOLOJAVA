@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -28,6 +29,9 @@ public class ToDo {
 
     @Column(name = "last_date", nullable = false)
     private LocalDate lastDate; // 여행 일정 끝나는 날
+
+    @Column(name = "final_edit_date", nullable = false)
+    private LocalDate finalEditDate; // 해당 일정에 대한 추가/수정 등 최종 수정 시간
 
 //    @Column(name = "memo")
 //    private String memo;

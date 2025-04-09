@@ -18,34 +18,32 @@ public class FollowController {
     FollowService followService;
 
     @GetMapping("/all")
-    private ResponseEntity<List<FollowDTO>> getAllFollow() {
+    public ResponseEntity<List<FollowDTO>> getAllFollow() {
         return new ResponseEntity<>(followService.getAllFollow(), HttpStatus.OK);
     }
 
     @PostMapping("/new/following")
-    private ResponseEntity<FollowingDTO> saveNewFollowing(@RequestBody FollowingDTO followingDTO) {
+    public ResponseEntity<FollowingDTO> saveNewFollowing(@RequestBody FollowingDTO followingDTO) {
         return new ResponseEntity<>(followService.saveNewFollowing(followingDTO), HttpStatus.CREATED);
     }
 
     @PostMapping("/new/follower")
-    private ResponseEntity<FollowerDTO> saveNewFollower(@RequestBody FollowerDTO followerDTO) {
+    public ResponseEntity<FollowerDTO> saveNewFollower(@RequestBody FollowerDTO followerDTO) {
         return new ResponseEntity<>(followService.saveNewFollower(followerDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/all/{username}")
-    private ResponseEntity<List<FollowDTO>> getAllFollowByUsername(@PathVariable String username) {
+    public ResponseEntity<List<FollowDTO>> getAllFollowByUsername(@PathVariable String username) {
         return new ResponseEntity<>(followService.getAllFollowByUsername(username), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/following/{id}")
-    private ResponseEntity<String> deleteFollowing(@PathVariable Long id) {
+    public ResponseEntity<String> deleteFollowing(@PathVariable Long id) {
         return new ResponseEntity<>(followService.deleteFollowing(id), HttpStatus.ACCEPTED);
-    }
+    } // 팔로윙 해제
 
     @DeleteMapping("/delete/follower/{id}")
-    private ResponseEntity<String> deleteFollower(@PathVariable Long id) {
+    public ResponseEntity<String> deleteFollower(@PathVariable Long id) {
         return new ResponseEntity<>(followService.deleteFollower(id), HttpStatus.ACCEPTED);
-    }
-
-//    @PutMapping("/")
+    } // 팔로우 해제
 }
