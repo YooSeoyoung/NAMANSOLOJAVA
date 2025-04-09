@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ToDoRepository extends JpaRepository<ToDo, Long> {
-    @Query("SELECT t FROM ToDo t WHERE t.type = :type")
-    Optional<List<ToDo>> findAnniversaryAndTravelByType(String type);
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.type = :type")
+    Optional<List<ToDo>> findAllTodoByUsernameAndType(String username, String type);
 }

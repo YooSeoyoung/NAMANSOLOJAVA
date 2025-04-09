@@ -1,7 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
-import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
+import com.dw.NAMANSOLOJAVA.DTO.TravelDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,13 +21,13 @@ public class ToDoController {
     }
 
     @GetMapping("/travel/all")
-    public ResponseEntity<List<ToDoTravelDTO>> getAllTravel() {
+    public ResponseEntity<List<TravelDTO>> getAllTravel() {
         return new ResponseEntity<>(toDoService.getAllTravel(), HttpStatus.OK);
     }
 
     @PostMapping("/travel/save")
-    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO toDoTravelDTO) {
-        return new ResponseEntity<>(toDoService.saveTravel(toDoTravelDTO), HttpStatus.OK);
+    public ResponseEntity<TravelDTO> saveTravel(@RequestBody TravelDTO travelDTO) {
+        return new ResponseEntity<>(toDoService.saveTravel(travelDTO), HttpStatus.OK);
     }
 
     @PostMapping("/anniversary/save")
@@ -41,13 +41,13 @@ public class ToDoController {
     }
 
     @GetMapping("/travel/{id}")
-    public ResponseEntity<ToDoTravelDTO> getToDoTravelById(@PathVariable Long id) {
+    public ResponseEntity<TravelDTO> getToDoTravelById(@PathVariable Long id) {
         return new ResponseEntity<>(toDoService.getToDoTravelById(id), HttpStatus.OK);
     }
 
     @PutMapping("/travel/update/{id}")
-    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
-        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO), HttpStatus.OK);
+    public ResponseEntity<TravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody TravelDTO travelDTO) {
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, travelDTO), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")

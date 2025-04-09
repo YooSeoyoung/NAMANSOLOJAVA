@@ -2,12 +2,12 @@ package com.dw.NAMANSOLOJAVA.model;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
-import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
+import com.dw.NAMANSOLOJAVA.DTO.ToDoDTO;
+import com.dw.NAMANSOLOJAVA.DTO.TravelDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,14 +56,14 @@ public class ToDo {
     )
     private List<Media> media = new ArrayList<>();
 
-    public AnniversaryDTO toAnniDTO() {
+    public AnniversaryDTO toAnniversaryDTO() {
         return new AnniversaryDTO(this.title, this.startDate
                 , this.type);
     }
 
-    public ToDoTravelDTO toTravelDTO() {
+    public TravelDTO toTravelDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
-        return new ToDoTravelDTO(this.title, this.startDate,
-                this.lastDate,mediaDTO, this.type);
+        return new TravelDTO(this.title, this.startDate,
+                this.lastDate, mediaDTO, this.type);
     }
 }

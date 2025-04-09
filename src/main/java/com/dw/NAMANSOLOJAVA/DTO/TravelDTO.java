@@ -10,7 +10,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Setter
-public class ToDoTravelDTO {
+public class TravelDTO {
     private String title;
     private LocalDate startDate;
     private LocalDate lastDate;
