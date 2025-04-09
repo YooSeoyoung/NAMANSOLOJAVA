@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/todo")
+@RestController
+@RequestMapping("/api/todo")
 public class ToDoController {
     @Autowired
     ToDoService toDoService;
