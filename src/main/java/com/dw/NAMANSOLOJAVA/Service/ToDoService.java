@@ -1,12 +1,11 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
-import com.dw.NAMANSOLOJAVA.DTO.TravelDTO;
+import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
-import com.dw.NAMANSOLOJAVA.model.ToDo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,26 +15,20 @@ public class ToDoService {
     ToDoRepository toDoRepository;
 
     public List<AnniversaryDTO> getAllAnniversary() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        List<ToDo> todos = toDoRepository.findAllTodoByUsernameAndType("couple001", "ANNIVERSARY").get();
-
-        return todos.stream().map(ToDo::toAnniversaryDTO).toList();
+        return null;
+//        return toDoRepository.getAllAnniversary();
     }
 
-    public List<TravelDTO> getAllTravel() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        List<ToDo> todos = toDoRepository.findAllTodoByUsernameAndType("couple001", "TRAVEL").get();
-
-        return todos.stream().map(ToDo::toTravelDTO).toList();
+    public List<ToDoTravelDTO> getAllTravel() {
+        return null;
+//        return toDoRepository.getAllTravel();
     }
 
     public AnniversaryDTO saveAnniversary(AnniversaryDTO anniversaryDTO) {
         return null;
     }
 
-    public TravelDTO saveTravel(TravelDTO travelDTO) {
+    public ToDoTravelDTO saveTravel(ToDoTravelDTO toDoTravelDTO) {
         return null;
     }
 
@@ -44,12 +37,12 @@ public class ToDoService {
 //        return toDoRepository.getAnniversaryById(id);
     }
 
-    public TravelDTO getToDoTravelById(Long id) {
+    public ToDoTravelDTO getToDoTravelById(Long id) {
         return null;
 //        return toDoRepository.getToDoTravelById();
     }
 
-    public TravelDTO updateToDoTravelById(Long id, TravelDTO travelDTO) {
+    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO toDoTravelDTO) {
         return null;
 //        toDoRepository.updateToDoTravelById(id);
 //        toDoTravelDTO.getLastDate();

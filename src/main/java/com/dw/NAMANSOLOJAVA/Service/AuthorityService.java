@@ -9,16 +9,21 @@ import java.util.List;
 
 @Service
 public class AuthorityService {
+
     @Autowired
     AuthorityRepository authorityRepository;
 
-    public List<Authority> getAllAuthority(){
-        return null;
+    public List<Authority> getAllAuthority() {
+        return authorityRepository.findAll();
     }
 
-    public Authority getAuthorityById(String id){
-      return null;
+    public Authority getAuthorityById(String id) {
+        return authorityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ID에 해당하는 권한이 없습니다: " + id));
+        }
+
+    public Authority getAuthorityByName(String authorityName) {
+        return authorityRepository.findByAuthorityName(authorityName)
+                .orElseThrow(() -> new RuntimeException("권한을 찾을 수 없습니다: " + authorityName));
     }
-
-
 }

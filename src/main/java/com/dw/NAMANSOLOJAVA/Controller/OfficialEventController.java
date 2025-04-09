@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/api/officialevent")
+@RestController("/api/officialevent")
 public class OfficialEventController {
     @Autowired
     OfficialEventService officialEventService;

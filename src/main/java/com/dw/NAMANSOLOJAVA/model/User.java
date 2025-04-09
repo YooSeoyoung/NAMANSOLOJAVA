@@ -71,7 +71,7 @@ public class User implements UserDetails {
     private Boolean recommentAlert= true;
     @Column(name = "todo_alert", nullable = false)
     private Boolean todoAlert= true;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "media_id")
     private Media media;
 

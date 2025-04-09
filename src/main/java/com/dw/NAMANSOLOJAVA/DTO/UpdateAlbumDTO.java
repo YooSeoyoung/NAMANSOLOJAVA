@@ -17,6 +17,7 @@ public class UpdateAlbumDTO {
     private String title;
     private String visibility;
     private List<MediaDTO> mediaUrl;
+//    private List<AlbumTag> usertagList;
     private Double latitude;
     private Double longitude;
     private String location;

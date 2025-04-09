@@ -17,5 +17,4 @@ public class AddAlbumDTO {
     private Double latitude;
     private Double longitude;
     private String location;
-    private List<Tag> tagList;
 }
