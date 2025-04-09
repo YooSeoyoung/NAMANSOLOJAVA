@@ -65,6 +65,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    
     @PutMapping("/user-data")
     public ResponseEntity<UserUpdateAndFIndDTO> UpdateUserData(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
         return new ResponseEntity<>(
