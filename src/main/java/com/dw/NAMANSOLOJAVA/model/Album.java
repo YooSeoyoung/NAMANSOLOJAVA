@@ -58,20 +58,21 @@ public class Album {
     )
     private List<Media> media = new ArrayList<>();
 
-    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(){
+    public UpdateAlbumDTO toUpdateAlbumDTO(List<Tag> tagList){
         List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new UpdateAlbumDTO(
                 this.id, this.title, this.visibility.name(),
                 mediaDTO,this.latitude,
-                this.longitude, this.location
+                this.longitude, this.location,
+                tagList
         );
     }
-    public AddAlbumDTO toAddAlbumDTO(){
-   List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
+    public AddAlbumDTO toAddAlbumDTO(List<Tag> tagList){
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new AddAlbumDTO(
-               this.title, this.visibility.name(),
+                this.title, this.visibility.name(),
                 mediaDTO,this.latitude,
-                this.longitude, this.location
+                this.longitude, this.location,tagList
         );
     }
 
