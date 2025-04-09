@@ -16,7 +16,7 @@ public class AlbumDTO {
     private LocalDateTime addDate;
     private String username;
     private String visibility;
-    private List<String> userTags;
+    private List<String> albumTags;
     private List<CommentDTO> comments;
     private List<String> greats;
     private List<MediaDTO> url;
