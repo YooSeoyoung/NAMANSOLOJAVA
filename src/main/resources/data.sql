@@ -72,6 +72,14 @@ INSERT INTO user (
     true, true, true, true
 );
 
+INSERT INTO follow (follower_name, following_name) VALUES ('couple002', 'couple001');
+
+INSERT INTO follow (follower_name, following_name) VALUES ('couple003', 'couple001');
+
+INSERT INTO follow (follower_name, following_name) VALUES ('couple001', 'couple002');
+
+INSERT INTO follow (follower_name, following_name) VALUES ('couple003', 'couple002');
+
 INSERT INTO recommend_place (
     name, address, city, latitude, longitude, description, detail
 ) VALUES -- detail은 프론트에서 작성하여 보여줄 예정,
@@ -107,14 +115,14 @@ INSERT INTO album (
     title, add_date, username, latitude, longitude, location, visibility
 ) VALUES (
     '서울 야경 데이트', '2025-04-08 20:00:00', 'couple001',
-    37.5284, 126.9326, '서울특별시 영등포구 여의동로 330', 'PRIVATE'
+    37.5284, 126.9326, '서울특별시 영등포구 여의동로 330', 'PUBLIC'
 );
 
 INSERT INTO album (
     title, add_date, username, latitude, longitude, location, visibility
 ) VALUES (
     '감성 카페 데이트', '2025-04-07 15:30:00', 'couple001',
-    37.5551, 126.9258, '서울특별시 마포구 홍익로 25', 'PRIVATE'
+    37.5551, 126.9258, '서울특별시 마포구 홍익로 25', 'PUBLIC'
 );
 
 INSERT INTO album_tag (album_id, tag_id) VALUES (1, 1);
@@ -135,4 +143,106 @@ INSERT INTO comment (content, add_date, album_id, username) VALUES
 INSERT INTO comment (content, add_date, album_id, username) VALUES
 ('와 여기 인테리어가 대박인데요?', '2025-04-07 16:00:00', 2, 'couple002'),
 ('디저트도 맛있어 보이네요 😋', '2025-04-07 16:05:00', 2, 'couple003');
+
+INSERT INTO recomment (content, add_date, comment_id, username) VALUES
+('감사해요! 꼭 가보세요', '2025-04-08 21:30:00', 1, 'couple001'),
+('와~ 반갑네요! 👍', '2025-04-08 21:35:00', 2, 'couple001'),
+('진짜 분위기 좋아요~!', '2025-04-07 16:30:00', 3, 'couple001'),
+('디저트 강추입니다 🍰', '2025-04-07 16:32:00', 4, 'couple001');
+
+INSERT INTO official_event (username, event_date, event_type, editable)
+VALUES ('admin001', '2025-02-14', '발렌타인데이', false);
+
+INSERT INTO official_event (username, event_date, event_type, editable)
+VALUES ('admin001', '2025-03-14', '화이트데이', false),
+('admin001', '2025-11-11', '빼빼로데이', false),
+('admin001', '2025-12-25', '크리스마스', false);
+
+INSERT INTO todo (
+    title, start_date, last_date, final_edit_date,
+    type, username, editable
+) VALUES (
+    '첫 만남 💕', '2022-06-15', NULL, '2025-04-09',
+    'ANNIVERSARY', 'couple001', true
+);
+
+INSERT INTO todo (
+    title, start_date, last_date, final_edit_date,
+    type, username, editable
+) VALUES (
+    '여름 제주도 여행 🌴', '2023-08-01', '2023-08-05', '2025-04-09',
+    'TRAVEL', 'couple001', true
+);
+
+INSERT INTO todo (
+    title, start_date, last_date, final_edit_date,
+    type, username, editable
+) VALUES (
+    '사귄 날 💑', '2022-05-20', NULL, '2025-04-09',
+    'ANNIVERSARY', 'couple002', true
+);
+
+INSERT INTO todo (
+    title, start_date, last_date, final_edit_date,
+    type, username, editable
+) VALUES (
+    '놀이공원 데이트 🎡', '2024-10-03', '2024-10-03', '2025-04-09',
+    'TRAVEL', 'couple003', true
+);
+
+INSERT INTO media (album_id, username, media_url, media_type)
+VALUES
+(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_01.jpg', 'PICTURE'),
+(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_02.mp4', 'VIDEO');
+
+INSERT INTO media (album_id, username, media_url, media_type)
+VALUES
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/cafe_01.jpg', 'PICTURE');
+
+INSERT INTO media (todo_id, username, media_url, media_type)
+VALUES
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_01.jpg', 'PICTURE'),
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_02.jpg', 'PICTURE'),
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_jeep.mp4', 'VIDEO');
+
+-- 댓글 알림
+INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
+VALUES (
+    'couple001', 'COMMENT', 'couple002님이 앨범에 댓글을 남겼습니다.',
+    '2025-04-09 10:15:00', false, null
+);
+
+INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
+VALUES (
+    'couple001', 'GREAT', 'couple003님이 앨범을 좋아합니다.',
+    '2025-04-09 10:16:00', false, null
+);
+
+INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
+VALUES (
+    'couple001', 'TODO', '여름 제주도 여행의 날씨 정보가 도착했습니다.',
+    '2025-04-09 09:00:00', false, '맑음, 최고기온 24°C, 강수 확률 10%'
+);
+
+INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
+VALUES (
+    'couple002', 'FOLLOW', 'couple003님이 당신을 팔로우했습니다.',
+    '2025-04-09 11:00:00', false, null
+);
+
+-- 주의: 향후 관리 목적이나 차단 필요 시 저장한 예시 데이터
+-- 실시간 검색과는 별도로 내부 캐싱/추천용으로 쓰일 수 있음
+INSERT INTO event_present (
+    title, description, image_url, shopping_url, price
+) VALUES (
+    '커플 무드등',
+    '분위기 좋은 감성 커플 무드등입니다. 인테리어 효과도 뛰어납니다.',
+    'https://cdn.example.com/images/moonlight.jpg',
+    'https://shopping.naver.com/product/abc123',
+    '32,900원'
+);
+-- ****** NOTE:
+-- 이 데이터는 네이버 API 검색 결과와는 무관하게,
+-- 서비스 내에서 수동 추천하거나, 특정 키워드 차단/우선 노출 용도로 사용될 수 있습니다.
+-- 실시간 검색이 우선이며, 저장형 데이터를 사용자에게 보여줄 경우 반드시 표시 또는 분리 필요
 
