@@ -1,11 +1,14 @@
 package com.dw.NAMANSOLOJAVA.model;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
+import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,6 +32,9 @@ public class ToDo {
     @Column(name = "last_date", nullable = false)
     private LocalDate lastDate; // 여행 일정 끝나는 날
 
+    @Column(name = "final_edit_date", nullable = false)
+    private LocalDate finalEditDate; // 해당 일정에 대한 추가/수정 등 최종 수정 시간
+
 //    @Column(name = "memo")
 //    private String memo;
 
@@ -42,14 +48,22 @@ public class ToDo {
     @Column(name = "editable", nullable = false)
     private Boolean editable = true;
 
+    @OneToMany
+    @JoinTable(
+            name = "todo_media", // 중간 테이블 이름
+            joinColumns = @JoinColumn(name = "todo_id"),     // album 외래키
+            inverseJoinColumns = @JoinColumn(name = "media_id") // media 외래키
+    )
+    private List<Media> media = new ArrayList<>();
+
     public AnniversaryDTO toAnniDTO() {
         return new AnniversaryDTO(this.title, this.startDate
                 , this.type);
     }
 
-    public ToDoTravelDTO toTravelDTO(List<Media> mediaList) {
+    public ToDoTravelDTO toTravelDTO() {
+        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new ToDoTravelDTO(this.title, this.startDate,
-                this.lastDate, mediaList.stream().map(Media::toPictureAndVideoDTO).toList()
-                , this.type);
+                this.lastDate,mediaDTO, this.type);
     }
 }

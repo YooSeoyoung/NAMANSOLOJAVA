@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
+import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
 import com.dw.NAMANSOLOJAVA.DTO.PictureAndVideoDTO;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import jakarta.persistence.*;
@@ -17,30 +18,16 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "todo_id")
-    private ToDo toDo;
-
-    @ManyToOne
-    @JoinColumn(name = "recommend_place_id")
-    private RecommendPlace recommendPlace;
-
-    @ManyToOne
-    @JoinColumn(name = "album_id")
-    private Album album;
-
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
-
     @Column(name = "media_url")
     private String mediaUrl;
 
     @Column(name = "media_type")
     private MediaType mediaType;
 
-    public PictureAndVideoDTO toPictureAndVideoDTO() {
-        return new PictureAndVideoDTO
-                (this.mediaUrl, mediaType.name());
+    public MediaDTO toDTO(){
+        return new MediaDTO(
+                this.id, this.mediaUrl,
+                this.mediaType.name()
+        );
     }
 }

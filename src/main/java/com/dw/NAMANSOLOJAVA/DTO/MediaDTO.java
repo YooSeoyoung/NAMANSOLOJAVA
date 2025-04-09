@@ -8,9 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class MediaDTO {
-    private Long todoId;
-    private Long recommendPlaceId;
-    private Long albumId;
+    private Long id;
     private String mediaUrl;
     private String mediaType;
 }

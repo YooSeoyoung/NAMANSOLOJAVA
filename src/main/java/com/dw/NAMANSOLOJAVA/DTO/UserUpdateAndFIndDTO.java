@@ -9,7 +9,10 @@ import lombok.*;
 @Setter
 @ToString
 public class UserUpdateAndFIndDTO {
-    private String realName;
-    private String email;
-    private String phoneNumber;
+    private String realNameM;
+    private String realNameF;
+    private String emailM;
+    private String emailF;
+    private String phoneNumberM;
+    private String phoneNumberF;
 }

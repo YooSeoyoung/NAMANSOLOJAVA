@@ -1,15 +1,17 @@
 package com.dw.NAMANSOLOJAVA.DTO;
 
+
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UpdateImageDDayDTO {
-    MediaDTO mediaUrl;
-    LocalDate dDay;
+public class UserLastActivityDTO {
+    private String username;
+    private LocalDate lastActivity;
 }

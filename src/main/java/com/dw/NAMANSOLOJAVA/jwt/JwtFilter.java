@@ -18,23 +18,35 @@ public class JwtFilter extends GenericFilterBean {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
+
     public JwtFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
+
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
-            // jwt가 있니 및 유효하는 토큰이 있니
+        // ✅ Swagger 관련 요청은 필터 예외 처리
+        if (requestURI.startsWith("/v3/api-docs") ||
+                requestURI.startsWith("/swagger-ui") ||
+                requestURI.startsWith("/swagger-resources") ||
+                requestURI.startsWith("/webjars") ||
+                requestURI.equals("/swagger-ui.html")) {
+
+            logger.info("Swagger 경로 → JWT 필터 예외 처리: {}", requestURI);
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
+        String jwt = resolveToken(httpServletRequest);
+
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            //Authentication : 인증 정보
             Authentication authentication = tokenProvider.getAuthentication(jwt);
-            //SecurityContextHolder : SECURITY 인증 정보를 저장하는 저장소 , 오직 하나의 정보만 가지고 있음/ 즉, 로그인에 대한 정보를 여기에서 읽어오면 됨
-            //SecurityContextHolder.getAuthentication : 정보를 읽어오기
             SecurityContextHolder.getContext().setAuthentication(authentication);
             logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
         } else {
@@ -44,14 +56,11 @@ public class JwtFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    //페이로드 부분 읽음
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
-
         return null;
     }
 }

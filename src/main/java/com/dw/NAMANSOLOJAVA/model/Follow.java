@@ -30,12 +30,13 @@ public class Follow {
 //    @Column(name = "add_time", nullable = false)
 //    private LocalDateTime addTime; // 생성시간 지정 -> 유저 요청시간, 레포지토리에 매핑 LocalDateTime.now();
 
-public FollowDTO toFollowDTO(){
-    return new FollowDTO(
-            this.id,this.follower.getUsername(),
-            this.following.getUsername()
-    );
-}
+    public FollowDTO toFollowDTO(){
+        return new FollowDTO(
+                this.id,this.follower.getUsername(),
+                this.following.getUsername()
+        );
+    }
+
     public FollowerDTO toFollowerDTO(){
         return new FollowerDTO(
                 this.id,this.follower.getUsername()

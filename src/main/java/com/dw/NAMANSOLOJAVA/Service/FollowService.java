@@ -37,6 +37,11 @@ public class FollowService {
 //        return followRepository.getAllFollowByUsername(username);
     }
 
+    public List<FollowDTO> getSearchResultByName(String username) {
+        return null;
+//        return followRepository.getSearchResultByName(username);
+    }
+
     public String deleteFollowing(Long id) {
         return null;
 //        return followRepository.deleteFollowing(id);
@@ -46,6 +51,4 @@ public class FollowService {
         return null;
 //        return followRepository.deleteFollower(id);
     }
-
-
 }

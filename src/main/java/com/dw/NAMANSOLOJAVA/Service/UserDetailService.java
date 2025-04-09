@@ -1,6 +1,5 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
-
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,9 @@ public class UserDetailService implements UserDetailsService {
         if(user.isEmpty()){
             throw  new IllegalArgumentException(username);
         }
-        return user.get();
+        User user1 = user.get();
+        user1.setLastLogin(LocalDate.now());
+        userRepository.save(user1);
+        return user1;
     }
 }

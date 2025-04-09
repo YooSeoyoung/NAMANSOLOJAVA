@@ -13,7 +13,6 @@ public class AlarmService {
     @Autowired
     AlarmRepository alarmRepository;
 
-
     public List<AlarmDTO> getAllAlarm() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return null;

@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class RecommendPlaceDTO {
     private String name;
-    private List<PictureAndVideoDTO> mediaUrl;
+    private List<MediaDTO> mediaUrl;
     private String address;
     private String city;
     private String description;

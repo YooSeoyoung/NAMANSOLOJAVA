@@ -50,25 +50,34 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private List<Great> greats = new ArrayList<>();
 
-    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    @OneToMany
+    @JoinTable(
+            name = "album_media", // 중간 테이블 이름
+            joinColumns = @JoinColumn(name = "album_id"),     // album 외래키
+            inverseJoinColumns = @JoinColumn(name = "media_id") // media 외래키
+    )
+    private List<Media> media = new ArrayList<>();
+
+    public UpdateAlbumDTO toUpdateAlbumDTO(List<Tag> tagList){
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new UpdateAlbumDTO(
                 this.id, this.title, this.visibility.name(),
-                mediaDTOs,this.latitude,
-                this.longitude, this.location
+                mediaDTO,this.latitude,
+                this.longitude, this.location,
+                tagList
         );
     }
-    public AddAlbumDTO toAddAlbumDTO(List<Media> mediaList){
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    public AddAlbumDTO toAddAlbumDTO(List<Tag> tagList){
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new AddAlbumDTO(
-               this.title, this.visibility.name(),
-                mediaDTOs,this.latitude,
-                this.longitude, this.location
+                this.title, this.visibility.name(),
+                mediaDTO,this.latitude,
+                this.longitude, this.location,tagList
         );
     }
 
-    public AlbumDTO toAlbumDTO(List<Media> mediaList,List<AlbumTag> albumTagList) {
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    public AlbumDTO toAlbumDTO(List<AlbumTag> albumTagList) {
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         List<CommentDTO> commentDTOList= comments.stream().map(Comment::toCommentDTO).toList();
         List<String> greatList = greats.stream().map(great -> great.getUser().getUsername()).toList();
         List<String> userTagList = albumTagList.stream().map(albumTag -> albumTag.getTag().getName()).toList();
@@ -77,7 +86,7 @@ public class Album {
                 this.user.getUsername(), this.visibility.name(),
                 userTagList,
                 commentDTOList,greatList,
-                mediaDTOs, this.location
+                mediaDTO, this.location
         );
     }
 }

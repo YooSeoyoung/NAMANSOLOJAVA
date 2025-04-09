@@ -15,22 +15,22 @@ public class MediaService {
     @Autowired
     MediaRepository mediaRepository;
 
-    public PictureAndVideoDTO saveSingleMedia(MediaDTO mediaDTO) {
+    public MediaDTO saveSingleMedia(MediaDTO mediaDTO) {
         return null;
 //        return mediaRepository.saveSingleMedia(mediaDTO);
     }
 
-    public List<PictureAndVideoDTO> saveMultipleMedia(List<MediaDTO> mediaDTOs) {
+    public List<MediaDTO> saveMultipleMedia(List<MediaDTO> mediaDTOs) {
         return null;
 //        return mediaRepository.saveMultipleMedia(mediaDTOs);
     }
 
-    public List<PictureAndVideoDTO> getMultipleMedia() {
+    public List<MediaDTO> getMultipleMedia() {
         return null;
 //        return mediaRepository.getMultipleMedia();
     }
 
-    public PictureAndVideoDTO deleteSingleMediaById(Long id) {
+    public MediaDTO deleteSingleMediaById(Long id) {
         return null;
 //        return mediaRepository.deleteSingleMediaById(id);
     }

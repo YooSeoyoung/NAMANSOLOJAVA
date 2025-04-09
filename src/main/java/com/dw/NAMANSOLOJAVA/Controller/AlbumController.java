@@ -49,7 +49,7 @@ public class AlbumController {
                 HttpStatus.OK);
     }
     @GetMapping("/username/{username}")
-    public ResponseEntity <AlbumDTO> getAlbumByUsername(@PathVariable String username) {
+    public ResponseEntity <List<AlbumDTO>> getAlbumByUsername(@PathVariable String username) {
         return new ResponseEntity<>(
                 albumService.getAlbumByUsername(username),
                 HttpStatus.OK);

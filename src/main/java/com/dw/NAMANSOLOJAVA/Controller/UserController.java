@@ -23,9 +23,10 @@ public class UserController {
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
     }
+
     @GetMapping("/current-user")
-    public ResponseEntity<UserDTO> getCurrentUser(Media media) {
-        return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(media), HttpStatus.OK);
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(), HttpStatus.OK);
     }
 //    @GetMapping("/id/{id}")
 //    public ResponseEntity<UserDTO> getUserById(@PathVariable String username){
@@ -49,47 +50,60 @@ public class UserController {
                 userService.getUserByIdAdmin(username),
                 HttpStatus.OK);
     }
-    @GetMapping("/find-user/email")
-    public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
-        return new ResponseEntity<>(
-                userService.getIdByEmail(userUpdateAndFIndDTO),
-                HttpStatus.OK);
+    @PostMapping("/find-user/email")
+    public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO dto) {
+        return new ResponseEntity<>(userService.getIdByEmail(dto), HttpStatus.OK);
     }
-    @GetMapping("/find-user/phone")
+
+    @PostMapping("/find-user/phone")
     public ResponseEntity<String> getIdByPhone(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
         return new ResponseEntity<>(
                 userService.getIdByPhone(userUpdateAndFIndDTO),
                 HttpStatus.OK);
     }
+
     @PutMapping("/modify-pw")
     public ResponseEntity<String> UpdatePw(@RequestBody PasswordDTO passwordDTO) {
         return new ResponseEntity<>(
                 userService.UpdatePw(passwordDTO),
                 HttpStatus.OK);
     }
+
+    
     @PutMapping("/user-data")
     public ResponseEntity<UserUpdateAndFIndDTO> UpdateUserData(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
         return new ResponseEntity<>(
                 userService.UpdateUserData(userUpdateAndFIndDTO),
                 HttpStatus.OK);
     }
+
     @PutMapping("/user-data-image-dday")
     public ResponseEntity<UpdateImageDDayDTO> UpdateUserDataImageDday(@RequestBody UpdateImageDDayDTO updateImageDDayDTO) {
         return new ResponseEntity<>(
                 userService.UpdateUserDataImageDday(updateImageDDayDTO),
                 HttpStatus.OK);
     }
+
     @PutMapping("/user/alarm-setting")
     public ResponseEntity<UserAlarmSettingDTO> AlarmSetting(@RequestBody UserAlarmSettingDTO userAlarmSettingDTO) {
         return new ResponseEntity<>(
                 userService.AlarmSetting(userAlarmSettingDTO),
                 HttpStatus.OK);
     }
-    @GetMapping("/monthly/album-count")
+
+    @GetMapping("/admin/monthly/album-count")
     public ResponseEntity<List<MonthlyUserAlbumCountDTO>> monthlyUserAlbumCount(@RequestBody MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO) {
         return new ResponseEntity<>(
                 userService.monthlyUserAlbumCount(monthlyUserAlbumCountDTO),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/admin/laast-activity")
+    public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity(@RequestBody UserLastActivityDTO userLastActivityDTO) {
+        return new ResponseEntity<>(
+                userService.getUserLastActivity(userLastActivityDTO),
+                HttpStatus.OK);
+    }
+
 
 }
