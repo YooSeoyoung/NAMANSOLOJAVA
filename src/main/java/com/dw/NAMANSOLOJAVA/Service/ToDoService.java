@@ -3,9 +3,9 @@ package com.dw.NAMANSOLOJAVA.Service;
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
+import com.dw.NAMANSOLOJAVA.model.ToDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,13 +15,17 @@ public class ToDoService {
     ToDoRepository toDoRepository;
 
     public List<AnniversaryDTO> getAllAnniversary() {
-        return null;
-//        return toDoRepository.getAllAnniversary();
+        List<ToDo> todos = toDoRepository.findAnniversaryAndTravelByType("ANNIVERSARY").get();
+
+        List<AnniversaryDTO> anniversaryDTO = todos.stream().map(ToDo::toAnniDTO).toList();
+        return anniversaryDTO;
     }
 
     public List<ToDoTravelDTO> getAllTravel() {
-        return null;
-//        return toDoRepository.getAllTravel();
+        List<ToDo> todos = toDoRepository.findAnniversaryAndTravelByType("TRAVEL").get();
+
+        List<ToDoTravelDTO> travelDTOs = todos.stream().map(ToDo::toTravelDTO).toList();
+        return travelDTOs;
     }
 
     public AnniversaryDTO saveAnniversary(AnniversaryDTO anniversaryDTO) {
