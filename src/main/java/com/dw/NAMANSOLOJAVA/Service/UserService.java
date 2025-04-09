@@ -56,9 +56,6 @@ public class UserService {
     public UserAddDateDTO getUserByIdAdmin(String username) { //관리자가 username를 통한 유저/회원가입일 조회
      return null;
     }
-//    public UserDTO getUserById(String username) { //id를 통한 유저 조회
-//        return null;
-//    }
     public String getIdByEmail(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 이메일로 통하여 아이디 찾기
     return null;
     }
@@ -77,8 +74,7 @@ public class UserService {
     public UserAlarmSettingDTO AlarmSetting(UserAlarmSettingDTO userAlarmSettingDTO){
         return null;
     }
-    public List<MonthlyUserAlbumCountDTO> monthlyUserAlbumCount(MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO){
-        return null;
-    }
+    public List<MonthlyUserAlbumCountDTO> monthlyUserAlbumCount(MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO){return null;}
+    public List<UserLastActivityDTO> getUserLastActivity(UserLastActivityDTO userLastActivityDTO){return null;}
 
 }
