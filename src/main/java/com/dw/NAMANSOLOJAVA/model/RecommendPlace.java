@@ -1,10 +1,12 @@
 package com.dw.NAMANSOLOJAVA.model;
 
+import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceAdmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -40,17 +42,23 @@ public class RecommendPlace {
     @Column(name = "detail")
     private String detail;
 
-    public RecommendPlaceAdmDTO admDTO(List<Media> medias) {
+    @OneToMany
+    @JoinColumn(name = "recommend_place_id")
+    private List<Media> media = new ArrayList<>();
+
+    public RecommendPlaceAdmDTO admDTO() {
+        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new RecommendPlaceAdmDTO(
-                this.name, medias.stream().map(Media::toPictureAndVideoDTO).toList(),
+                this.name,mediaDTO,
                 this.address, this.city,
                 this.latitude, this.longitude,
                 this.description, this.detail);
     }
 
-    public RecommendPlaceDTO placeDTO(List<Media> medias) {
+    public RecommendPlaceDTO placeDTO() {
+        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new RecommendPlaceDTO(
-                this.name, medias.stream().map(Media::toPictureAndVideoDTO).toList(),
+                this.name,mediaDTO,
                 this.address, this.city,
                 this.description, this.detail);
     }

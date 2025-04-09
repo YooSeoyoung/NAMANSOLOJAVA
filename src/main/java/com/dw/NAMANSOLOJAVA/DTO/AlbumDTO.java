@@ -19,6 +19,6 @@ public class AlbumDTO {
     private List<String> userTags;
     private List<CommentDTO> comments;
     private List<String> greats;
-    private List<PictureAndVideoDTO> url;
+    private List<MediaDTO> url;
     private String location;
 }

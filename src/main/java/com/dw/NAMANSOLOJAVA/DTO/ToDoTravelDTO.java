@@ -14,6 +14,6 @@ public class ToDoTravelDTO {
     private String title;
     private LocalDate startDate;
     private LocalDate lastDate;
-    private List<PictureAndVideoDTO> mediaUrl; // 사진 경로
+    private List<MediaDTO> mediaUrl; // 사진 경로
     private String type;
 }

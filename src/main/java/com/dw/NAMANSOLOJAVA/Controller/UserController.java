@@ -24,8 +24,8 @@ public class UserController {
                 HttpStatus.CREATED);
     }
     @GetMapping("/current-user")
-    public ResponseEntity<UserDTO> getCurrentUser(Media media) {
-        return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(media), HttpStatus.OK);
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(), HttpStatus.OK);
     }
 
     @GetMapping("/check-id/{username}")

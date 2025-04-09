@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class UpdateImageDDayDTO {
-    PictureAndVideoDTO mediaUrl;
+    MediaDTO mediaUrl;
     LocalDate dDay;
 }

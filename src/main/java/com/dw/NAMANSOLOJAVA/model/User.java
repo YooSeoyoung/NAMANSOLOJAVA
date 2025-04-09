@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -70,10 +71,12 @@ public class User implements UserDetails {
     private Boolean recommentAlert= true;
     @Column(name = "todo_alert", nullable = false)
     private Boolean todoAlert= true;
+    @OneToOne
+    @JoinColumn(name = "media_id")
+    private Media media;
 
+    public UserDTO toUserDTO(){
 
-    public UserDTO toUserDTO(Media media){
-        PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
         return new UserDTO(
                 this.username,null,this.realNameM,
                 this.realNameF,
@@ -85,14 +88,13 @@ public class User implements UserDetails {
                 this.followAlert,this.greatAlert,
                 this.eventAlert,this.recommendAlert,
                 this.recommentAlert,this.todoAlert,
-                pictureAndVideoDTO
+               this.media.toDTO()
         );
     }
 
-    public UpdateImageDDayDTO toUpdateImageDDayDTO(Media media){
-        PictureAndVideoDTO pictureAndVideoDTO=media.toPictureAndVideoDTO();
+    public UpdateImageDDayDTO toUpdateImageDDayDTO(){
         return new UpdateImageDDayDTO(
-                pictureAndVideoDTO,this.dDay
+                this.media.toDTO(),this.dDay
         );
     }
 

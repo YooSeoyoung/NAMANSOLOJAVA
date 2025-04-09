@@ -50,25 +50,29 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private List<Great> greats = new ArrayList<>();
 
-    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(List<Media> mediaList){
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    @OneToMany
+    @JoinColumn(name = "album_id")
+    private List<Media> media = new ArrayList<>();
+
+    public UpdateAlbumDTO toAddOrUpdateAlbumDTO(){
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new UpdateAlbumDTO(
                 this.id, this.title, this.visibility.name(),
-                mediaDTOs,this.latitude,
+                mediaDTO,this.latitude,
                 this.longitude, this.location
         );
     }
-    public AddAlbumDTO toAddAlbumDTO(List<Media> mediaList){
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    public AddAlbumDTO toAddAlbumDTO(){
+   List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         return  new AddAlbumDTO(
                this.title, this.visibility.name(),
-                mediaDTOs,this.latitude,
+                mediaDTO,this.latitude,
                 this.longitude, this.location
         );
     }
 
-    public AlbumDTO toAlbumDTO(List<Media> mediaList,List<AlbumTag> albumTagList) {
-        List<PictureAndVideoDTO> mediaDTOs= mediaList.stream().map(Media::toPictureAndVideoDTO).toList();
+    public AlbumDTO toAlbumDTO(List<AlbumTag> albumTagList) {
+        List< MediaDTO >mediaDTO = media.stream().map(Media::toDTO).toList();
         List<CommentDTO> commentDTOList= comments.stream().map(Comment::toCommentDTO).toList();
         List<String> greatList = greats.stream().map(great -> great.getUser().getUsername()).toList();
         List<String> userTagList = albumTagList.stream().map(albumTag -> albumTag.getTag().getName()).toList();
@@ -77,7 +81,7 @@ public class Album {
                 this.user.getUsername(), this.visibility.name(),
                 userTagList,
                 commentDTOList,greatList,
-                mediaDTOs, this.location
+                mediaDTO, this.location
         );
     }
 }
