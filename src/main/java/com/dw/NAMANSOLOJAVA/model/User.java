@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -50,6 +51,8 @@ public class User implements UserDetails {
     private LocalDate addDate; // 회원가입일자
     @Column(name ="d_day", nullable = false)
     private  LocalDate dDay; //만난 날짜
+    @Column(name ="last_login")
+    private LocalDate lastLogin;
     // 알람 발송 여부. 기본 true
     @Column(name = "alarm_alert", nullable = false)
      private Boolean alarmAlert = true;

@@ -81,11 +81,18 @@ public class UserController {
                 userService.AlarmSetting(userAlarmSettingDTO),
                 HttpStatus.OK);
     }
-    @GetMapping("/monthly/album-count")
+    @GetMapping("/admin/monthly/album-count")
     public ResponseEntity<List<MonthlyUserAlbumCountDTO>> monthlyUserAlbumCount(@RequestBody MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO) {
         return new ResponseEntity<>(
                 userService.monthlyUserAlbumCount(monthlyUserAlbumCountDTO),
                 HttpStatus.OK);
     }
+    @GetMapping("/admin/laast-activity")
+    public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity(@RequestBody UserLastActivityDTO userLastActivityDTO) {
+        return new ResponseEntity<>(
+                userService.getUserLastActivity(userLastActivityDTO),
+                HttpStatus.OK);
+    }
+
 
 }
