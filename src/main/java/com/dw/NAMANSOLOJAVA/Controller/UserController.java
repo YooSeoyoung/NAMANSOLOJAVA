@@ -23,6 +23,7 @@ public class UserController {
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
     }
+
     @GetMapping("/current-user")
     public ResponseEntity<UserDTO> getCurrentUser() {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(), HttpStatus.OK);
