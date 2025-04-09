@@ -43,7 +43,11 @@ public class RecommendPlace {
     private String detail;
 
     @OneToMany
-    @JoinColumn(name = "recommend_place_id")
+    @JoinTable(
+            name = "recommend_place_media", // 중간 테이블 이름
+            joinColumns = @JoinColumn(name = "recommend_place_id"),     // album 외래키
+            inverseJoinColumns = @JoinColumn(name = "media_id") // media 외래키
+    )
     private List<Media> media = new ArrayList<>();
 
     public RecommendPlaceAdmDTO admDTO() {
