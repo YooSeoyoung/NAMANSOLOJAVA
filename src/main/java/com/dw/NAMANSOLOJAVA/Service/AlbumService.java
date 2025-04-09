@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
+import com.dw.NAMANSOLOJAVA.Exception.PermissionDeniedException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.*;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
@@ -33,6 +34,8 @@ public class AlbumService {
     CommentRepository commentRepository;
     @Autowired
     RecommentRepository recommentRepository;
+    @Autowired
+    GreatRepository greatRepository;
 
     public List<AlbumDTO> getAllAlbum(){
         List<Album> albums = albumRepository.findAll();
@@ -49,8 +52,13 @@ public class AlbumService {
     }
     @Transactional
     public UpdateAlbumDTO updateAlbum( UpdateAlbumDTO updateAlbumDTO){
+        User user = userService.getCurrentUser();
         Album album = albumRepository.findById(updateAlbumDTO.getId()).orElseThrow(()->
                 new ResourceNotFoundException("존재하지  않은 ID입니다"));
+
+        if (!album.getUser().equals(user)){
+            throw new PermissionDeniedException("본인이 작성한 앨범에 대해서만 수정이 가능합니다.");
+        }
 
         album.setTitle(updateAlbumDTO.getTitle());
         album.setVisibility(Visibility.valueOf(updateAlbumDTO.getVisibility()));
@@ -132,9 +140,19 @@ public class AlbumService {
     }
     @Transactional
     public String deleteAlbumById(Long id){
+
+        User user = userService.getCurrentUser();
+        Album album = albumRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 앨범입니다."));
+
+        if (!album.getUser().equals(user)){
+            throw new PermissionDeniedException("자신의 앨범만 삭제할 수 있습니다.");
+        }
         List<Comment> comments =commentRepository.findByAlbumId(id);
         List<Long> commentId = comments.stream().map(Comment::getId).toList();
         List<ReComment> reComments =recommentRepository.findByCommentIdIn(commentId);
+        greatRepository.deleteByAlbumId(id);
+        albumTagRepository.deleteByAlbumId(id);
         commentRepository.deleteAll(comments);
         recommentRepository.deleteAll(reComments);
         albumRepository.deleteById(id);

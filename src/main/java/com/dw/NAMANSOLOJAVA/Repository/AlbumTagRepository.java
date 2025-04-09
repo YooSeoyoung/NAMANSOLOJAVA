@@ -10,4 +10,6 @@ public interface AlbumTagRepository extends JpaRepository<AlbumTag,Long> {
 
     List<AlbumTag> findByAlbumId(Long id);
 
+    void deleteByAlbumId(Long id);
+
 }
