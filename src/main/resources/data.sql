@@ -162,7 +162,7 @@ INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
     type, username, editable
 ) VALUES (
-    '첫 만남 💕', '2022-06-15', NULL, '2025-04-09',
+    '첫 만남 💕', '2022-06-15', '2022-06-15', '2025-04-09',
     'ANNIVERSARY', 'couple001', true
 );
 
@@ -178,7 +178,7 @@ INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
     type, username, editable
 ) VALUES (
-    '사귄 날 💑', '2022-05-20', NULL, '2025-04-09',
+    '사귄 날 💑', '2022-05-20', '2022-05-20', '2025-04-09',
     'ANNIVERSARY', 'couple002', true
 );
 
@@ -192,18 +192,18 @@ INSERT INTO todo (
 
 INSERT INTO media (album_id, username, media_url, media_type)
 VALUES
-(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_01.jpg', 'PICTURE'),
-(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_02.mp4', 'VIDEO');
+(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_01.jpg', 0),
+(1, 'couple001', 'https://cdn.namansolo.com/media/couple001/night_view_02.mp4', 1);
 
 INSERT INTO media (album_id, username, media_url, media_type)
 VALUES
-(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/cafe_01.jpg', 'PICTURE');
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/cafe_01.jpg', 0);
 
 INSERT INTO media (todo_id, username, media_url, media_type)
 VALUES
-(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_01.jpg', 'PICTURE'),
-(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_02.jpg', 'PICTURE'),
-(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_jeep.mp4', 'VIDEO');
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_01.jpg', 0),
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_02.jpg', 0),
+(2, 'couple001', 'https://cdn.namansolo.com/media/couple001/jeju_trip_jeep.mp4', 1);
 
 -- 댓글 알림
 INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
