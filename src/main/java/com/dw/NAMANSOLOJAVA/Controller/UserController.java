@@ -24,6 +24,14 @@ public class UserController {
                 HttpStatus.CREATED);
     }
 
+    @GetMapping("/admin/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return new ResponseEntity<>(
+                userService.getAllUsers(),
+                HttpStatus.OK
+        );
+    }
+
     @GetMapping("/current-user")
     public ResponseEntity<UserDTO> getCurrentUser() {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(), HttpStatus.OK);

@@ -78,8 +78,16 @@ public class UserService {
         return newUser.toUserDTO();
     }
 
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(User::toUserDTO)
+                .toList();
+    }
+
     public User getCurrentUser() { //현재 유저
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new UnauthorizedUserException("User is not authenticated");
         }
@@ -157,8 +165,28 @@ public class UserService {
     }
 
     public UserUpdateAndFIndDTO UpdateUserData(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
-        return null;
+        User currentUser = getCurrentUser();
+
+        if (userUpdateAndFIndDTO.getRealNameM() != null) currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
+        if (userUpdateAndFIndDTO.getRealNameF() != null) currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
+        if (userUpdateAndFIndDTO.getEmailM() != null) currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
+        if (userUpdateAndFIndDTO.getEmailF() != null) currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
+        if (userUpdateAndFIndDTO.getPhoneNumberM() != null) currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
+        if (userUpdateAndFIndDTO.getPhoneNumberF() != null) currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
+
+        userRepository.save(currentUser);
+
+        UserUpdateAndFIndDTO updatedDTO = new UserUpdateAndFIndDTO(
+                currentUser.getRealNameM(),
+                currentUser.getRealNameF(),
+                currentUser.getEmailM(),
+                currentUser.getEmailF(),
+                currentUser.getPhoneNumberM(),
+                currentUser.getPhoneNumberF()
+        );
+        return updatedDTO;
     }
+
     public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         return null;
     }
@@ -167,5 +195,6 @@ public class UserService {
     }
     public List<MonthlyUserAlbumCountDTO> monthlyUserAlbumCount(MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO){return null;}
     public List<UserLastActivityDTO> getUserLastActivity(UserLastActivityDTO userLastActivityDTO){return null;}
+
 
 }
