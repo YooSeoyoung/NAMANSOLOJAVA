@@ -38,11 +38,11 @@ public class FollowController {
 
 
     @GetMapping("/user-follower/{username}")
-    public ResponseEntity<UserFollowInfoDTO> getFollowerByUsername(@PathVariable String username) {
+    public ResponseEntity<List<UserFollowInfoDTO>> getFollowerByUsername(@PathVariable String username) {
         return new ResponseEntity<>(followService.getFollowerByUsername(username), HttpStatus.OK);
     }
     @GetMapping("/user-following/{username}")
-    public ResponseEntity<UserFollowInfoDTO> getFollowingByUsername(@PathVariable String username) {
+    public ResponseEntity<List<UserFollowInfoDTO>> getFollowingByUsername(@PathVariable String username) {
         return new ResponseEntity<>(followService.getFollowingByUsername(username), HttpStatus.OK);
     }
 

@@ -49,20 +49,23 @@ public class FollowService {
         User user = userService.getCurrentUser();
         List<User> followerUser = userRepository.findByUsernameContaining(username).stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
-        return followerUser.stream().filter()
-        Follow follow = followRepository.findByFollowerAndFollowing(followerUser,user)
-                .orElseThrow(() -> new ResourceNotFoundException("팔로우 관계가 존재하지 않습니다."));
-
-        return new UserFollowInfoDTO(follow.getFollower().getUsername(),followerUser.getMedia().getMediaUrl());
+        return followerUser.stream().filter(follower ->followRepository.findByFollowerAndFollowing(follower,user).isPresent())
+                .map(follower -> {
+                    String profileUrl =  follower.getMedia().getMediaUrl();
+                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl);
+                })
+                .toList();
     }
-    public UserFollowInfoDTO getFollowingByUsername(String username){
+    public List<UserFollowInfoDTO> getFollowingByUsername(String username){
         User user = userService.getCurrentUser();
-        User followingUser = userRepository.findById(username)
-                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 사용자입니다."));
-        Follow follow = followRepository.findByFollowerAndFollowing(user,followingUser)
-                .orElseThrow(() -> new ResourceNotFoundException("팔로우 관계가 존재하지 않습니다."));
-
-        return new UserFollowInfoDTO(followingUser.getUsername(),followingUser.getMedia().getMediaUrl());
+        List<User> followingUser = userRepository.findByUsernameContaining(username).stream().filter(
+                user1 -> !user1.getUsername().equals(user.getUsername())).toList();
+        return followingUser.stream().filter(following ->followRepository.findByFollowerAndFollowing(user,following).isPresent())
+                .map(following -> {
+                    String profileUrl =  following.getMedia().getMediaUrl();
+                    return new UserFollowInfoDTO(following.getUsername(), profileUrl);
+                })
+                .toList();
     }
 
 
