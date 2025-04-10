@@ -45,6 +45,26 @@ public class FollowService {
         return null;
     }
 
+    public List<UserFollowInfoDTO> getFollowerByUsername(String username){
+        User user = userService.getCurrentUser();
+        List<User> followerUser = userRepository.findByUsernameContaining(username).stream().filter(
+                user1 -> !user1.getUsername().equals(user.getUsername())).toList();
+        return followerUser.stream().filter()
+        Follow follow = followRepository.findByFollowerAndFollowing(followerUser,user)
+                .orElseThrow(() -> new ResourceNotFoundException("팔로우 관계가 존재하지 않습니다."));
+
+        return new UserFollowInfoDTO(follow.getFollower().getUsername(),followerUser.getMedia().getMediaUrl());
+    }
+    public UserFollowInfoDTO getFollowingByUsername(String username){
+        User user = userService.getCurrentUser();
+        User followingUser = userRepository.findById(username)
+                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 사용자입니다."));
+        Follow follow = followRepository.findByFollowerAndFollowing(user,followingUser)
+                .orElseThrow(() -> new ResourceNotFoundException("팔로우 관계가 존재하지 않습니다."));
+
+        return new UserFollowInfoDTO(followingUser.getUsername(),followingUser.getMedia().getMediaUrl());
+    }
+
 
     public String deleteFollowing(String username) { //내가 팔로우한 사람 삭제(팔로우 취소)
         User user = userService.getCurrentUser();
@@ -65,7 +85,7 @@ public class FollowService {
                 .orElseThrow(() -> new ResourceNotFoundException("팔로우 관계가 존재하지 않습니다."));
 
         followRepository.delete(follow);
-        return "팔로윙을 해제하였습니다";
+        return "팔로잉을 해제하였습니다";
     }
 
     public FollowDTO saveNewFollowing(FollowDTO followDTO) { // 새로운 사람을 내가 팔로우하기
@@ -90,14 +110,13 @@ public class FollowService {
                 follow -> {
                     User follower = follow.getFollower();
                     String profileUrl = follow.getFollower().getMedia().getMediaUrl();
-                    List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(follower.getUsername(), Visibility.PUBLIC);
-
-                    List<AlbumDTO> albumDTOS= albums.stream().map(
-                            album -> {
-                                List<AlbumTag> albumTags =  albumTagRepository.findByAlbumId(album.getId());
-                                return album.toAlbumDTO(albumTags);
-                            }).toList();
-                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl, albumDTOS);
+//                    List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(follower.getUsername(), Visibility.PUBLIC);
+//                    List<AlbumDTO> albumDTOS= albums.stream().map(
+//                            album -> {
+//                                List<AlbumTag> albumTags =  albumTagRepository.findByAlbumId(album.getId());
+//                                return album.toAlbumDTO(albumTags);
+//                            }).toList();
+                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl);
                 })
                 .toList();
         }
@@ -110,14 +129,14 @@ public class FollowService {
                follow -> {
                    User following = follow.getFollowing();
                    String profileUrl = follow.getFollowing().getMedia().getMediaUrl();
-
-                   List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(following.getUsername(), Visibility.PUBLIC);
-                    List<AlbumDTO> albumDTOS = albums.stream().map(
-                            album -> {
-                                List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());
-                                return album.toAlbumDTO(albumTags);
-                            }).toList();
-                return new UserFollowInfoDTO(following.getUsername(),profileUrl,albumDTOS);
+//
+//                   List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(following.getUsername(), Visibility.PUBLIC);
+//                    List<AlbumDTO> albumDTOS = albums.stream().map(
+//                            album -> {
+//                                List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());
+//                                return album.toAlbumDTO(albumTags);
+//                            }).toList();
+                return new UserFollowInfoDTO(following.getUsername(),profileUrl);
                }).toList();
             }
 }

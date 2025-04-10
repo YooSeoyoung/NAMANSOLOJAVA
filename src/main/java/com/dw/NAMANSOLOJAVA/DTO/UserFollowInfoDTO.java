@@ -12,6 +12,6 @@ import java.util.List;
 public class UserFollowInfoDTO {
     private String username;
     private String profileUrl;
-    private List<AlbumDTO> albumList;
+//    private List<AlbumDTO> albumList;
 
 }
