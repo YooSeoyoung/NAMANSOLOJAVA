@@ -1,9 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
-import com.dw.NAMANSOLOJAVA.DTO.FollowDTO;
-import com.dw.NAMANSOLOJAVA.DTO.FollowerDTO;
-import com.dw.NAMANSOLOJAVA.DTO.FollowingDTO;
-import com.dw.NAMANSOLOJAVA.DTO.UserFollowInfoDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +15,9 @@ public class FollowController {
     @Autowired
     FollowService followService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<FollowDTO>> getAllFollow() {
-        return new ResponseEntity<>(followService.getAllFollow(), HttpStatus.OK);
+    @GetMapping("/search/all/{username}")
+    public ResponseEntity<List<UserRelationDTO>> searchUsersWithRelation(@PathVariable String username) {
+        return new ResponseEntity<>(followService.searchUsersWithRelation(username), HttpStatus.OK);
     }
 
     @GetMapping("/search/user-follower/{username}")

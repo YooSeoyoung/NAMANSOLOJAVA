@@ -32,9 +32,33 @@ public class FollowService {
     @Autowired
     UserRepository userRepository;
 
-    public List<FollowDTO> getAllFollow() {
-        User user = userService.getCurrentUser();
-        return followRepository.findAll().stream().map(Follow::toFollowDTO).toList();
+    public List<UserRelationDTO> searchUsersWithRelation(String username) {
+        User currentUser = userService.getCurrentUser();
+
+        List<User> users = userRepository.findByUsernameLike("%"+username+"%").stream()
+                .filter(u -> !u.getUsername().equals(currentUser.getUsername()))
+                .toList();
+        List<String> followingUsernames = followRepository.findByFollower(currentUser).stream()
+                .map(f -> f.getFollowing().getUsername()).toList();        // 내가 팔로우한 유저(즉, 팔로잉찾기)
+        List<String> followerUsernames = followRepository.findByFollowing(currentUser).stream()
+                .map(f -> f.getFollower().getUsername()).toList();        // 나를 팔로우한 유저(즉, 팔로워찾기)
+        return users.stream().map(user -> {
+            String followname = user.getUsername();
+            String profileUrl = user.getMedia().getMediaUrl();
+            boolean isFollowing = followingUsernames.contains(followname); //팔로잉 목록에 있으면 true
+            boolean isFollower = followerUsernames.contains(followname); // 팔로워 목록에 있으면 true
+            String relation;
+            if (isFollowing && isFollower) {
+                relation = "FRIEND"; // 양쪽에 다 이름이 있으면 상호 팔로우
+            } else if (isFollowing) {  //내가 팔로우 한 사람에만 있으면
+                relation = "FOLLOWING";
+            } else if (isFollower) { //나를 팔로우한 사람에만 있으면
+                relation = "FOLLOWER";
+            } else {
+                relation = "NONE"; // 아무 관계도 아님
+            }
+            return new UserRelationDTO(followname, profileUrl, relation);
+        }).toList();
     }
 
     public List<UserFollowInfoDTO> getFollowerByUsername(String username){
