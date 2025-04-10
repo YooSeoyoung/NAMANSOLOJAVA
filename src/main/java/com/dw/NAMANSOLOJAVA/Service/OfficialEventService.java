@@ -62,9 +62,8 @@ public class OfficialEventService {
         OfficialEvent saved = officialEventRepository.save(event);
 
         return new OfficialEventDTO(
-                null,
-                saved.getEventTitle(),
                 saved.getEventDate(),
+                saved.getEventTitle(),
                 saved.getOffsetDays()
         );
     }
