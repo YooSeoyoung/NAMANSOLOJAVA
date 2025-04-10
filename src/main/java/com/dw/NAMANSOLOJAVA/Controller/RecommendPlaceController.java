@@ -6,6 +6,7 @@ import com.dw.NAMANSOLOJAVA.Service.RecommendPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class RecommendPlaceController {
         return ResponseEntity.ok(recommendPlaceService.getRecommendPlace(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update")
     public ResponseEntity<RecommendPlaceAdmDTO> updateRecommendPlaceByAdmin(@RequestBody RecommendPlaceAdmDTO recommendPlaceDTO) {
         return new ResponseEntity<>(recommendPlaceService.updateRecommendPlace(recommendPlaceDTO), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRecommendPlaceById(@PathVariable Long id) {
         return new ResponseEntity<>(recommendPlaceService.deleteRecommendPlace(id),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/add")
     public ResponseEntity<RecommendPlaceAdmDTO> addRecommendPlaceByAdmin(@RequestBody RecommendPlaceAdmDTO dto) {
         return new ResponseEntity<>(recommendPlaceService.addRecommendPlace(dto), HttpStatus.CREATED);

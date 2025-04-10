@@ -6,6 +6,7 @@ import com.dw.NAMANSOLOJAVA.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserController {
                 HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return new ResponseEntity<>(
@@ -32,6 +34,7 @@ public class UserController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/current-user")
     public ResponseEntity<UserDTO> getCurrentUser() {
         return new ResponseEntity<>(userService.getCurrentUser().toUserDTO(), HttpStatus.OK);
@@ -41,23 +44,28 @@ public class UserController {
 //        return new ResponseEntity<>(userService.getUserById(username),HttpStatus.OK);
 //    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/check-id/{username}")
     public ResponseEntity<Boolean> checkId(@PathVariable String username){
         return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/all/add-date")
     public ResponseEntity<List<UserAddDateDTO>> getAllUsersAddDate(){
         return new ResponseEntity<>(
                 userService.getAllUsersAddDate(),
                 HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/id/{username}")
     public ResponseEntity<UserAddDateDTO> getUserByIdAdim(@PathVariable String username) {
         return new ResponseEntity<>(
                 userService.getUserByIdAdmin(username),
                 HttpStatus.OK);
     }
+
     @PostMapping("/find-user/email")
     public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO dto) {
         return new ResponseEntity<>(userService.getIdByEmail(dto), HttpStatus.OK);
@@ -99,12 +107,13 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/monthly/album-count")
     public ResponseEntity<List<MonthlyUserAlbumCountDTO>> getMonthlyAlbumCountForAllUsers() {
         return ResponseEntity.ok(userService.monthlyAlbumCountForAllUsers());
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/last-activity") // 오타 수정
     public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity() {
         return new ResponseEntity<>(

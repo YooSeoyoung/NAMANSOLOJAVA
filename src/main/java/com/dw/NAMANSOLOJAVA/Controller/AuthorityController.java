@@ -5,6 +5,7 @@ import com.dw.NAMANSOLOJAVA.model.Authority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class AuthorityController {
     @Autowired
     AuthorityService authorityService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<Authority>> getAllAuthoritys() {
         return new ResponseEntity<>(
@@ -25,6 +27,7 @@ public class AuthorityController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/id/{id}")
     public ResponseEntity<Authority> getAuthorityById(@PathVariable String id){
         return new ResponseEntity<>(
