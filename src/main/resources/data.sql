@@ -22,7 +22,7 @@ INSERT INTO user (
     alarm_alert, comment_alert, follow_alert, great_alert,
     event_alert, recommend_alert, recomment_alert, todo_alert, media_id
 ) VALUES (
-    'admin001', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '관리자남', '관리자여',
+    'admin', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '관리자남', '관리자여',
     'adminm@example.com', 'adminf@example.com', '1990-01-01', '1991-02-02',
     '010-0000-0000', '010-1111-2222', 'ROLE_ADMIN',
     '2023-01-01', '2020-01-01', '2025-04-08',
