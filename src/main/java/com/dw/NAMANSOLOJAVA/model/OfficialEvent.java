@@ -34,7 +34,7 @@ public class OfficialEvent {
 //    private String weatherInfo; // 날씨 API 결과 (TEXT)
 
     public OfficialEventDTO offEventDTO() {
-        return new OfficialEventDTO(this.eventDate, this.eventTitle, this.offsetDays);
+        return new OfficialEventDTO(this.id, this.eventDate, this.eventTitle, this.offsetDays);
         // 유저들에게 이벤트 거는 건 레포지토리에서 추가 작업. + 신규 유저에게도 적용 필요함
     }
 }
