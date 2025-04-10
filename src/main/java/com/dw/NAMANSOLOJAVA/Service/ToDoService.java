@@ -233,33 +233,4 @@ public class ToDoService {
 
         return "기념일이 성공적으로 삭제되었습니다.";
     }
-
-    @Transactional
-    public void assignOfficialEventsToUser(User user) {
-        List<OfficialEvent> events = eventRepository.findAll();
-        LocalDate now = LocalDate.now();
-        LocalDate DDay = user.getDDay();
-
-        for (OfficialEvent event : events) {
-            LocalDate targetDate = event.getOffsetDays() > 0
-                    ? DDay.plusDays(event.getOffsetDays())
-                    : event.getEventDate();
-
-            boolean exists = toDoRepository.existsByUserUsernameAndStartDateAndTitle(user.getUsername(), targetDate, event.getEventTitle());
-
-            if (!exists) {
-                ToDo todo = new ToDo();
-                todo.setUser(user);
-                todo.setTitle(event.getEventTitle());
-                todo.setStartDate(targetDate);
-                todo.setLastDate(targetDate);
-                todo.setFinalEditDate(now);
-                todo.setType("ANNIVERSARY");
-                todo.setEditable(false);
-                todo.setMedia(new ArrayList<>());
-
-                toDoRepository.save(todo);
-            }
-        }
-    }
 }

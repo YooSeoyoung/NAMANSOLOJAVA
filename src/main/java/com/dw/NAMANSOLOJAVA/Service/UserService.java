@@ -4,10 +4,7 @@ import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Exception.UnauthorizedUserException;
-import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
-import com.dw.NAMANSOLOJAVA.Repository.AuthorityRepository;
-import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
-import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
+import com.dw.NAMANSOLOJAVA.Repository.*;
 import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
@@ -40,6 +37,8 @@ public class UserService {
     MediaRepository mediaRepository;
     @Autowired
     AlbumRepository albumRepository;
+    @Autowired
+    OfficialEventService officialEventService;
 
     public UserDTO registerUser(UserDTO userDTO){ // 회원가입
         Optional<User> existingUser = userRepository.findById(userDTO.getUsername());
@@ -81,6 +80,8 @@ public class UserService {
         newUser.setMedia(defaultMedia);
 
         userRepository.save(newUser);
+
+        officialEventService.applyOfficialEventsToUser(newUser);
 
         return newUser.toUserDTO();
     }
