@@ -10,29 +10,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/eventpresent")
+@RequestMapping("/api/event_present")
 public class EventPresentController {
     @Autowired
     EventPresentService eventPresentService;
 
     @GetMapping("/all")
-    public ResponseEntity<EventPresentDTO> getAllEventPresent() {
+    public ResponseEntity<List<EventPresentDTO>> getAllEventPresent() {
         return new ResponseEntity<>(eventPresentService.getAllEventPresent(), HttpStatus.OK);
     }
 
     @GetMapping("/female")
-    public ResponseEntity<EventPresentDTO> getFemaleEventPresent() {
+    public ResponseEntity<List<EventPresentDTO>> getFemaleEventPresent() {
         return new ResponseEntity<>(eventPresentService.getFemaleEventPresent(), HttpStatus.OK);
     }
 
     @GetMapping("/male")
-    public ResponseEntity<EventPresentDTO> getMaleEventPresent() {
+    public ResponseEntity<List<EventPresentDTO>> getMaleEventPresent() {
         return new ResponseEntity<>(eventPresentService.getMaleEventPresent(), HttpStatus.OK);
-    }
-
-    @PutMapping("/update/word")
-    public ResponseEntity<EventPresentDTO> updateEventWord() {
-        return new ResponseEntity<>(eventPresentService.updateEventWord(), HttpStatus.OK);
     }
 }

@@ -2,31 +2,124 @@ package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.EventPresentDTO;
 import com.dw.NAMANSOLOJAVA.Repository.EventPresentRepository;
+import com.dw.NAMANSOLOJAVA.model.EventPresent;
+import com.dw.NAMANSOLOJAVA.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EventPresentService {
+    @Value("${naver.client-id}")
+    private String clientId;
+
+    @Value("${naver.client-secret}")
+    private String clientSecret;
+
     @Autowired
     EventPresentRepository eventPlaceRepository;
 
-    public EventPresentDTO getAllEventPresent() {
-        return null;
-//        return eventPlaceRepository.getAllEventPresent();
+    @Autowired
+    UserService userService;
+
+    private static final String NAVER_API_URL = "https://openapi.naver.com/v1/search/shop.json";
+
+    public List<EventPresentDTO> getAllEventPresent() {
+        User user = userService.getCurrentUser();
+        LocalDate birthF = user.getBirthF();
+        LocalDate birthM = user.getBirthM();
+        int ageM = calculateExactAge(birthM);
+        int ageF = calculateExactAge(birthF);
+        List<EventPresentDTO> male = searchAndConvert(ageM + "살 남자 선물");
+        List<EventPresentDTO> female = searchAndConvert(ageF + "살 여자 선물");
+
+        List<EventPresentDTO> all = new ArrayList<>();
+        all.addAll(male);
+        all.addAll(female);
+        return all;
     }
 
-    public EventPresentDTO getFemaleEventPresent() {
-        return null;
-//        return eventPlaceRepository.getFemaleEventPresent();
+    public List<EventPresentDTO> getFemaleEventPresent() {
+        return searchAndConvert("여자 선물");
     }
 
-    public EventPresentDTO getMaleEventPresent() {
-        return null;
-//        return eventPlaceRepository.getMaleEventPresent();
+    public List<EventPresentDTO> getMaleEventPresent() {
+        return searchAndConvert("남자 선물");
     }
 
-    public EventPresentDTO updateEventWord() {
-        return null;
-//        return eventPlaceRepository.updateEventWord();
+    private List<EventPresentDTO> searchAndConvert(String keyword) {
+        try {
+            String encodedQuery = URLEncoder.encode(keyword, "UTF-8");
+            String apiUrl = NAVER_API_URL + "?query=" + encodedQuery + "&display=10";
+
+            URL url = new URL(apiUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            con.setRequestProperty("X-Naver-Client-Id", clientId);
+            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br = responseCode == 200 ?
+                    new BufferedReader(new InputStreamReader(con.getInputStream())) :
+                    new BufferedReader(new InputStreamReader(con.getErrorStream()));
+
+            StringBuilder sb = new StringBuilder();
+            String inputLine;
+            while ((inputLine = br.readLine()) != null) {
+                sb.append(inputLine);
+            }
+            br.close();
+
+            Map<String, Object> jsonMap = new ObjectMapper().readValue(sb.toString(), Map.class);
+            List<Map<String, Object>> items = (List<Map<String, Object>>) jsonMap.get("items");
+
+            if (items == null) return Collections.emptyList();
+
+            return items.stream().map(this::mapToDTO).toList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("네이버 검색 API 호출 실패: " + e.getMessage());
+        }
+    }
+
+    private String stripHtml(String html) {
+        return html.replaceAll("<[^>]*>", ""); // 모든 HTML 태그 제거
+    }
+
+    private EventPresentDTO mapToDTO(Map<String, Object> item) {
+        return new EventPresentDTO(
+                stripHtml ((String) item.getOrDefault("title", "")),
+                stripHtml ((String) item.getOrDefault("description", "")),
+                (String) item.getOrDefault("image", ""),
+                (String) item.getOrDefault("link", ""),
+                (String) item.getOrDefault("lprice", "")
+        );
+    }
+
+    private int calculateExactAge(LocalDate birthDate) {
+        LocalDate today = LocalDate.now();
+        Period period = Period.between(birthDate, today);
+        return period.getYears();
     }
 }

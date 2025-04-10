@@ -33,7 +33,8 @@ build/
 .vscode/
 
 # 비밀 키 파일 무시
+.env
 *.env
 *.txt
-src/main/resources/.env
+.env
 src/main/resources/api.txt

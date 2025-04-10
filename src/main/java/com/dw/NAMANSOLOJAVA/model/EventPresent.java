@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
+import com.dw.NAMANSOLOJAVA.DTO.EventPresentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,8 @@ public class EventPresent {
 
     @Column(name = "price")
     private String price; // 가격 정보 (문자열로 처리)
+
+    public EventPresentDTO toDTO() {
+        return new EventPresentDTO(this.title, this.description, this.imageUrl, this.shoppingUrl, this.price);
+    }
 }
