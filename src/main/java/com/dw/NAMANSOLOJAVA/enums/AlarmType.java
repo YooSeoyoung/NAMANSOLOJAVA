@@ -1,6 +1,5 @@
 package com.dw.NAMANSOLOJAVA.enums;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -15,5 +14,7 @@ public enum AlarmType {
     EVENT,
     RECOMMEND,
     RECOMMENT,
-    TODO
+    TODO,
+    WEATHER
 }
+
