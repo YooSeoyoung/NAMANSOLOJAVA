@@ -24,6 +24,9 @@ public class OfficialEvent {
     @Column(name = "event_title", nullable = false)
     private String eventTitle; // 발렌타인, 크리스마스 등
 
+    @Column(name = "offset_days") // 동적이면 여기에 값 들어감
+    private Long offsetDays = 0L; // 기본 0이면 고정 이벤트로 판단
+
     @Column(name = "editable", nullable = false)
     private Boolean editable = false;
 

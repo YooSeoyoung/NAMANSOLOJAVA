@@ -71,15 +71,17 @@ public class OfficialEventService {
         officialEvent.setEventTitle(dto.getEventTitle());
         officialEvent.setEventDate(dto.getEventDate());
         officialEvent.setEditable(false);
+        officialEventRepository.save(officialEvent);
 
-        return dto;
+        return officialEvent.offEventDTO();
     }
 
+    @Transactional
     public OfficialEventDTO updateOfficialEvent(OfficialEventDTO officialEventDTO) {
         return null;
-//        return officialEventService.updateOfficialEvent();
     }
 
+    @Transactional
     public String deleteOfficialEvent(Long id) {
         return null;
 //       officialEventRepository.deleteById(id);

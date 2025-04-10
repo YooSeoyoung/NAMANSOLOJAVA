@@ -12,4 +12,5 @@ import java.time.LocalDate;
 public class OfficialEventDTO {
     private LocalDate eventDate;
     private String eventTitle;
+    private Long offsetDays;
 }
