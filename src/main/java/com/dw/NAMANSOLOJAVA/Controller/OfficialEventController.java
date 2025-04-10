@@ -30,9 +30,9 @@ public class OfficialEventController {
         return new ResponseEntity<>(officialEventService.saveOfficialEvent(officialEventDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/single/update")
-    public ResponseEntity<OfficialEventDTO> updateOfficialEvent(@RequestBody OfficialEventDTO officialEventDTO) {
-        return new ResponseEntity<>(officialEventService.updateOfficialEvent(officialEventDTO), HttpStatus.OK);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<OfficialEventDTO> updateOfficialEvent(@PathVariable Long id,@RequestBody OfficialEventDTO officialEventDTO) {
+        return new ResponseEntity<>(officialEventService.updateOfficialEvent(id, officialEventDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -6,9 +6,11 @@ import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
+import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import com.dw.NAMANSOLOJAVA.model.Media;
+import com.dw.NAMANSOLOJAVA.model.OfficialEvent;
 import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
@@ -24,6 +26,9 @@ import java.util.Objects;
 public class ToDoService {
     @Autowired
     ToDoRepository toDoRepository;
+
+    @Autowired
+    OfficialEventRepository eventRepository;
 
     @Autowired
     UserService userService;
@@ -217,5 +222,34 @@ public class ToDoService {
         toDoRepository.delete(todo);
 
         return "기념일이 성공적으로 삭제되었습니다.";
+    }
+
+    @Transactional
+    public void assignOfficialEventsToUser(User user) {
+        List<OfficialEvent> events = eventRepository.findAll();
+        LocalDate now = LocalDate.now();
+        LocalDate DDay = user.getDDay();
+
+        for (OfficialEvent event : events) {
+            LocalDate targetDate = event.getOffsetDays() > 0
+                    ? DDay.plusDays(event.getOffsetDays())
+                    : event.getEventDate();
+
+            boolean exists = toDoRepository.existsByUserUsernameAndStartDateAndTitle(user.getUsername(), targetDate, event.getEventTitle());
+
+            if (!exists) {
+                ToDo todo = new ToDo();
+                todo.setUser(user);
+                todo.setTitle(event.getEventTitle());
+                todo.setStartDate(targetDate);
+                todo.setLastDate(targetDate);
+                todo.setFinalEditDate(now);
+                todo.setType("ANNIVERSARY");
+                todo.setEditable(false);
+                todo.setMedia(new ArrayList<>());
+
+                toDoRepository.save(todo);
+            }
+        }
     }
 }

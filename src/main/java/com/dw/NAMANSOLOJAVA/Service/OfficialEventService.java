@@ -4,11 +4,7 @@ import com.dw.NAMANSOLOJAVA.DTO.OfficialEventDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
-import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
-import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.model.OfficialEvent;
-import com.dw.NAMANSOLOJAVA.model.ToDo;
-import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +16,6 @@ import java.util.List;
 public class OfficialEventService {
     @Autowired
     OfficialEventRepository officialEventRepository;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    ToDoRepository todoRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     public List<OfficialEventDTO> getAllOfficialEvent() {
         List<OfficialEventDTO> officialEventDTOs = officialEventRepository.findAll().stream().map(OfficialEvent::offEventDTO).toList();
@@ -69,14 +56,33 @@ public class OfficialEventService {
     }
 
     @Transactional
-    public OfficialEventDTO updateOfficialEvent(OfficialEventDTO officialEventDTO) {
+    public OfficialEventDTO updateOfficialEvent(Long id, OfficialEventDTO dto) {
+        OfficialEvent event = officialEventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 이벤트를 찾을 수 없습니다."));
 
-        return officialEventDTO;
+        event.setEventTitle(dto.getEventTitle());
+        if (event.getOffsetDays()!=null) {
+            event.setOffsetDays(dto.getOffsetDays());
+        }
+
+        event.setEventDate(dto.getEventDate());
+
+        OfficialEvent updated = officialEventRepository.save(event);
+
+        return new OfficialEventDTO(
+                updated.getEventDate(),
+                updated.getEventTitle(),
+                updated.getOffsetDays()
+        );
     }
 
     @Transactional
     public String deleteOfficialEvent(Long id) {
-        return null;
-//       officialEventRepository.deleteById(id);
+        OfficialEvent event = officialEventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 이벤트를 찾을 수 없습니다."));
+
+        officialEventRepository.delete(event);
+
+        return "이벤트가 성공적으로 삭제되었습니다.";
     }
 }
