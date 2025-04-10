@@ -2,8 +2,6 @@ package com.dw.NAMANSOLOJAVA.model;
 
 
 import com.dw.NAMANSOLOJAVA.DTO.FollowDTO;
-import com.dw.NAMANSOLOJAVA.DTO.FollowerDTO;
-import com.dw.NAMANSOLOJAVA.DTO.FollowingDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,16 +34,4 @@ public class Follow {
                 this.following.getUsername()
         );
     }
-
-    public FollowerDTO toFollowerDTO(){
-        return new FollowerDTO(
-                this.id,this.follower.getUsername()
-        );
-    }
-    public FollowingDTO toFollowingDTO(){
-        return new FollowingDTO(
-                this.id,this.following.getUsername()
-        );
-    }
-
 }

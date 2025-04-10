@@ -12,4 +12,5 @@ public interface AlbumRepository extends JpaRepository<Album,Long> {
 
 
     List<Album> findByUser_Username(String username);
+
 }
