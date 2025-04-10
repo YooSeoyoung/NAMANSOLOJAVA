@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 public class OfficialEventDTO {
-    private String eventType;
     private LocalDate eventDate;
+    private String eventTitle;
 }

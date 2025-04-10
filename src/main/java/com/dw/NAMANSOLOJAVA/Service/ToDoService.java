@@ -7,17 +7,13 @@ import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
-import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,7 +60,7 @@ public class ToDoService {
         User user = userService.getCurrentUser();
 
         ToDo todo = new ToDo();
-        
+
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getStartDate()); // 기념일은 시작일 = 종료일
@@ -111,7 +107,7 @@ public class ToDoService {
     public AnniversaryDTO getAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목이 없습니다."));
         return todo.toAnniDTO();
     }
@@ -119,7 +115,7 @@ public class ToDoService {
     public ToDoTravelDTO getToDoTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("여행 일정이 없습니다."));
         return todo.toTravelDTO();
     }
@@ -128,7 +124,7 @@ public class ToDoService {
     public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정을 찾을 수 없습니다."));
 
         if (!todo.getType().equals("TRAVEL")) {
@@ -175,7 +171,7 @@ public class ToDoService {
     public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목을 찾을 수 없습니다."));
 
         if (!"ANNIVERSARY".equals(todo.getType())) {
@@ -195,7 +191,7 @@ public class ToDoService {
     public String deleteAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목을 찾을 수 없습니다."));
 
         if (!"ANNIVERSARY".equals(todo.getType())) {
@@ -211,7 +207,7 @@ public class ToDoService {
     public String deleteTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("여행 일정을 찾을 수 없습니다."));
 
         if (!"TRAVEL".equals(todo.getType())) {

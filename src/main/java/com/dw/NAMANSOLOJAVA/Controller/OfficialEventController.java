@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/officialevent")
@@ -16,18 +16,18 @@ public class OfficialEventController {
     OfficialEventService officialEventService;
 
     @GetMapping("/all")
-    public ResponseEntity<OfficialEventDTO> getAllOfficialEvent() {
+    public ResponseEntity<List<OfficialEventDTO>> getAllOfficialEvent() {
         return new ResponseEntity<>(officialEventService.getAllOfficialEvent(), HttpStatus.OK);
     }
 
-    @GetMapping("/single")
-    public ResponseEntity<OfficialEventDTO> getSingleOfficialEvent() {
-        return new ResponseEntity<>(officialEventService.getSingleOfficialEvent(), HttpStatus.OK);
+    @GetMapping("/single/{id}")
+    public ResponseEntity<OfficialEventDTO> getSingleOfficialEvent(@PathVariable Long id) {
+        return new ResponseEntity<>(officialEventService.getSingleOfficialEvent(id), HttpStatus.OK);
     }
 
-    @GetMapping("/all/{date}")
-    public ResponseEntity<OfficialEventDTO> getAllOfficialEventByDate(@PathVariable LocalDate date) {
-        return new ResponseEntity<>(officialEventService.getAllOfficialEventByDate(date), HttpStatus.OK);
+    @PostMapping("/save")
+    public ResponseEntity<OfficialEventDTO> saveOfficialEventToUserTodo(@RequestBody OfficialEventDTO officialEventDTO) {
+        return new ResponseEntity<>(officialEventService.saveOfficialEvent(officialEventDTO), HttpStatus.OK);
     }
 
     @PutMapping("/single/update")
