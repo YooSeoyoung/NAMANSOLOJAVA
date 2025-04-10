@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.OfficialEventDTO;
+import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
@@ -46,39 +47,32 @@ public class OfficialEventService {
 
     @Transactional
     public OfficialEventDTO saveOfficialEvent(OfficialEventDTO dto) {
-        List<User> users = userRepository.findAll();
-
-        for (User user : users) {
-            // 중복 방지: 같은 날짜 + 제목이 있으면 생략
-            boolean exists = todoRepository.existsByUserUsernameAndStartDateAndTitle(
-                    user.getUsername(), dto.getEventDate(), dto.getEventTitle());
-
-            if (!exists) {
-                ToDo todo = new ToDo();
-                todo.setTitle(dto.getEventTitle());
-                todo.setStartDate(dto.getEventDate());
-                todo.setLastDate(dto.getEventDate()); // 기념일 = 당일 일정
-                todo.setFinalEditDate(LocalDate.now());
-                todo.setType("ANNIVERSARY");
-                todo.setUser(user);
-                todo.setEditable(false); // 공식 이벤트니까 수정 불가
-
-                todoRepository.save(todo);
-            }
+        if ((dto.getOffsetDays() == null || dto.getOffsetDays() < 0)) {
+            throw new InvalidRequestException("offsetDays는 0 이상이어야 합니다.");
         }
 
-        OfficialEvent officialEvent = new OfficialEvent();
-        officialEvent.setEventTitle(dto.getEventTitle());
-        officialEvent.setEventDate(dto.getEventDate());
-        officialEvent.setEditable(false);
-        officialEventRepository.save(officialEvent);
+        OfficialEvent event = new OfficialEvent();
+        event.setEventTitle(dto.getEventTitle());
+        event.setOffsetDays(dto.getOffsetDays());
+        event.setEditable(false);
 
-        return officialEvent.offEventDTO();
+        // 날짜는 항상 채워주자
+        event.setEventDate(dto.getEventDate() != null ? dto.getEventDate() : LocalDate.now());
+
+        OfficialEvent saved = officialEventRepository.save(event);
+
+        return new OfficialEventDTO(
+                null,
+                saved.getEventTitle(),
+                saved.getEventDate(),
+                saved.getOffsetDays()
+        );
     }
 
     @Transactional
     public OfficialEventDTO updateOfficialEvent(OfficialEventDTO officialEventDTO) {
-        return null;
+
+        return officialEventDTO;
     }
 
     @Transactional
