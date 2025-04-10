@@ -100,18 +100,16 @@ public class UserController {
     }
 
     @GetMapping("/admin/monthly/album-count")
-    public ResponseEntity<List<MonthlyUserAlbumCountDTO>> monthlyUserAlbumCount(@RequestBody MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO) {
-        return new ResponseEntity<>(
-                userService.monthlyUserAlbumCount(monthlyUserAlbumCountDTO),
-                HttpStatus.OK);
+    public ResponseEntity<List<MonthlyUserAlbumCountDTO>> getMonthlyAlbumCountForAllUsers() {
+        return ResponseEntity.ok(userService.monthlyAlbumCountForAllUsers());
     }
 
-    @GetMapping("/admin/laast-activity")
-    public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity(@RequestBody UserLastActivityDTO userLastActivityDTO) {
+
+    @GetMapping("/admin/last-activity") // 오타 수정
+    public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity() {
         return new ResponseEntity<>(
-                userService.getUserLastActivity(userLastActivityDTO),
+                userService.getUserLastActivity(), // 파라미터 제거
                 HttpStatus.OK);
     }
-
 
 }

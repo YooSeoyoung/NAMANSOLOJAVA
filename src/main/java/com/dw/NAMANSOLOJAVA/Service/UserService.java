@@ -4,9 +4,11 @@ import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Exception.UnauthorizedUserException;
+import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Repository.AuthorityRepository;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
+import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -19,8 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,6 +38,8 @@ public class UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     MediaRepository mediaRepository;
+    @Autowired
+    AlbumRepository albumRepository;
 
     public UserDTO registerUser(UserDTO userDTO){ // 회원가입
         Optional<User> existingUser = userRepository.findById(userDTO.getUsername());
@@ -196,13 +203,88 @@ public class UserService {
     }
 
     public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
-        return null;
+        User currentUser = getCurrentUser();
+
+        if (updateImageDDayDTO.getDDay() != null) {
+            currentUser.setDDay(updateImageDDayDTO.getDDay());
+        }
+        if (updateImageDDayDTO.getMediaUrl() != null && updateImageDDayDTO.getMediaUrl().getId() != null) {
+            Media media = mediaRepository.findById(updateImageDDayDTO.getMediaUrl().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("해당 ID의 미디어가 존재하지 않습니다."));
+            currentUser.setMedia(media);
+        }
+
+        userRepository.save(currentUser);
+
+        return currentUser.toUpdateImageDDayDTO();
     }
+
     public UserAlarmSettingDTO AlarmSetting(UserAlarmSettingDTO userAlarmSettingDTO){
-        return null;
+        User user = getCurrentUser();
+
+        user.setAlarmAlert(userAlarmSettingDTO.getAlarmAlert());
+        user.setCommentAlert(userAlarmSettingDTO.getCommentAlert());
+        user.setFollowAlert(userAlarmSettingDTO.getFollowAlert());
+        user.setGreatAlert(userAlarmSettingDTO.getGreatAlert());
+        user.setEventAlert(userAlarmSettingDTO.getEventAlert());
+        user.setRecommendAlert(userAlarmSettingDTO.getRecommendAlert());
+        user.setRecommentAlert(userAlarmSettingDTO.getRecommentAlert());
+        user.setTodoAlert(userAlarmSettingDTO.getTodoAlert());
+
+        userRepository.save(user);
+
+        return userAlarmSettingDTO;
     }
-    public List<MonthlyUserAlbumCountDTO> monthlyUserAlbumCount(MonthlyUserAlbumCountDTO monthlyUserAlbumCountDTO){return null;}
-    public List<UserLastActivityDTO> getUserLastActivity(UserLastActivityDTO userLastActivityDTO){return null;}
+
+    public List<MonthlyUserAlbumCountDTO> monthlyAlbumCountForAllUsers(){
+        List<User> allUsers = userRepository.findAll();
+        List<MonthlyUserAlbumCountDTO> result = new ArrayList<>();
+
+        for (User user : allUsers) {
+            List<Album> albums = albumRepository.findByUser_Username(user.getUsername());
+
+            Map<Integer, Long> monthlyCount = albums.stream()
+                    .collect(Collectors.groupingBy(
+                            album -> album.getAddDate().getMonthValue(),
+                            Collectors.counting()
+                    ));
+
+            for (int month = 1; month <= 12; month++) {
+                long count = monthlyCount.getOrDefault(month, 0L);
+                result.add(new MonthlyUserAlbumCountDTO(month, user.getUsername(), count));
+            }
+        }
+
+        return result;
+    }
+
+    public List<UserLastActivityDTO> getUserLastActivity(){
+        List<User> users = userRepository.findAll();
+        List<UserLastActivityDTO> result = new ArrayList<>();
+        List<LocalDate> loginDates = new ArrayList<>();
+
+        for (User user : users) {
+            LocalDate login = user.getLastLogin();
+            if (login != null) {
+                result.add(new UserLastActivityDTO(user.getUsername(), login));
+                loginDates.add(login);
+            }
+        }
+
+        // 평균 날짜 계산
+        if (!loginDates.isEmpty()) {
+            long sumEpochDays = loginDates.stream()
+                    .mapToLong(LocalDate::toEpochDay)
+                    .sum();
+
+            long avgEpochDay = sumEpochDays / loginDates.size();
+            LocalDate avgDate = LocalDate.ofEpochDay(avgEpochDay);
+
+            result.add(new UserLastActivityDTO("AVG", avgDate));
+        }
+
+        return result;
+    }
 
 
 }
