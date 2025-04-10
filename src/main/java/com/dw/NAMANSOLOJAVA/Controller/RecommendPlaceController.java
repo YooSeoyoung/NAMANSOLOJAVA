@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
+import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceAdmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
 import com.dw.NAMANSOLOJAVA.Service.RecommendPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,23 @@ public class RecommendPlaceController {
         return new ResponseEntity<>(recommendPlaceService.getAllRecommendPlaces(), HttpStatus.OK);
     }
 
-    @GetMapping("/single")
-    public ResponseEntity<RecommendPlaceDTO> getRecommendPlace() {
-        return new ResponseEntity<>(recommendPlaceService.getRecommendPlace(), HttpStatus.OK);
+    @GetMapping("/single/{id}")
+    public ResponseEntity<RecommendPlaceDTO> getRecommendPlace(@PathVariable Long id) {
+        return ResponseEntity.ok(recommendPlaceService.getRecommendPlace(id));
     }
 
-    @PutMapping("/update/place")
-    public ResponseEntity<RecommendPlaceDTO> updateRecommendPlace(@RequestBody RecommendPlaceDTO recommendPlaceDTO) {
-        return new ResponseEntity<>(recommendPlaceService.updateRecommendPlace(recommendPlaceDTO),HttpStatus.OK);
+    @PutMapping("/admin/update")
+    public ResponseEntity<RecommendPlaceAdmDTO> updateRecommendPlaceByAdmin(@RequestBody RecommendPlaceAdmDTO recommendPlaceDTO) {
+        return new ResponseEntity<>(recommendPlaceService.updateRecommendPlace(recommendPlaceDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRecommendPlaceById(@PathVariable Long id) {
         return new ResponseEntity<>(recommendPlaceService.deleteRecommendPlace(id),HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/add")
+    public ResponseEntity<RecommendPlaceAdmDTO> addRecommendPlaceByAdmin(@RequestBody RecommendPlaceAdmDTO dto) {
+        return new ResponseEntity<>(recommendPlaceService.addRecommendPlace(dto), HttpStatus.CREATED);
     }
 }

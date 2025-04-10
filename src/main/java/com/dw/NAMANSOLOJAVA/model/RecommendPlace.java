@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,12 +52,18 @@ public class RecommendPlace {
     private List<Media> media = new ArrayList<>();
 
     public RecommendPlaceAdmDTO admDTO() {
-        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
+        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).collect(Collectors.toList());
         return new RecommendPlaceAdmDTO(
-                this.name,mediaDTO,
-                this.address, this.city,
-                this.latitude, this.longitude,
-                this.description, this.detail);
+                this.id,
+                this.name,
+                mediaDTO,
+                this.address,
+                this.city,
+                this.latitude,
+                this.longitude,
+                this.description,
+                this.detail
+                        );
     }
 
     public RecommendPlaceDTO placeDTO() {

@@ -6,10 +6,11 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor
 @Setter
-public class RecommendPlaceAdmDTO { // 어드민 추가용
+@ToString
+public class RecommendPlaceAdmDTO { // 어드민 추가/수정용
+    private Long id;
     private String name;
     private List<MediaDTO> mediaUrl;
     private String address;
