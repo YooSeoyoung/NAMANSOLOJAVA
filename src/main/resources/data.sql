@@ -29,7 +29,7 @@ INSERT INTO user (
     true, true, true, true,
     true, true, true, true, 1),
 (
-    'steve12', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '스티브남', '스티브여',
+     'steve12', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '스티브남', '스티브여',
      'steve1@example.com', 'steve2@example.com', '1990-01-01', '1991-02-02',
      '010-0000-0000', '010-1111-2222', 'ROLE_USER',
      '2023-01-01', '2020-01-01', '2025-04-08',
