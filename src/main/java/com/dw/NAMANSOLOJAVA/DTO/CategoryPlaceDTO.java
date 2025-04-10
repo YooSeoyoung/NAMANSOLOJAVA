@@ -4,10 +4,10 @@ import lombok.*;
 
 @Getter
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor
 @Setter
+@ToString
 public class CategoryPlaceDTO {
-    private CategoryDTO categoryName;
-    private Long recommendId;
+    private CategoryDTO category;
+    private Long recommendPlaceId;
 }

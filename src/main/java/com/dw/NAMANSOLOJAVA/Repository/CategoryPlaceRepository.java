@@ -3,6 +3,8 @@ package com.dw.NAMANSOLOJAVA.Repository;
 import com.dw.NAMANSOLOJAVA.model.CategoryPlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryPlaceRepository extends JpaRepository<CategoryPlace, Long> {
+import java.util.List;
 
+public interface CategoryPlaceRepository extends JpaRepository<CategoryPlace, Long> {
+    List<CategoryPlace> findAllByCategory_Name(String name);
 }

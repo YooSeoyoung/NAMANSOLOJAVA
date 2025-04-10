@@ -4,9 +4,13 @@ import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceAdmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
+import com.dw.NAMANSOLOJAVA.Repository.CategoryPlaceRepository;
+import com.dw.NAMANSOLOJAVA.Repository.CategoryRepository;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
 import com.dw.NAMANSOLOJAVA.Repository.RecommendPlaceRepository;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
+import com.dw.NAMANSOLOJAVA.model.Category;
+import com.dw.NAMANSOLOJAVA.model.CategoryPlace;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.RecommendPlace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,10 @@ public class RecommendPlaceService {
     RecommendPlaceRepository recommendPlaceRepository;
     @Autowired
     MediaRepository mediaRepository;
+    @Autowired
+    CategoryPlaceRepository categoryPlaceRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     public List<RecommendPlaceDTO> getAllRecommendPlaces() {
         return recommendPlaceRepository.findAll().stream()
@@ -82,19 +90,31 @@ public class RecommendPlaceService {
                                 MediaType.valueOf(mediaDTO.getMediaType())
                         )))
                 .collect(Collectors.toList());
-
         mediaRepository.saveAll(mediaList);
 
         RecommendPlace place = new RecommendPlace();
         place.setName(dto.getName());
+        place.setMedia(mediaList);
         place.setAddress(dto.getAddress());
         place.setCity(dto.getCity());
         place.setLatitude(dto.getLatitude());
         place.setLongitude(dto.getLongitude());
         place.setDescription(dto.getDescription());
         place.setDetail(dto.getDetail());
-        place.setMedia(mediaList);
 
-        return recommendPlaceRepository.save(place).admDTO();
+        recommendPlaceRepository.save(place);
+
+        RecommendPlaceAdmDTO result = place.admDTO();
+
+        if (dto.getCategory() != null && !dto.getCategory().isBlank()) {
+            Category category = categoryRepository.findByName(dto.getCategory())
+                    .orElseGet(() -> categoryRepository.save(new Category(dto.getCategory())));
+
+            categoryPlaceRepository.save(new CategoryPlace(category, place));
+
+            result.setCategory(category.getName());
+        }
+
+        return result;
     }
 }

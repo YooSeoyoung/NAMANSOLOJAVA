@@ -19,4 +19,5 @@ public class RecommendPlaceAdmDTO { // 어드민 추가/수정용
     private Double longitude;
     private String description;
     private String detail;
+    private String category;
 }

@@ -18,10 +18,12 @@ public class CategoryPlace {
 
     @ManyToOne
     @JoinColumn(name = "category_name")
+    @ToString.Exclude
     private Category category;
 
     @ManyToOne
     @JoinColumn(name = "recommend_place_id")
+    @ToString.Exclude
     private RecommendPlace recommendPlace;
 
 //    @ManyToOne
@@ -30,5 +32,10 @@ public class CategoryPlace {
 
     public CategoryPlaceDTO toDTO() {
         return new CategoryPlaceDTO(category.toDTO(), recommendPlace.getId());
+    }
+
+    public CategoryPlace(Category category, RecommendPlace recommendPlace) {
+        this.category = category;
+        this.recommendPlace = recommendPlace;
     }
 }

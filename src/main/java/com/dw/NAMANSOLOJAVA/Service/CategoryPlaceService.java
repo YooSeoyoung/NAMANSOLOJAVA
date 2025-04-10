@@ -1,40 +1,56 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.CategoryPlaceDTO;
+import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceAdmDTO;
 import com.dw.NAMANSOLOJAVA.Repository.CategoryPlaceRepository;
+import com.dw.NAMANSOLOJAVA.Repository.CategoryRepository;
+import com.dw.NAMANSOLOJAVA.Repository.RecommendPlaceRepository;
+import com.dw.NAMANSOLOJAVA.model.Category;
+import com.dw.NAMANSOLOJAVA.model.CategoryPlace;
+import com.dw.NAMANSOLOJAVA.model.RecommendPlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoryPlaceService {
     @Autowired
     CategoryPlaceRepository categoryPlaceRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    RecommendPlaceRepository recommendPlaceRepository;
 
-    public CategoryPlaceDTO saveCategoryPlace(CategoryPlaceDTO categoryPlaceDTO) {
-        return null;
-//        return CategoryPlaceRepository.saveCategoryPlace(categoryPlaceDTO);
+    public void addMapping(CategoryPlaceDTO dto) {
+        Category category = categoryRepository.findByName(dto.getCategory().getCategoryName())
+                .orElseThrow(() -> new RuntimeException("카테고리 없음"));
+
+        RecommendPlace place = recommendPlaceRepository.findById(dto.getRecommendPlaceId())
+                .orElseThrow(() -> new RuntimeException("장소 없음"));
+
+        categoryPlaceRepository.save(new CategoryPlace(category, place));
     }
 
-    public CategoryPlaceDTO getAllCategoryPlaces() {
-        return null;
-//        return categoryPlaceRepository.getAllCategoryPlaces();
+    public void deleteMapping(Long id) {
+        categoryPlaceRepository.deleteById(id);
     }
 
-    public CategoryPlaceDTO getSingleCategoryPlace(Long id) {
-        return null;
-//        return categoryPlaceRepository.getSingleCategoryPlace(id);
-    }
+    public List<RecommendPlaceAdmDTO> getPlacesByCategory(String categoryName) {
+        List<CategoryPlace> list = categoryPlaceRepository.findAllByCategory_Name(categoryName);
 
-    public CategoryPlaceDTO updateCategoryPlace(Long id, CategoryPlaceDTO categoryPlaceDTO) {
-        return null;
-//        return categoryPlaceRepository.updateCategoryPlace(categoryPlaceDTO);
-    }
-
-    public String deleteCategoryPlace(Long id) {
-        return null;
-//        return categoryPlaceRepository.deleteCategoryPlace(id);
+        return list.stream()
+                .map(cp -> {
+                    RecommendPlaceAdmDTO dto = cp.getRecommendPlace().admDTO();
+                    dto.setCategory(cp.getCategory().getName());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }
+
+

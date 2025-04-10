@@ -103,6 +103,7 @@ public class User implements UserDetails {
                 this.username,null
         );
     }
+
     public UserAddDateDTO toUserAddDateDTO(){
         return new UserAddDateDTO(
                 this.username,this.addDate

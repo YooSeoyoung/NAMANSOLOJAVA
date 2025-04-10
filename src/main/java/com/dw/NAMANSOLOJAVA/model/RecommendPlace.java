@@ -40,30 +40,34 @@ public class RecommendPlace {
     @Column(name = "description", length = 1000)
     private String description; // 상세 설명 (선택)
 
-    @Column(name = "detail")
-    private String detail;
+        @Column(name = "detail")
+        private String detail;
 
-    @OneToMany
-    @JoinTable(
-            name = "recommend_place_media", // 중간 테이블 이름
-            joinColumns = @JoinColumn(name = "recommend_place_id"),     // album 외래키
-            inverseJoinColumns = @JoinColumn(name = "media_id") // media 외래키
-    )
-    private List<Media> media = new ArrayList<>();
+        @OneToMany
+        @JoinTable(
+                name = "recommend_place_media", // 중간 테이블 이름
+                joinColumns = @JoinColumn(name = "recommend_place_id"),     // album 외래키
+                inverseJoinColumns = @JoinColumn(name = "media_id") // media 외래키
+        )
+        private List<Media> media = new ArrayList<>();
 
     public RecommendPlaceAdmDTO admDTO() {
-        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).collect(Collectors.toList());
+        List<MediaDTO> mediaDTOs = media.stream()
+                .map(Media::toDTO)
+                .collect(Collectors.toList());
+
         return new RecommendPlaceAdmDTO(
-                this.id,
-                this.name,
-                mediaDTO,
-                this.address,
-                this.city,
-                this.latitude,
-                this.longitude,
-                this.description,
-                this.detail
-                        );
+                id,
+                name,
+                mediaDTOs,
+                address,
+                city,
+                latitude,
+                longitude,
+                description,
+                detail,
+                null
+        );
     }
 
     public RecommendPlaceDTO placeDTO() {
