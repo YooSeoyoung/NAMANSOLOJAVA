@@ -13,4 +13,5 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long> {
     List<ToDo> findAllByUsernameAndType(String username, String type);
     Optional<ToDo> findByIdAndUserUsername(Long id, String username);
     Boolean existsByUserUsernameAndStartDateAndTitle(String username, LocalDate startDate, String title);
+    List<ToDo> findAllByTitleAndEditable(String title, Boolean editable);
 }

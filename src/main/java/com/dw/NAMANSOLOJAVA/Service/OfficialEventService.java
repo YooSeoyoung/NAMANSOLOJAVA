@@ -4,7 +4,9 @@ import com.dw.NAMANSOLOJAVA.DTO.OfficialEventDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
+import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
 import com.dw.NAMANSOLOJAVA.model.OfficialEvent;
+import com.dw.NAMANSOLOJAVA.model.ToDo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.List;
 public class OfficialEventService {
     @Autowired
     OfficialEventRepository officialEventRepository;
+
+    @Autowired
+    ToDoRepository todoRepository;
 
     public List<OfficialEventDTO> getAllOfficialEvent() {
         List<OfficialEventDTO> officialEventDTOs = officialEventRepository.findAll().stream().map(OfficialEvent::offEventDTO).toList();
@@ -34,8 +39,13 @@ public class OfficialEventService {
 
     @Transactional
     public OfficialEventDTO saveOfficialEvent(OfficialEventDTO dto) {
-        if ((dto.getOffsetDays() == null || dto.getOffsetDays() < 0)) {
-            throw new InvalidRequestException("offsetDays는 0 이상이어야 합니다.");
+        if (
+                (dto.getOffsetDays() == null) &&
+                (dto.getOffsetDays() <= 0L && dto.getEventDate() == null)) {
+            throw new InvalidRequestException("기본 날짜 차이는 0 이상이어야 하며, 0인 경우에는 이벤트일을 지정해야 합니다.");
+        }
+        if (dto.getEventTitle().isEmpty()){
+            throw new InvalidRequestException("이벤트명은 필수입니다.");
         }
 
         OfficialEvent event = new OfficialEvent();
@@ -60,6 +70,8 @@ public class OfficialEventService {
         OfficialEvent event = officialEventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("해당 이벤트를 찾을 수 없습니다."));
 
+        List<ToDo> todos = todoRepository.findAllByTitleAndEditable(event.getEventTitle(), false);
+
         event.setEventTitle(dto.getEventTitle());
         if (event.getOffsetDays()!=null) {
             event.setOffsetDays(dto.getOffsetDays());
@@ -69,11 +81,9 @@ public class OfficialEventService {
 
         OfficialEvent updated = officialEventRepository.save(event);
 
-        return new OfficialEventDTO(
-                updated.getEventDate(),
-                updated.getEventTitle(),
-                updated.getOffsetDays()
-        );
+//        todos.stream().map(ToDo:)
+
+        return updated.offEventDTO();
     }
 
     @Transactional
@@ -81,8 +91,12 @@ public class OfficialEventService {
         OfficialEvent event = officialEventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("해당 이벤트를 찾을 수 없습니다."));
 
+        List<ToDo> relatedTodos = todoRepository.findAllByTitleAndEditable(event.getEventTitle(), false);
+
+        todoRepository.deleteAll(relatedTodos);
+
         officialEventRepository.delete(event);
 
-        return "이벤트가 성공적으로 삭제되었습니다.";
+        return "이벤트 및 관련 유저 일정이 삭제되었습니다.";
     }
 }
