@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# 비밀 키 파일 무시
+*.env
+*.txt
+src/main/resources/api.env
+src/main/resources/api.txt
