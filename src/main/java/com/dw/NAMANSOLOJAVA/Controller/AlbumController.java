@@ -48,11 +48,20 @@ public class AlbumController {
                 albumService.deleteAlbumById(id),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/username-visibility/{username}")
+    public ResponseEntity <List<AlbumDTO>> getAlbumByUsernameAndVisibility(@PathVariable String username) {
+        return new ResponseEntity<>(
+                albumService.getAlbumByUsernameAndVisibility(username),
+                HttpStatus.OK);
+    }
     @GetMapping("/username/{username}")
     public ResponseEntity <List<AlbumDTO>> getAlbumByUsername(@PathVariable String username) {
         return new ResponseEntity<>(
                 albumService.getAlbumByUsername(username),
-                HttpStatus.OK);
+                HttpStatus.OK); // 나의 앨범 보기 (공개 비공개 여부 상관 없음)
     }
+
+
 
 }

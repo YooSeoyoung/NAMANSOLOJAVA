@@ -3,6 +3,7 @@ package com.dw.NAMANSOLOJAVA.Controller;
 import com.dw.NAMANSOLOJAVA.DTO.FollowDTO;
 import com.dw.NAMANSOLOJAVA.DTO.FollowerDTO;
 import com.dw.NAMANSOLOJAVA.DTO.FollowingDTO;
+import com.dw.NAMANSOLOJAVA.DTO.UserFollowInfoDTO;
 import com.dw.NAMANSOLOJAVA.Service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,8 @@ public class FollowController {
     }
 
     @PostMapping("/new/following")
-    public ResponseEntity<FollowingDTO> saveNewFollowing(@RequestBody FollowingDTO followingDTO) {
-        return new ResponseEntity<>(followService.saveNewFollowing(followingDTO), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/new/follower")
-    public ResponseEntity<FollowerDTO> saveNewFollower(@RequestBody FollowerDTO followerDTO) {
-        return new ResponseEntity<>(followService.saveNewFollower(followerDTO), HttpStatus.CREATED);
+    public ResponseEntity<FollowDTO> saveNewFollowing(@RequestBody FollowDTO followDTO) {
+        return new ResponseEntity<>(followService.saveNewFollowing(followDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/all/{username}")
@@ -42,13 +38,24 @@ public class FollowController {
         return new ResponseEntity<>(followService.getSearchResultByName(username), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/following/{id}")
-    public ResponseEntity<String> deleteFollowing(@PathVariable Long id) {
-        return new ResponseEntity<>(followService.deleteFollowing(id), HttpStatus.ACCEPTED);
+    
+    @DeleteMapping("/delete/following/{username}")
+    public ResponseEntity<String> deleteFollowing(@PathVariable String username) {
+        return new ResponseEntity<>(followService.deleteFollowing(username), HttpStatus.ACCEPTED);
     } // 팔로윙 해제
 
-    @DeleteMapping("/delete/follower/{id}")
-    public ResponseEntity<String> deleteFollower(@PathVariable Long id) {
-        return new ResponseEntity<>(followService.deleteFollower(id), HttpStatus.ACCEPTED);
+    @DeleteMapping("/delete/follower/{username}")
+    public ResponseEntity<String> deleteFollower(@PathVariable String username) {
+        return new ResponseEntity<>(followService.deleteFollower(username), HttpStatus.ACCEPTED);
     } // 팔로우 해제
+
+
+    @GetMapping("/all/followers")
+    public ResponseEntity<List<UserFollowInfoDTO>> getFollowers() {
+        return new ResponseEntity<>(followService.getFollowers(), HttpStatus.OK);
+    }
+    @GetMapping("/all/followings")
+    public ResponseEntity<List<UserFollowInfoDTO>> getFollowings() {
+        return new ResponseEntity<>(followService.getFollowings(), HttpStatus.OK);
+    }
 }

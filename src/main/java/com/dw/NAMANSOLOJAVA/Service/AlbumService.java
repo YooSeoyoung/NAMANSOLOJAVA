@@ -39,7 +39,7 @@ public class AlbumService {
 
     public List<AlbumDTO> getAllAlbum(){
         List<Album> albums = albumRepository.findAll();
-        return albums.stream().map(album -> {
+        return albums.stream().filter(album -> album.getVisibility() ==Visibility.PUBLIC).map(album -> {
             List<AlbumTag> usertags = albumTagRepository.findByAlbumId(album.getId());
             return album.toAlbumDTO(usertags);
         }).toList();
@@ -158,8 +158,18 @@ public class AlbumService {
         albumRepository.deleteById(id);
         return "정상 삭제되었습니다";
     }
+    public List<AlbumDTO> getAlbumByUsernameAndVisibility(String username){
+        List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(username,Visibility.PUBLIC);
+        return albums.stream()
+                .map(album -> {
+                    List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());
+                    return album.toAlbumDTO(albumTags);
+                })
+                .toList();
+    }
     public List<AlbumDTO> getAlbumByUsername(String username){
-        List<Album> albums = albumRepository.findByUser_Username(username);
+        User user = userService.getCurrentUser();
+        List<Album> albums = albumRepository.findByUser_Username(user.getUsername());
         return albums.stream()
                 .map(album -> {
                     List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());
