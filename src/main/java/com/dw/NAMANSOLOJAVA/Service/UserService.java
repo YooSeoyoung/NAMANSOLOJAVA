@@ -85,14 +85,22 @@ public class UserService {
                 .toList();
     }
 
-    public User getCurrentUser() { //현재 유저
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
+        System.out.println(" 인증 객체: " + authentication);
+
+        if (authentication == null || !authentication.isAuthenticated()
+                || authentication.getPrincipal().equals("anonymousUser")) {
             throw new UnauthorizedUserException("User is not authenticated");
         }
-        return userRepository.findById(authentication.getName())
-                .orElseThrow(()->new ResourceNotFoundException("No username"));
+
+        String username = authentication.getName();
+        System.out.println(" 인증된 사용자명: " + username);
+
+        // DB에서 유저 조회
+        return userRepository.findById(username)
+                .orElseThrow(() -> new ResourceNotFoundException("No username: " + username));
     }
 
     public boolean checkId(String username){
