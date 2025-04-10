@@ -23,36 +23,19 @@ public class FollowController {
         return new ResponseEntity<>(followService.getAllFollow(), HttpStatus.OK);
     }
 
-
-
-    @GetMapping("/all/{username}")
-    public ResponseEntity<List<FollowDTO>> getAllFollowByUsername(@PathVariable String username) {
-        return new ResponseEntity<>(followService.getAllFollowByUsername(username), HttpStatus.OK);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<FollowDTO>> getSearchResultByName(@RequestParam String username) {
-        return new ResponseEntity<>(followService.getSearchResultByName(username), HttpStatus.OK);
-    }
-
-
-
-    @GetMapping("/user-follower/{username}")
+    @GetMapping("/search/user-follower/{username}")
     public ResponseEntity<List<UserFollowInfoDTO>> getFollowerByUsername(@PathVariable String username) {
         return new ResponseEntity<>(followService.getFollowerByUsername(username), HttpStatus.OK);
     }
-    @GetMapping("/user-following/{username}")
+    @GetMapping("/search/user-following/{username}")
     public ResponseEntity<List<UserFollowInfoDTO>> getFollowingByUsername(@PathVariable String username) {
         return new ResponseEntity<>(followService.getFollowingByUsername(username), HttpStatus.OK);
     }
-
-
 
     @PostMapping("/new/following")
     public ResponseEntity<FollowDTO> saveNewFollowing(@RequestBody FollowDTO followDTO) {
         return new ResponseEntity<>(followService.saveNewFollowing(followDTO), HttpStatus.CREATED);
     }
-
 
     @DeleteMapping("/delete/following/{username}")
     public ResponseEntity<String> deleteFollowing(@PathVariable String username) {

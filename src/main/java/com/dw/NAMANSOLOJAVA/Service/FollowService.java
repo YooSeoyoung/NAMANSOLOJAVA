@@ -34,20 +34,12 @@ public class FollowService {
 
     public List<FollowDTO> getAllFollow() {
         User user = userService.getCurrentUser();
-
         return followRepository.findAll().stream().map(Follow::toFollowDTO).toList();
-    }
-    public List<FollowDTO> getAllFollowByUsername(String username) {
-        return null;
-    }
-
-    public List<FollowDTO> getSearchResultByName(String username) {
-        return null;
     }
 
     public List<UserFollowInfoDTO> getFollowerByUsername(String username){
         User user = userService.getCurrentUser();
-        List<User> followerUser = userRepository.findByUsernameContaining(username).stream().filter(
+        List<User> followerUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
         return followerUser.stream().filter(follower ->followRepository.findByFollowerAndFollowing(follower,user).isPresent())
                 .map(follower -> {
@@ -58,7 +50,7 @@ public class FollowService {
     }
     public List<UserFollowInfoDTO> getFollowingByUsername(String username){
         User user = userService.getCurrentUser();
-        List<User> followingUser = userRepository.findByUsernameContaining(username).stream().filter(
+        List<User> followingUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
         return followingUser.stream().filter(following ->followRepository.findByFollowerAndFollowing(user,following).isPresent())
                 .map(following -> {
@@ -67,7 +59,6 @@ public class FollowService {
                 })
                 .toList();
     }
-
 
     public String deleteFollowing(String username) { //내가 팔로우한 사람 삭제(팔로우 취소)
         User user = userService.getCurrentUser();
