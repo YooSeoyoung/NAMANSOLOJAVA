@@ -156,13 +156,13 @@ INSERT INTO recomment (content, add_date, comment_id, username) VALUES
 ('진짜 분위기 좋아요~!', '2025-04-07 16:30:00', 3, 'couple001'),
 ('디저트 강추입니다 🍰', '2025-04-07 16:32:00', 4, 'couple001');
 
-INSERT INTO official_event (username, event_date, event_type, editable)
-VALUES ('admin001', '2025-02-14', '발렌타인데이', false);
+INSERT INTO official_event (event_date, event_title, editable)
+VALUES ('2025-02-14', '발렌타인데이', false);
 
-INSERT INTO official_event (username, event_date, event_type, editable)
-VALUES ('admin001', '2025-03-14', '화이트데이', false),
-('admin001', '2025-11-11', '빼빼로데이', false),
-('admin001', '2025-12-25', '크리스마스', false);
+INSERT INTO official_event (event_date, event_title, editable)
+VALUES ('2025-03-14', '화이트데이', false),
+('2025-11-11', '빼빼로데이', false),
+('2025-12-25', '크리스마스', false);
 
 INSERT INTO todo (
     title, start_date, last_date, final_edit_date,

@@ -1,7 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.DTO.OfficialEventDTO;
-import com.dw.NAMANSOLOJAVA.Exception.PermissionDeniedException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,7 +50,7 @@ public class OfficialEventService {
 
         for (User user : users) {
             // 중복 방지: 같은 날짜 + 제목이 있으면 생략
-            boolean exists = todoRepository.existsByUsernameAndStartDateAndTitle(
+            boolean exists = todoRepository.existsByUserUsernameAndStartDateAndTitle(
                     user.getUsername(), dto.getEventDate(), dto.getEventTitle());
 
             if (!exists) {

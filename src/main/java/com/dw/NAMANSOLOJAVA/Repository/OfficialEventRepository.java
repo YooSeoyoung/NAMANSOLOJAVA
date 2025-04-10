@@ -8,7 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OfficialEventRepository extends JpaRepository<OfficialEvent, Long> {
-    @Query("SELECT o FROM OfficialEvent o WHERE o.user.username = :username")
-    List<OfficialEvent> findAllByUsername(String username);
-    Optional<OfficialEvent> findByIdAndUsername(Long id, String username);
 }

@@ -107,7 +107,7 @@ public class ToDoService {
     public AnniversaryDTO getAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목이 없습니다."));
         return todo.toAnniDTO();
     }
@@ -115,7 +115,7 @@ public class ToDoService {
     public ToDoTravelDTO getToDoTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("여행 일정이 없습니다."));
         return todo.toTravelDTO();
     }
@@ -124,7 +124,7 @@ public class ToDoService {
     public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정을 찾을 수 없습니다."));
 
         if (!todo.getType().equals("TRAVEL")) {
@@ -171,7 +171,7 @@ public class ToDoService {
     public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목을 찾을 수 없습니다."));
 
         if (!"ANNIVERSARY".equals(todo.getType())) {
@@ -191,7 +191,7 @@ public class ToDoService {
     public String deleteAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("기념일 항목을 찾을 수 없습니다."));
 
         if (!"ANNIVERSARY".equals(todo.getType())) {
@@ -207,7 +207,7 @@ public class ToDoService {
     public String deleteTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("여행 일정을 찾을 수 없습니다."));
 
         if (!"TRAVEL".equals(todo.getType())) {

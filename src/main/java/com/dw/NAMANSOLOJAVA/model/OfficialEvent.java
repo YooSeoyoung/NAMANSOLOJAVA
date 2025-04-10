@@ -18,10 +18,6 @@ public class OfficialEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
-
     @Column(name = "event_date", nullable = false)
     private LocalDate eventDate; // 기념일 날짜
 
