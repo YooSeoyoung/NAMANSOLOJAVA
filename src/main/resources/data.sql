@@ -165,7 +165,8 @@ INSERT INTO recomment (content, add_date, comment_id, username) VALUES
 
 INSERT INTO official_event (event_date, event_title, editable, offset_days)
 VALUES ('2025-02-14', '발렌타인데이', false, 0),
-(CURRENT_DATE, '100일', false, 100);
+(CURRENT_DATE, '100일', false, 100),
+(CURRENT_DATE, '1주년', false, 365);
 
 INSERT INTO official_event (event_date, event_title, editable, offset_days)
 VALUES ('2025-03-14', '화이트데이', false, 0),

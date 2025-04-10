@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 public class ToDoTravelDTO {
+    private Long id;
     private String title;
     private LocalDate startDate;
     private LocalDate lastDate;

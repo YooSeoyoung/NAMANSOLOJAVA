@@ -63,7 +63,7 @@ public class ToDo {
 
     public ToDoTravelDTO toTravelDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
-        return new ToDoTravelDTO(this.title, this.startDate,
+        return new ToDoTravelDTO(this.id, this.title, this.startDate,
                 this.lastDate,mediaDTO, this.type);
     }
 }

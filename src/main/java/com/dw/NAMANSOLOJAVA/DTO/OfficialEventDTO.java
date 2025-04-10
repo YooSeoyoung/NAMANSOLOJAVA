@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 public class OfficialEventDTO {
+    private Long id;
     private LocalDate eventDate;
     private String eventTitle;
     private Long offsetDays = 0L;
