@@ -209,7 +209,7 @@ INSERT INTO todo (
 INSERT INTO media (media_url, media_type)
 VALUES
 ('https://placebear.com/400/300', 0),
-('https://placebear.com/400/300', 0);
+('https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=400&q=80', 0);
 
 -- album 2 관련 media
 INSERT INTO media (media_url, media_type)
