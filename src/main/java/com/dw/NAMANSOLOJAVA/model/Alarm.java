@@ -25,24 +25,24 @@ public class Alarm {
 
     @ManyToOne
     @JoinColumn(name = "username")
-    private User user;
+    private User user; // 어떤 유저에게 보내는 알람
 
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private AlarmType alarmType; // ENUM
+    private AlarmType alarmType; // ENUM 알람 종류(FOLLOW ALBUM COMMENT GREAT EVENT RECOMMEND RECOMMENT WEATHER TODO)
 
     @Column(name ="message")
     private String message; // 알림 내용
 
     @Column(name ="add_date")
-    private LocalDateTime addDate;
+    private LocalDateTime addDate; // 알람 생성 시각
 
     @Column(name ="is_read")
     private boolean isRead = false; // 읽음 여부
 
     @Column(name = "weather_info")
-    private String weatherInfo; // 날씨 API 결과 (TEXT)
+    private String weatherInfo; // 날씨 API 결과 (TEXT) 날씨 정보
 
     public AddAlarmDTO toAddAlarmDTO(){
         return new AddAlarmDTO(
