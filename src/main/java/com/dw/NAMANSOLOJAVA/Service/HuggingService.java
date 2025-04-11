@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
+import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -17,11 +18,14 @@ import java.util.Map;
 
 @Service
 public class HuggingService {
-    @Value("${huggingface.api.key}")
-    private String apiKey;
+    String huggingapikey =SecurityConfig.dotenv.get("HUGGINGFACE_API_KEY");
+
+    private String apiKey =huggingapikey;
 
     @Value("${huggingface.model}")
     private String modelId;
+
+
 
     @Autowired
     private AlbumRepository albumRepository;

@@ -5,6 +5,7 @@ import com.dw.NAMANSOLOJAVA.Exception.MyAuthenticationEntryPoint;
 import com.dw.NAMANSOLOJAVA.Service.UserDetailService;
 import com.dw.NAMANSOLOJAVA.jwt.JwtFilter;
 import com.dw.NAMANSOLOJAVA.jwt.TokenProvider;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,11 +91,17 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-
+    // 암호화와 복호화
+    // BCrypt 는 복호화가 불가능하다.
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    // 암호화와 복호화
-    // BCrypt 는 복호화가 불가능하다.
+
+    public static final Dotenv dotenv = Dotenv.configure()
+            .filename(".env")
+            .ignoreIfMissing()
+            .load();
+
 }
+

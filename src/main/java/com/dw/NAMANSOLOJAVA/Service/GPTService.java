@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
+import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
@@ -19,9 +20,10 @@ import java.util.Map;
 
 @Service
 public class GPTService {
-    @Value("${openai.api.key}")
-    private String apiKey;
+    String oenapikey= SecurityConfig.dotenv.get("OPENAI_API_KEY");
 
+    private String apiKey = oenapikey;
+    
     @Autowired
     private UserRepository userRepository;
     @Autowired private AlbumRepository albumRepository;
