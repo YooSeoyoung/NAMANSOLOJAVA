@@ -1,8 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
-import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
-import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
-import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
@@ -39,10 +37,13 @@ public class ToDoService {
 //        return SecurityContextHolder.getContext().getAuthentication().getName();
 //    }
 
-    public List<ToDoTravelDTO> getAllTodo() {
+    public ToDoAllDTO getAllTodo() {
         User user = userService.getCurrentUser();
-        List<ToDo> toDoList = toDoRepository.findAllByUsername(user.getUsername());
-        return toDoList.stream().map(ToDo::toTravelDTO).toList();
+        List<ToDo> anniversaryList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "ANNIVERSARY");
+        List<ToDo> toTravelList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "TRAVEL");
+        List<AnniversaryDTO> anverDTOs = anniversaryList.stream().map(ToDo::toAnniDTO).toList();
+        List<ToDoTravelDTO> travelDTOs = toTravelList.stream().map(ToDo::toTravelDTO).toList();
+        return new ToDoAllDTO(travelDTOs, anverDTOs);
     }
 
     public List<AnniversaryDTO> getAllAnniversary() {

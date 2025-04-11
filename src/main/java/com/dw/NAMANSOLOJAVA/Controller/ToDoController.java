@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
+import com.dw.NAMANSOLOJAVA.DTO.ToDoAllDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ToDoController {
     ToDoService toDoService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<ToDoTravelDTO>> getAllTodo() {
+    public ResponseEntity<ToDoAllDTO> getAllTodo() {
         return new ResponseEntity<>(toDoService.getAllTodo(), HttpStatus.OK);
     }
 
