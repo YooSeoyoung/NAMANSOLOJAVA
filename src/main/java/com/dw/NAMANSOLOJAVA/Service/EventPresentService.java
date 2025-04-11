@@ -65,14 +65,14 @@ public class EventPresentService {
         User user = userService.getCurrentUser();
         LocalDate birthF = user.getBirthF();
         int ageF = calculateExactAge(birthF);
-        return searchAndConvert(ageF+"살 여자 선물");
+        return searchAndConvert(ageF+"대 여자 선물");
     }
 
     public List<EventPresentDTO> getMaleEventPresent() {
         User user = userService.getCurrentUser();
         LocalDate birthM = user.getBirthM();
         int ageM = calculateExactAge(birthM);
-        return searchAndConvert(ageM+"살 남자 선물");
+        return searchAndConvert(ageM+"대 남자 선물");
     }
 
     private List<EventPresentDTO> searchAndConvert(String keyword) {
@@ -129,6 +129,6 @@ public class EventPresentService {
     private int calculateExactAge(LocalDate birthDate) {
         LocalDate today = LocalDate.now();
         Period period = Period.between(birthDate, today);
-        return period.getYears();
+        return (period.getYears() / 10) * 10;
     }
 }
