@@ -62,11 +62,17 @@ public class EventPresentService {
     }
 
     public List<EventPresentDTO> getFemaleEventPresent() {
-        return searchAndConvert("여자 선물");
+        User user = userService.getCurrentUser();
+        LocalDate birthF = user.getBirthF();
+        int ageF = calculateExactAge(birthF);
+        return searchAndConvert(ageF+"살 여자 선물");
     }
 
     public List<EventPresentDTO> getMaleEventPresent() {
-        return searchAndConvert("남자 선물");
+        User user = userService.getCurrentUser();
+        LocalDate birthM = user.getBirthM();
+        int ageM = calculateExactAge(birthM);
+        return searchAndConvert(ageM+"살 남자 선물");
     }
 
     private List<EventPresentDTO> searchAndConvert(String keyword) {
