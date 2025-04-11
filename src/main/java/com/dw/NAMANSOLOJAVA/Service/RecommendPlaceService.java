@@ -117,4 +117,10 @@ public class RecommendPlaceService {
 
         return result;
     }
+
+    public List<RecommendPlaceDTO> getPlacesByRegion(String region) {
+        return recommendPlaceRepository.findByCity(region).stream()
+                .map(RecommendPlace::placeDTO)
+                .collect(Collectors.toList());
+    }
 }

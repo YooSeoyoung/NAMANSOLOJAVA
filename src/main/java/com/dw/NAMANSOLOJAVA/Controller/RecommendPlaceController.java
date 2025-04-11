@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recommendplace")
+@RequestMapping("/api/recommend_place")
 public class RecommendPlaceController {
     @Autowired
     RecommendPlaceService recommendPlaceService;
@@ -43,5 +43,10 @@ public class RecommendPlaceController {
     @PostMapping("/admin/add")
     public ResponseEntity<RecommendPlaceAdmDTO> addRecommendPlaceByAdmin(@RequestBody RecommendPlaceAdmDTO dto) {
         return new ResponseEntity<>(recommendPlaceService.addRecommendPlace(dto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/region/{region}")
+    public ResponseEntity<List<RecommendPlaceDTO>> getRecommendPlacesByRegion(@PathVariable String region) {
+        return new ResponseEntity<>(recommendPlaceService.getPlacesByRegion(region), HttpStatus.OK);
     }
 }
