@@ -12,5 +12,6 @@ import java.time.LocalDate;
 public class AnniversaryDTO {
     private String title;
     private LocalDate startDate;
+    private String color;
     private String type;
 }

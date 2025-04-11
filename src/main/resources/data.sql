@@ -175,34 +175,34 @@ VALUES ('2025-03-14', '화이트데이', false, 0),
 
 INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
-    type, username, editable
+    type, username, color, editable
 ) VALUES (
     '첫 만남 💕', '2022-06-15', '2022-06-15', '2025-04-09',
-    'ANNIVERSARY', 'couple001', true
+    'ANNIVERSARY', 'couple001', '#ffc0cb', true
 );
 
 INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
-    type, username, editable
+    type, username, color, editable
 ) VALUES (
     '여름 제주도 여행 🌴', '2023-08-01', '2023-08-05', '2025-04-09',
-    'TRAVEL', 'couple001', true
+    'TRAVEL', 'couple001', '#ffc0cb', true
 );
 
 INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
-    type, username, editable
+    type, username, color, editable
 ) VALUES (
     '사귄 날 💑', '2022-05-20', '2022-05-20', '2025-04-09',
-    'ANNIVERSARY', 'couple002', true
+    'ANNIVERSARY', 'couple002', '#ffc0cb', true
 );
 
 INSERT INTO todo (
     title, start_date, last_date, final_edit_date,
-    type, username, editable
+    type, username, color, editable
 ) VALUES (
     '놀이공원 데이트 🎡', '2024-10-03', '2024-10-03', '2025-04-09',
-    'TRAVEL', 'couple003', true
+    'TRAVEL', 'couple003', '#ffc0cb', true
 );
 
 -- album 1 관련 media

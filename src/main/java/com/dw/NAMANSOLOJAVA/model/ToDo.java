@@ -45,6 +45,9 @@ public class ToDo {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
+    @Column(name = "color", nullable = false)
+    private String color;
+
     @Column(name = "editable", nullable = false)
     private Boolean editable = true;
 
@@ -57,13 +60,14 @@ public class ToDo {
     private List<Media> media = new ArrayList<>();
 
     public AnniversaryDTO toAnniDTO() {
-        return new AnniversaryDTO(this.title, this.startDate
-                , this.type);
+        return new AnniversaryDTO(this.title, this.startDate,
+                this.color, this.type);
     }
 
     public ToDoTravelDTO toTravelDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new ToDoTravelDTO(this.id, this.title, this.startDate,
-                this.lastDate,mediaDTO, this.type);
+                this.lastDate, mediaDTO,
+                this.color, this.type);
     }
 }

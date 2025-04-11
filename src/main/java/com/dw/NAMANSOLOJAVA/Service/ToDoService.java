@@ -70,10 +70,11 @@ public class ToDoService {
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getStartDate()); // 기념일은 시작일 = 종료일
         todo.setFinalEditDate(LocalDate.now());
-        todo.setType("ANNIVERSARY");
+        todo.setType(dto.getType());
         todo.setUser(user);
         todo.setEditable(true);
         todo.setMedia(new ArrayList<>());
+        todo.setColor(dto.getColor());
 
         ToDo saved = toDoRepository.save(todo);
         return saved.toAnniDTO();
@@ -99,9 +100,10 @@ public class ToDoService {
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getLastDate());
         todo.setFinalEditDate(LocalDate.now());
-        todo.setType("TRAVEL");
+        todo.setType(dto.getType());
         todo.setUser(user);
         todo.setEditable(true);
+        todo.setColor(dto.getColor());
         todo.setMedia(mediaList);
 
         ToDo saved = toDoRepository.save(todo);
@@ -173,6 +175,8 @@ public class ToDoService {
         originMedia.addAll(newMedias);
 
         todo.setMedia(originMedia);
+        todo.setColor(dto.getColor());
+        todo.setType(dto.getType());
 
         ToDo updated = toDoRepository.save(todo);
         return updated.toTravelDTO();
@@ -193,6 +197,8 @@ public class ToDoService {
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getStartDate()); // 기념일은 시작일이 곧 일정의 끝
         todo.setFinalEditDate(LocalDate.now()); // 미디어는 이미 생성 시점에 new ArrayList() 했음.
+        todo.setColor(dto.getColor());
+        todo.setType(dto.getType());
 
         ToDo updated = toDoRepository.save(todo);
         return updated.toAnniDTO();

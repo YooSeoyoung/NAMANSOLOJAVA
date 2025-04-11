@@ -16,5 +16,6 @@ public class ToDoTravelDTO {
     private LocalDate startDate;
     private LocalDate lastDate;
     private List<MediaDTO> mediaUrl; // 사진 경로
+    private String color;
     private String type;
 }
