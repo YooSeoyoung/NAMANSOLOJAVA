@@ -52,8 +52,8 @@ public class EventPresentService {
         LocalDate birthM = user.getBirthM();
         int ageM = calculateExactAge(birthM);
         int ageF = calculateExactAge(birthF);
-        List<EventPresentDTO> male = searchAndConvert(ageM + "살 남자 선물");
-        List<EventPresentDTO> female = searchAndConvert(ageF + "살 여자 선물");
+        List<EventPresentDTO> male = searchAndConvert(ageM + "대 남자 선물");
+        List<EventPresentDTO> female = searchAndConvert(ageF + "대 여자 선물");
 
         List<EventPresentDTO> all = new ArrayList<>();
         all.addAll(male);
