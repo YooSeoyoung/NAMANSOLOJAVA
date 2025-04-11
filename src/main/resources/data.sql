@@ -285,5 +285,5 @@ INSERT INTO event_present (
 -- 서비스 내에서 수동 추천하거나, 특정 키워드 차단/우선 노출 용도로 사용될 수 있습니다.
 -- 실시간 검색이 우선이며, 저장형 데이터를 사용자에게 보여줄 경우 반드시 표시 또는 분리 필요
 INSERT INTO media (media_url, media_type)
-VALUES ('https://cdn.example.com/video.mp4', 1);
+VALUES ('https://cdn.example.com/video.mp4', 0);
 

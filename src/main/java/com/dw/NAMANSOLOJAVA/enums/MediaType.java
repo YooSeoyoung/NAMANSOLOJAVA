@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MediaType {
-    VIDEO,
-    PICTURE
+    PICTURE,
+    VIDEO
+
 }
