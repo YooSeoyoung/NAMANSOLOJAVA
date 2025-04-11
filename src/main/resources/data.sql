@@ -9,10 +9,10 @@ INSERT INTO category (name) VALUES ('포토존');
 INSERT INTO category (name) VALUES ('카페');
 
 INSERT INTO media (media_url, media_type) VALUES
-('https://cdn.namansolo.com/profile/admin001.jpg', 0),
-('https://cdn.namansolo.com/profile/couple001.jpg', 0),
-('https://cdn.namansolo.com/profile/couple002.jpg', 0),
-('https://cdn.namansolo.com/profile/couple003.jpg', 0);
+('https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo=w240-h480-rw', 0),
+('https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo=w240-h480-rw', 0),
+('https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo=w240-h480-rw', 0),
+('https://play-lh.googleusercontent.com/38AGKCqmbjZ9OuWx4YjssAz3Y0DTWbiM5HB0ove1pNBq_o9mtWfGszjZNxZdwt_vgHo=w240-h480-rw', 0);
 
 INSERT INTO user (
     username, password, real_name_m, real_name_f,
