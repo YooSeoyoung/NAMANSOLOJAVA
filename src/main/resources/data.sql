@@ -208,13 +208,13 @@ INSERT INTO todo (
 -- album 1 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://cdn.namansolo.com/media/couple001/night_view_01.jpg', 0),
-('https://cdn.namansolo.com/media/couple001/night_view_02.mp4', 1);
+('https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/120312425_217390509763891_7105140567937459087_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=3a1ebe&_nc_ohc=KzCUC5H3F6AQ7kNvwGd3ZTj&_nc_oc=Adno7RbKzBhYfs262N-yqGHx3GlRvDPfEjrFB3OoYOZnnUq1RevgQ7r-Oy9BqcR_xFQ&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=qLSeyduupVr4F9zk1BAreA&oh=00_AfGxUck2eddWWjv1DsZmtWrBXSCL8_MBQQsHuIUlYms1QQ&oe=6820093F', 0),
+('https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/120312425_217390509763891_7105140567937459087_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=3a1ebe&_nc_ohc=KzCUC5H3F6AQ7kNvwGd3ZTj&_nc_oc=Adno7RbKzBhYfs262N-yqGHx3GlRvDPfEjrFB3OoYOZnnUq1RevgQ7r-Oy9BqcR_xFQ&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=qLSeyduupVr4F9zk1BAreA&oh=00_AfGxUck2eddWWjv1DsZmtWrBXSCL8_MBQQsHuIUlYms1QQ&oe=6820093F', 1);
 
 -- album 2 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://cdn.namansolo.com/media/couple001/cafe_01.jpg', 0);
+('https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/120312425_217390509763891_7105140567937459087_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=3a1ebe&_nc_ohc=KzCUC5H3F6AQ7kNvwGd3ZTj&_nc_oc=Adno7RbKzBhYfs262N-yqGHx3GlRvDPfEjrFB3OoYOZnnUq1RevgQ7r-Oy9BqcR_xFQ&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=qLSeyduupVr4F9zk1BAreA&oh=00_AfGxUck2eddWWjv1DsZmtWrBXSCL8_MBQQsHuIUlYms1QQ&oe=6820093F', 0);
 
 -- todo 2 관련 media
 INSERT INTO media (media_url, media_type)
