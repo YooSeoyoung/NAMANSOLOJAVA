@@ -2,6 +2,7 @@ package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.dw.NAMANSOLOJAVA.DTO.EventPresentDTO;
+import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.EventPresentRepository;
 import com.dw.NAMANSOLOJAVA.model.EventPresent;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -108,7 +109,7 @@ public class EventPresentService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("네이버 검색 API 호출 실패: " + e.getMessage());
+            throw new ResourceNotFoundException("네이버 검색 API 호출 실패: " + e.getMessage());
         }
     }
 
