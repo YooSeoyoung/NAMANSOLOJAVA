@@ -10,7 +10,6 @@ import com.dw.NAMANSOLOJAVA.Repository.OfficialEventRepository;
 import com.dw.NAMANSOLOJAVA.Repository.ToDoRepository;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import com.dw.NAMANSOLOJAVA.model.Media;
-import com.dw.NAMANSOLOJAVA.model.OfficialEvent;
 import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
@@ -114,7 +113,7 @@ public class ToDoService {
     public AnniversaryDTO getAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 기념일은 등록되어 있지 않습니다."));
         if (!todo.getType().equalsIgnoreCase("ANNIVERSARY")) {
             throw new ResourceNotFoundException("해당 기념일 항목이 없습니다.");
@@ -125,7 +124,7 @@ public class ToDoService {
     public ToDoTravelDTO getToDoTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정은 등록되어 있지 않습니다."));
         if (!todo.getType().equalsIgnoreCase("TRAVEL")) {
             throw new ResourceNotFoundException("해당 여행 일정이 없습니다.");
@@ -137,7 +136,7 @@ public class ToDoService {
     public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정은 등록되어 있지 않습니다."));
 
         if (!todo.getType().equals("TRAVEL")) {
@@ -186,7 +185,7 @@ public class ToDoService {
     public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 기념일은 등록되어 있지 않습니다."));
 
         if (!"ANNIVERSARY".equalsIgnoreCase(todo.getType())) {
@@ -208,7 +207,7 @@ public class ToDoService {
     public String deleteAnniversaryById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 기념일은 등록되어 있지 않습니다."));
 
         if (!todo.getEditable()) {
@@ -228,7 +227,7 @@ public class ToDoService {
     public String deleteTravelById(Long id) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUserUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정은 등록되어 있지 않습니다."));
 
         if (!"TRAVEL".equals(todo.getType())) {
