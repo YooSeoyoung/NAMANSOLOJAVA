@@ -208,13 +208,13 @@ INSERT INTO todo (
 -- album 1 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://via.placeholder.com/150', 0),
-('https://via.placeholder.com/150', 0);
+('https://placebear.com/400/300', 0),
+('https://placebear.com/400/300', 0);
 
 -- album 2 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://via.placeholder.com/150', 0);
+('https://placebear.com/400/300', 0);
 
 -- todo 2 관련 media
 INSERT INTO media (media_url, media_type)
