@@ -30,7 +30,7 @@ public class Alarm {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private AlarmType alarmType; // ENUM 알람 종류(FOLLOW ALBUM COMMENT GREAT EVENT RECOMMEND RECOMMENT WEATHER TODO)
+    private AlarmType alarmType; // ENUM 알람 종류
 
     @Column(name ="message")
     private String message; // 알림 내용

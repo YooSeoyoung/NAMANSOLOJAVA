@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.DTO;
 
+import com.dw.NAMANSOLOJAVA.enums.AlarmType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,5 @@ public class AlarmDTO {
     private LocalDateTime addDate;
     private boolean isRead;
     private String weatherInfo;
+
 }

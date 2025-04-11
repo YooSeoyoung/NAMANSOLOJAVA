@@ -57,7 +57,7 @@ public class AlarmService {
 
         return saved.toAlarmDTO();
     }
-    // 1:1 알림으로 팔로우 소식
+    // 1:1 알림으로 팔로우 소식 알림
     public void sendFollowAlarm(String toUser, String fromUser) {
         send(toUser,fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW);
     }
@@ -86,12 +86,10 @@ public class AlarmService {
         send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT);
     }
     // 기념일이나 일정에 관해 알림
-    // 일정 알림
     public void sendTodoAlarm(String toUser, String title) {
         send(toUser, "'" + title + "' 일정이 다가오고 있어요", AlarmType.TODO);
     }
-    // 날씨 정보에 대한 알림
-    // 날씨 알림 (오늘 or 미래 구분)
+    // 날씨 정보 알림 (오늘 or 미래 구분)
     public void sendWeatherAlarm(String toUser, String summary, boolean isFuture) {
         String prefix = isFuture ? "7일 후 기념일의 예상 날씨: " : "오늘의 날씨: ";
         send(toUser, prefix + summary, AlarmType.WEATHER);
