@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
+import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.dw.NAMANSOLOJAVA.DTO.EventPresentDTO;
 import com.dw.NAMANSOLOJAVA.Repository.EventPresentRepository;
 import com.dw.NAMANSOLOJAVA.model.EventPresent;
@@ -29,11 +30,13 @@ import java.util.Map;
 
 @Service
 public class EventPresentService {
-    @Value("${naver.client-id}")
-    private String clientId;
+    String clientId = SecurityConfig.dotenv.get("NAVER_CLIENT_ID");
 
-    @Value("${naver.client-secret}")
-    private String clientSecret;
+    private String cliId = clientId;
+
+    String clientSecret = SecurityConfig.dotenv.get("NAVER_CLIENT_SECRET");
+
+    private String apSec = clientSecret;
 
     @Autowired
     EventPresentRepository eventPlaceRepository;
@@ -75,8 +78,8 @@ public class EventPresentService {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+            con.setRequestProperty("X-Naver-Client-Id", cliId);
+            con.setRequestProperty("X-Naver-Client-Secret", apSec);
 
             int responseCode = con.getResponseCode();
             BufferedReader br = responseCode == 200 ?
