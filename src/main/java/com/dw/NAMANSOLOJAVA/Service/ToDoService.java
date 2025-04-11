@@ -39,6 +39,12 @@ public class ToDoService {
 //        return SecurityContextHolder.getContext().getAuthentication().getName();
 //    }
 
+    public List<ToDoTravelDTO> getAllTodo() {
+        User user = userService.getCurrentUser();
+        List<ToDo> toDoList = toDoRepository.findAllByUsername(user.getUsername());
+        return toDoList.stream().map(ToDo::toTravelDTO).toList();
+    }
+
     public List<AnniversaryDTO> getAllAnniversary() {
 //            String username = getCurrentUsername();
         User user = userService.getCurrentUser();
@@ -53,9 +59,6 @@ public class ToDoService {
 //            String username = getCurrentUsername();
         User user = userService.getCurrentUser();
         List<ToDo> toTravelList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "TRAVEL");
-        if (toTravelList.isEmpty()) {
-            throw new ResourceNotFoundException("작성된 여행 일정이 없습니다.");
-        }
         return toTravelList.stream().map(ToDo::toTravelDTO).toList();
     }
 

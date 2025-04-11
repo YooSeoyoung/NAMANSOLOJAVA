@@ -16,6 +16,11 @@ public class ToDoController {
     @Autowired
     ToDoService toDoService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<ToDoTravelDTO>> getAllTodo() {
+        return new ResponseEntity<>(toDoService.getAllTodo(), HttpStatus.OK);
+    }
+
     @GetMapping("/anniversary/all")
     public ResponseEntity<List<AnniversaryDTO>> getAllAnniversary() {
         return new ResponseEntity<>(toDoService.getAllAnniversary(), HttpStatus.OK);

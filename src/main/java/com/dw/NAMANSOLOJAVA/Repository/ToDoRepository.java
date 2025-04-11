@@ -13,6 +13,8 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long> {
     List<ToDo> findAllByUsernameAndType(String username, String type);
     @Query("SELECT t FROM ToDo t WHERE t.id = :id AND t.user.username = :username")
     Optional<ToDo> findByIdAndUsername(Long id, String username);
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username")
+    List<ToDo> findAllByUsername(String username);
     Boolean existsByUserUsernameAndStartDateAndTitle(String username, LocalDate startDate, String title);
     List<ToDo> findAllByTitleAndEditable(String title, Boolean editable);
 }
