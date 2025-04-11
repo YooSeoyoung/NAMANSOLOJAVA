@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 public class AnniversaryDTO {
+    private Long id;
     private String title;
     private LocalDate startDate;
     private String color;
