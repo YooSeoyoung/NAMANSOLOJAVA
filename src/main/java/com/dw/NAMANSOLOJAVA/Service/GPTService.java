@@ -23,7 +23,7 @@ public class GPTService {
     String oenapikey= SecurityConfig.dotenv.get("OPENAI_API_KEY");
 
     private String apiKey = oenapikey;
-    
+
     @Autowired
     private UserRepository userRepository;
     @Autowired private AlbumRepository albumRepository;
