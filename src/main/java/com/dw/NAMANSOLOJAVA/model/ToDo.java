@@ -60,8 +60,9 @@ public class ToDo {
     private List<Media> media = new ArrayList<>();
 
     public AnniversaryDTO toAnniDTO() {
-        return new AnniversaryDTO(this.title, this.startDate,
-                this.color, this.type);
+        return new AnniversaryDTO(this.id, this.title,
+                this.startDate, this.color,
+                this.type);
     }
 
     public ToDoTravelDTO toTravelDTO() {
