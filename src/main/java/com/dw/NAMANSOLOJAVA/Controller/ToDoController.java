@@ -3,6 +3,7 @@ package com.dw.NAMANSOLOJAVA.Controller;
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoAllDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
+import com.dw.NAMANSOLOJAVA.DTO.TravelMediaDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class ToDoController {
     }
 
     @PostMapping("/travel/save")
-    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO toDoTravelDTO) throws IOException {
-        return new ResponseEntity<>(toDoService.saveTravel(toDoTravelDTO), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO toDoTravelDTO, @ModelAttribute TravelMediaDTO mediaDTO) throws IOException {
+        return new ResponseEntity<>(toDoService.saveTravel(toDoTravelDTO, mediaDTO), HttpStatus.OK);
     }
 
     @PostMapping("/anniversary/save")
@@ -54,8 +55,9 @@ public class ToDoController {
     }
 
     @PutMapping("/travel/update/{id}")
-    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
-        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO,
+                                                              @ModelAttribute TravelMediaDTO mediaDTO) throws IOException {
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO, mediaDTO), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")

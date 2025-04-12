@@ -95,13 +95,12 @@ public class ToDoService {
         return saved.toAnniDTO();
     }
 
-    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto) throws IOException {
+    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto, TravelMediaDTO mediaDTO) throws IOException {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
         List<Media> mediaList = new ArrayList<>();
-        TravelMediaDTO files = new TravelMediaDTO();
 
-        for (MultipartFile file : files.getMultipartFiles()) {
+        for (MultipartFile file : mediaDTO.getMultipartFiles()) {
             if (!file.isEmpty()) {
                 String originalName = file.getOriginalFilename(); // 원래 파일명
                 String storedName = System.currentTimeMillis() + "_" + originalName; // 시간을 읽어오고 이름과 같이 저장함
@@ -163,7 +162,7 @@ public class ToDoService {
     }
 
     @Transactional
-    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto) {
+    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto, TravelMediaDTO mediaDTO) throws IOException {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
         ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
@@ -179,10 +178,11 @@ public class ToDoService {
         todo.setLastDate(dto.getLastDate());
         todo.setFinalEditDate(LocalDate.now());
 
+        // 기존 미디어 처리
         List<Media> originMedia = todo.getMedia();
         List<Long> incomingMediaIds = dto.getMediaUrl().stream()
                 .map(MediaDTO::getId)
-                .filter(Objects::nonNull) // mediaId -> mediaId != null 으로 했더니 자동추천, 이 표현의 람다식이라고 함
+                .filter(Objects::nonNull)
                 .toList();
 
         List<Media> deleteMedia = originMedia.stream()
@@ -191,18 +191,31 @@ public class ToDoService {
 
         originMedia.removeAll(deleteMedia);
 
-        List<Media> newMedias = dto.getMediaUrl().stream()
-                .filter(m -> m.getId() == null)
-                .map(m -> {
+        // 새 이미지 파일 저장
+        List<Media> newMedias = new ArrayList<>();
+        if (mediaDTO.getMultipartFiles() != null) {
+            Path uploadPath = Paths.get("uploads")
+                    .resolve(user.getUsername());
+            Files.createDirectories(uploadPath);
+
+            for (MultipartFile file : mediaDTO.getMultipartFiles()) {
+                if (!file.isEmpty()) {
+                    String originalName = file.getOriginalFilename();
+                    String storedName = System.currentTimeMillis() + "_" + originalName;
+                    Path filePath = uploadPath.resolve(storedName);
+                    Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                    String fileUrl = "/uploads/" + user.getUsername() + "/" + storedName;
+
                     Media media = new Media();
-                    media.setMediaUrl(m.getMediaUrl());
-                    media.setMediaType(MediaType.valueOf(m.getMediaType()));
-                    return mediaRepository.save(media);
-                })
-                .toList();
+                    media.setMediaUrl(fileUrl);
+                    media.setMediaType(MediaType.valueOf(file.getContentType()));
+                    newMedias.add(mediaRepository.save(media));
+                }
+            }
+        }
 
         originMedia.addAll(newMedias);
-
         todo.setMedia(originMedia);
         todo.setColor(dto.getColor());
         todo.setType(dto.getType());
@@ -262,6 +275,24 @@ public class ToDoService {
 
         if (!"TRAVEL".equals(todo.getType())) {
             throw new InvalidRequestException("해당 여행 일정은 등록되어 있지 않습니다.");
+        }
+
+        List<Media> mediaList = todo.getMedia();
+        for (Media media : mediaList) {
+            // 파일 삭제 (선택)
+            Path filePath = Paths.get("uploads")
+                    .resolve(user.getUsername())
+                    .resolve("travel")
+                    .resolve(Paths.get(media.getMediaUrl()).getFileName().toString());
+
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                e.printStackTrace(); // 실패해도 일단 무시
+            }
+
+            // DB에서 삭제
+            mediaRepository.delete(media);
         }
 
         toDoRepository.delete(todo);
