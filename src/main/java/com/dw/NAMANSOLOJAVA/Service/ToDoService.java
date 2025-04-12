@@ -12,12 +12,20 @@ import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class ToDoService {
@@ -32,6 +40,8 @@ public class ToDoService {
 
     @Autowired
     MediaRepository mediaRepository;
+
+
 
 //    private String getCurrentUsername() {
 //        return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -58,7 +68,9 @@ public class ToDoService {
 
     public List<ToDoTravelDTO> getAllTravel() {
 //            String username = getCurrentUsername();
+
         User user = userService.getCurrentUser();
+
         List<ToDo> toTravelList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "TRAVEL");
         return toTravelList.stream().map(ToDo::toTravelDTO).toList();
     }
@@ -83,19 +95,33 @@ public class ToDoService {
         return saved.toAnniDTO();
     }
 
-    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto) {
+    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto) throws IOException {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
+        List<Media> mediaList = new ArrayList<>();
+        TravelMediaDTO files = new TravelMediaDTO();
 
-        List<Media> mediaList = dto.getMediaUrl().stream()
-                .map(m -> {
-                    Media media = new Media();
-                    media.setMediaUrl(m.getMediaUrl());
-                    media.setMediaType(MediaType.valueOf(m.getMediaType()));
-                    mediaRepository.save(media); // 직접 저장 (Cascade 없이)
-                    return media;
-                })
-                .toList();
+        for (MultipartFile file : files.getMultipartFiles()) {
+            if (!file.isEmpty()) {
+                String originalName = file.getOriginalFilename(); // 원래 파일명
+                String storedName = System.currentTimeMillis() + "_" + originalName; // 시간을 읽어오고 이름과 같이 저장함
+
+                Path userDir = Paths.get("uploads").resolve(user.getUsername()); // 저장 경로
+                Files.createDirectories(userDir); // 없으면 생성
+
+                Path filePath = userDir.resolve(storedName); // 저장할 실제 파일 경로 만들기
+
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // 파일 저장
+
+                String filePathForClient = "/uploads/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
+
+                Media media = new Media();
+                media.setMediaUrl(filePathForClient);
+                media.setMediaType(MediaType.valueOf(file.getContentType()));
+
+                mediaList.add(mediaRepository.save(media));
+            }
+        }
 
         ToDo todo = new ToDo();
 
