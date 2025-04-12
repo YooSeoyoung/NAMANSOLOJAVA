@@ -14,8 +14,9 @@ public class ToDoTravelDTO {
     private Long id;
     private String title;
     private LocalDate startDate;
-    private LocalDate lastDate;
+    private LocalDate endDate;
     private List<MediaDTO> mediaUrl; // 사진 경로
     private String color;
     private String type;
+    private Boolean editable;
 }

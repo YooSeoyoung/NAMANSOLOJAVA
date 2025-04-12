@@ -61,14 +61,16 @@ public class ToDo {
 
     public AnniversaryDTO toAnniDTO() {
         return new AnniversaryDTO(this.id, this.title,
-                this.startDate, this.color,
-                this.type);
+                this.startDate, this.lastDate,
+                this.color, this.type,
+                this.editable);
     }
 
     public ToDoTravelDTO toTravelDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
-        return new ToDoTravelDTO(this.id, this.title, this.startDate,
-                this.lastDate, mediaDTO,
-                this.color, this.type);
+        return new ToDoTravelDTO(this.id, this.title,
+                this.startDate, this.lastDate,
+                mediaDTO, this.color,
+                this.type, this.editable);
     }
 }

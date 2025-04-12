@@ -13,6 +13,8 @@ public class AnniversaryDTO {
     private Long id;
     private String title;
     private LocalDate startDate;
+    private LocalDate endDate;
     private String color;
     private String type;
+    private Boolean editable;
 }

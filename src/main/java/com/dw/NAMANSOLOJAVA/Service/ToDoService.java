@@ -41,12 +41,6 @@ public class ToDoService {
     @Autowired
     MediaRepository mediaRepository;
 
-
-
-//    private String getCurrentUsername() {
-//        return SecurityContextHolder.getContext().getAuthentication().getName();
-//    }
-
     public ToDoAllDTO getAllTodo() {
         User user = userService.getCurrentUser();
         List<ToDo> anniversaryList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "ANNIVERSARY");
@@ -83,7 +77,7 @@ public class ToDoService {
 
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
-        todo.setLastDate(dto.getStartDate()); // 기념일은 시작일 = 종료일
+        todo.setLastDate(dto.getEndDate()); // 기념일은 시작일 = 종료일
         todo.setFinalEditDate(LocalDate.now());
         todo.setType(dto.getType());
         todo.setUser(user);
@@ -126,7 +120,7 @@ public class ToDoService {
 
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
-        todo.setLastDate(dto.getLastDate());
+        todo.setLastDate(dto.getEndDate());
         todo.setFinalEditDate(LocalDate.now());
         todo.setType(dto.getType());
         todo.setUser(user);
@@ -175,7 +169,7 @@ public class ToDoService {
         todo.setUser(user);
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
-        todo.setLastDate(dto.getLastDate());
+        todo.setLastDate(dto.getEndDate());
         todo.setFinalEditDate(LocalDate.now());
 
         // 기존 미디어 처리
@@ -237,7 +231,7 @@ public class ToDoService {
 
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
-        todo.setLastDate(dto.getStartDate()); // 기념일은 시작일이 곧 일정의 끝
+        todo.setLastDate(dto.getEndDate()); // 기념일은 시작일이 곧 일정의 끝
         todo.setFinalEditDate(LocalDate.now()); // 미디어는 이미 생성 시점에 new ArrayList() 했음.
         todo.setColor(dto.getColor());
         todo.setType(dto.getType());
