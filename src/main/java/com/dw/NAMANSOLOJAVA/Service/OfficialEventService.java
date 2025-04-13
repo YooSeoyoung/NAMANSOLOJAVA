@@ -69,12 +69,16 @@ public class OfficialEventService {
         List<ToDo> todos = new ArrayList<>();
 
         for (User user : users) {
+            if (user.getUsername().equalsIgnoreCase("admin")) {
+                continue;
+            }
             ToDo todo = new ToDo();
             todo.setUser(user);
             todo.setTitle(event.getEventTitle());
             todo.setEditable(false);
             todo.setFinalEditDate(LocalDate.now());
-            todo.setType("ANNIVERSARY"); // 공식 이벤트니까
+            todo.setType("ANNIVERSARY"); // 공식 이벤트 => 유저 개인의 기념일
+            todo.setColor("#b22222");
 
             if (event.getOffsetDays() == 0L) {
                 todo.setStartDate(event.getEventDate());
@@ -87,7 +91,9 @@ public class OfficialEventService {
             }
 
             todos.add(todo);
-        }
+
+            }
+
 
         todoRepository.saveAll(todos);
 
@@ -111,6 +117,9 @@ public class OfficialEventService {
         List<ToDo> todos = todoRepository.findAllByTitleAndEditable(oldTitle, false);
 
         for (ToDo todo : todos) {
+            if (todo.getUser().getUsername().equalsIgnoreCase("admin")) {
+                continue;
+            }
             if (!oldTitle.equals(dto.getEventTitle())) {
                 todo.setTitle(dto.getEventTitle());
             }
@@ -118,17 +127,27 @@ public class OfficialEventService {
             if (offsetDays == 0L) {
                 todo.setStartDate(event.getEventDate());
                 todo.setLastDate(event.getEventDate());
+                todo.setMedia(new ArrayList<>());
+                todo.setFinalEditDate(LocalDate.now());
+                todo.setColor("#b22222");
+                todo.setType("ANNIVERSARY");
+                todo.setEditable(false);
             } else {
                 LocalDate dday = todo.getUser().getDDay();
                 LocalDate calcDate = dday.plusDays(event.getOffsetDays());
                 todo.setStartDate(calcDate);
+                todo.setMedia(new ArrayList<>());
                 todo.setLastDate(calcDate);
+                todo.setFinalEditDate(LocalDate.now());
+                todo.setColor("#b22222");
+                todo.setEditable(false);
+                todo.setType("ANNIVERSARY");
             }
         }
 
         todoRepository.saveAll(todos);
-
-        return officialEventRepository.save(event).offEventDTO();
+        OfficialEventDTO offEventDTO = officialEventRepository.save(event).offEventDTO();
+        return offEventDTO;
     }
 
     @Transactional
@@ -152,12 +171,17 @@ public class OfficialEventService {
         List<ToDo> todos = new ArrayList<>();
 
         for (OfficialEvent event : events) {
+            if (user.getUsername().equalsIgnoreCase("admin")) {
+                continue;
+            }
             ToDo todo = new ToDo();
+
             todo.setUser(user);
             todo.setTitle(event.getEventTitle());
             todo.setEditable(false);
             todo.setType("ANNIVERSARY");
             todo.setFinalEditDate(LocalDate.now());
+            todo.setColor("#b22222");
 
             if (event.getOffsetDays() == 0L) {
                 todo.setStartDate(event.getEventDate());
