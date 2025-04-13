@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.AddAlbumDTO;
+import com.dw.NAMANSOLOJAVA.DTO.BookmarkDTO;
 import com.dw.NAMANSOLOJAVA.DTO.UpdateAlbumDTO;
 import com.dw.NAMANSOLOJAVA.DTO.AlbumDTO;
 import com.dw.NAMANSOLOJAVA.Service.AlbumService;
@@ -30,6 +31,14 @@ public class AlbumController {
                 albumService.getAlbumById(id),
                 HttpStatus.OK);
     }
+    @GetMapping("/ids")
+    public ResponseEntity <List<BookmarkDTO>> getAlbumByIds(@RequestParam List<Long> id) {
+        return new ResponseEntity<>(
+                albumService.getAlbumByIds(id),
+                HttpStatus.OK);
+    }
+
+
     @PutMapping("/update")
     public ResponseEntity <UpdateAlbumDTO> UpdateAlbum( @RequestBody UpdateAlbumDTO updateAlbumDTO) {
         return new ResponseEntity<>(

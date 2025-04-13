@@ -50,6 +50,15 @@ public class AlbumService {
         List<AlbumTag> usertags = albumTagRepository.findByAlbumId(id);
         return  album.toAlbumDTO(usertags);
     }
+
+    public List<BookmarkDTO> getAlbumByIds(List<Long> id){
+        List<Album> albums= albumRepository.findAllById(id);
+        return albums.stream().map(
+                album ->
+        new BookmarkDTO(album.getId(),album.getMedia().get(0).getMediaUrl(),album.getUser().getUsername())
+        ).toList();
+    }
+
     @Transactional
     public UpdateAlbumDTO updateAlbum( UpdateAlbumDTO updateAlbumDTO){
         User user = userService.getCurrentUser();

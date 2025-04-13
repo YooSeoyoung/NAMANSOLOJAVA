@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class FollowService {
 
         List<User> users = userRepository.findByUsernameLike("%"+username+"%").stream()
                 .filter(u -> !u.getUsername().equals(currentUser.getUsername()))
+                .filter(user -> !user.getAuthority().getAuthorityName().equals("ROLE_ADMIN"))
                 .toList();
         List<String> followingUsernames = followRepository.findByFollower(currentUser).stream()
                 .map(f -> f.getFollowing().getUsername()).toList();        // 내가 팔로우한 유저(즉, 팔로잉찾기)
@@ -62,6 +64,9 @@ public class FollowService {
     }
 
     public List<UserFollowInfoDTO> getFollowerByUsername(String username){
+        if (username == null || username.trim().isEmpty()) {
+            return getFollowers();
+        }
         User user = userService.getCurrentUser();
         List<User> followerUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
@@ -73,6 +78,9 @@ public class FollowService {
                 .toList();
     }
     public List<UserFollowInfoDTO> getFollowingByUsername(String username){
+        if (username == null || username.trim().isEmpty()) {
+            return getFollowings();
+        }
         User user = userService.getCurrentUser();
         List<User> followingUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
