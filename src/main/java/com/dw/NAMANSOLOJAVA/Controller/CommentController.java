@@ -30,6 +30,14 @@ public class CommentController {
                 commentService.getCommentByAlbumId(albumId),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/username")
+    public ResponseEntity<List<CommentDTO>> getCommentByUsername() {
+        return new ResponseEntity<>(
+                commentService.getCommentByUsername(),
+                HttpStatus.OK);
+    }
+
     @DeleteMapping("/id/{id}")
     public ResponseEntity<String> deleteCommentById(@PathVariable Long id) {
         return new ResponseEntity<>(

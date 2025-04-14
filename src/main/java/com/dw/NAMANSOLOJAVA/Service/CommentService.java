@@ -40,9 +40,14 @@ public class CommentService {
     public List<CommentDTO> getCommentByAlbumId(Long albumId){
         return  commentRepository.findByAlbumId(albumId).stream().map(Comment::toCommentDTO).toList();
     }
+
+    public List<CommentDTO> getCommentByUsername(){
+        User user= userService.getCurrentUser();
+        return  commentRepository.findByUser_Username(user.getUsername()).stream().map(Comment::toCommentDTO).toList();
+    }
+
     @Transactional
     public String deleteCommentById(Long id){
-
      User user= userService.getCurrentUser();
      Comment comment = commentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("존재하지 않은 댓글 Id입니다"));
      if (!comment.getUser().equals(user)){

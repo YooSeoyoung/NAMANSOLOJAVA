@@ -35,6 +35,10 @@ public class RecommentService {
     public List<ReCommentDTO> getReCommentByCommentId(Long commentId){
         return  recommentRepository.findByCommentId(commentId).stream().map(ReComment::toRecommentDTO).toList();
     }
+    public List<ReCommentDTO> getReCommentByUsername(){
+        User user =userService.getCurrentUser();
+        return  recommentRepository.findByUser_Username(user.getUsername()).stream().map(ReComment::toRecommentDTO).toList();
+    }
 
     public String deleteReCommentById(Long id){
         User user =userService.getCurrentUser();

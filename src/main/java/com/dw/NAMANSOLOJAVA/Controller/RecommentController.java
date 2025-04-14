@@ -32,6 +32,12 @@ public class RecommentController {
                 recommentService.getReCommentByCommentId(commentId),
                 HttpStatus.OK);
     }
+    @GetMapping("/username")
+    public ResponseEntity<List<ReCommentDTO>> getReCommentByUsername() {
+        return new ResponseEntity<>(
+                recommentService.getReCommentByUsername(),
+                HttpStatus.OK);
+    }
     @DeleteMapping("/id/{id}")
     public ResponseEntity<String> deleteReCommentById(@PathVariable Long id) {
         return new ResponseEntity<>(

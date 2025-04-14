@@ -8,4 +8,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     List<Comment> findByAlbumId(Long id);
+    List<Comment> findByUser_Username(String username);
 }

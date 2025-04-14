@@ -12,4 +12,6 @@ public interface RecommentRepository extends JpaRepository<ReComment,Long> {
 
 List<ReComment> findByCommentId(Long id);
 
+ List<ReComment> findByUser_Username(String username);
+
 }
