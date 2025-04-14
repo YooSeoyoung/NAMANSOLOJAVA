@@ -3,12 +3,12 @@ package com.dw.NAMANSOLOJAVA.Controller;
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoAllDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
-import com.dw.NAMANSOLOJAVA.DTO.TravelMediaDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,8 +35,8 @@ public class ToDoController {
     }
 
     @PostMapping("/travel/save")
-    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO toDoTravelDTO, @ModelAttribute TravelMediaDTO mediaDTO) throws IOException {
-        return new ResponseEntity<>(toDoService.saveTravel(toDoTravelDTO, mediaDTO), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestPart("dto") ToDoTravelDTO dto, @RequestPart("multipartFiles") List<MultipartFile> files) throws IOException {
+        return new ResponseEntity<>(toDoService.saveTravel(dto, files), HttpStatus.OK);
     }
 
     @PostMapping("/anniversary/save")
@@ -55,9 +55,9 @@ public class ToDoController {
     }
 
     @PutMapping("/travel/update/{id}")
-    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO,
-                                                              @ModelAttribute TravelMediaDTO mediaDTO) throws IOException {
-        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO, mediaDTO), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestPart("dto") ToDoTravelDTO toDoTravelDTO,
+                                                              @RequestPart("multipartFiles") List<MultipartFile> files) throws IOException {
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO, files), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")
