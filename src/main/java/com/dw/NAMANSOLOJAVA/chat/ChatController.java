@@ -25,7 +25,7 @@ public class ChatController {
     ) {
         // Add username in web socket session
         // 연결종료시 누구의 연결이 종료된 것인지 확인하기 위해 저장
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getContent());
         return chatMessage;
     }
 }
