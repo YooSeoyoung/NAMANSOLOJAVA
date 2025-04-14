@@ -236,8 +236,8 @@ public class ToDoService {
 
         List<Media> mediaList = todo.getMedia();
         for (Media media : mediaList) {
-            String relativePath = media.getMediaUrl().replace("/uploads/", "");
-            Path filePath = Paths.get(uploadDir).resolve(relativePath);
+            String relativePath = media.getMediaUrl().replace("/api/todo/media/" + user.getUsername() + "/", "");
+            Path filePath = Paths.get("./var/upload").resolve(user.getUsername()).resolve(relativePath);
 
             try {
                 Files.deleteIfExists(filePath);
