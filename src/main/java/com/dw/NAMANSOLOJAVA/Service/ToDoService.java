@@ -107,7 +107,7 @@ public class ToDoService {
 
                     Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // 파일 저장
 
-                    String filePathForClient = "/upload/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
+                    String filePathForClient = "/var/upload/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
 
                     Media media = new Media();
                     media.setMediaUrl(filePathForClient);
