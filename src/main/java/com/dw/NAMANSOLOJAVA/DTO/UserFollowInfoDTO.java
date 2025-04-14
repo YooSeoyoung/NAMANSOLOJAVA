@@ -12,6 +12,7 @@ import java.util.List;
 public class UserFollowInfoDTO {
     private String username;
     private String profileUrl;
-//    private List<AlbumDTO> albumList;
 
+    // 서로 맞팔 상태인지 여부
+    private boolean isMutualFollow;
 }

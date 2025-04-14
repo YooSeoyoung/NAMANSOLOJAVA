@@ -70,10 +70,16 @@ public class FollowService {
         User user = userService.getCurrentUser();
         List<User> followerUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
+
+        List<Follow> following = followRepository.findByFollower(user);
+
         return followerUser.stream().filter(follower ->followRepository.findByFollowerAndFollowing(follower,user).isPresent())
                 .map(follower -> {
                     String profileUrl =  follower.getMedia().getMediaUrl();
-                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl);
+                    boolean isMutualFollow = following.stream().map(
+                            f -> f.getFollowing().getUsername()
+                    ).toList().contains(follower.getUsername());
+                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl,isMutualFollow);
                 })
                 .toList();
     }
@@ -84,13 +90,54 @@ public class FollowService {
         User user = userService.getCurrentUser();
         List<User> followingUser = userRepository.findByUsernameLike("%"+username+"%").stream().filter(
                 user1 -> !user1.getUsername().equals(user.getUsername())).toList();
+
+        List<Follow> followers=followRepository.findByFollowing(user);
+
         return followingUser.stream().filter(following ->followRepository.findByFollowerAndFollowing(user,following).isPresent())
                 .map(following -> {
                     String profileUrl =  following.getMedia().getMediaUrl();
-                    return new UserFollowInfoDTO(following.getUsername(), profileUrl);
+                    boolean isMutualFollow = followers.stream().map(
+                            f -> f.getFollower().getUsername()
+                    ).toList().contains(following.getUsername());
+                    return new UserFollowInfoDTO(following.getUsername(), profileUrl,isMutualFollow);
                 })
                 .toList();
     }
+
+    public List<UserFollowInfoDTO> getFollowers() {
+        User user = userService.getCurrentUser();
+        List<Follow> followers=followRepository.findByFollowing(user);
+        List<Follow> following = followRepository.findByFollower(user);
+
+       return followers.stream().map(
+                follow -> {
+                    User follower = follow.getFollower();
+                    String profileUrl = follow.getFollower().getMedia().getMediaUrl();
+
+                    boolean isMutualFollow = following.stream().map(
+                            f -> f.getFollowing().getUsername()
+                    ).toList().contains(follower.getUsername());
+                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl,isMutualFollow);
+                })
+                .toList();
+        }
+
+    public List<UserFollowInfoDTO> getFollowings() {
+        User user = userService.getCurrentUser();
+       List<Follow> followings= followRepository.findByFollower(user);
+        List<Follow> followers=followRepository.findByFollowing(user);
+
+       return  followings.stream().map(
+               follow -> {
+                   User following = follow.getFollowing();
+                   String profileUrl = follow.getFollowing().getMedia().getMediaUrl();
+                   boolean isMutualFollow = followers.stream().map(
+                           f -> f.getFollower().getUsername()
+                   ).toList().contains(following.getUsername());
+
+                return new UserFollowInfoDTO(following.getUsername(),profileUrl,isMutualFollow);
+               }).toList();
+            }
 
     public String deleteFollowing(String username) { //내가 팔로우한 사람 삭제(팔로우 취소)
         User user = userService.getCurrentUser();
@@ -113,7 +160,6 @@ public class FollowService {
         followRepository.delete(follow);
         return "팔로잉을 해제하였습니다";
     }
-
     public FollowDTO saveNewFollowing(FollowDTO followDTO) { // 새로운 사람을 내가 팔로우하기
         User user = userService.getCurrentUser();
         User following =  userRepository.findById(followDTO.getFollowing()).orElseThrow(()-> new ResourceNotFoundException("존재하지 않은 username입니다"));
@@ -128,41 +174,4 @@ public class FollowService {
         return followRepository.save(follow).toFollowDTO();
     }
 
-    public List<UserFollowInfoDTO> getFollowers() {
-        User user = userService.getCurrentUser();
-        List<Follow> followers=followRepository.findByFollowing(user);
-
-       return followers.stream().map(
-                follow -> {
-                    User follower = follow.getFollower();
-                    String profileUrl = follow.getFollower().getMedia().getMediaUrl();
-//                    List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(follower.getUsername(), Visibility.PUBLIC);
-//                    List<AlbumDTO> albumDTOS= albums.stream().map(
-//                            album -> {
-//                                List<AlbumTag> albumTags =  albumTagRepository.findByAlbumId(album.getId());
-//                                return album.toAlbumDTO(albumTags);
-//                            }).toList();
-                    return new UserFollowInfoDTO(follower.getUsername(), profileUrl);
-                })
-                .toList();
-        }
-
-    public List<UserFollowInfoDTO> getFollowings() {
-        User user = userService.getCurrentUser();
-       List<Follow> followings= followRepository.findByFollower(user);
-
-       return  followings.stream().map(
-               follow -> {
-                   User following = follow.getFollowing();
-                   String profileUrl = follow.getFollowing().getMedia().getMediaUrl();
-//
-//                   List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(following.getUsername(), Visibility.PUBLIC);
-//                    List<AlbumDTO> albumDTOS = albums.stream().map(
-//                            album -> {
-//                                List<AlbumTag> albumTags = albumTagRepository.findByAlbumId(album.getId());
-//                                return album.toAlbumDTO(albumTags);
-//                            }).toList();
-                return new UserFollowInfoDTO(following.getUsername(),profileUrl);
-               }).toList();
-            }
 }
