@@ -92,30 +92,30 @@ public class ToDoService {
     public ToDoTravelDTO saveTravel(ToDoTravelDTO dto, List<MultipartFile> files) throws IOException {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
+
         List<Media> mediaList = new ArrayList<>();
+        if (files != null) {
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    String originalName = file.getOriginalFilename(); // 원래 파일명
+                    String storedName = System.currentTimeMillis() + "_" + originalName; // 시간을 읽어오고 이름과 같이 저장함
 
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                String originalName = file.getOriginalFilename(); // 원래 파일명
-                String storedName = System.currentTimeMillis() + "_" + originalName; // 시간을 읽어오고 이름과 같이 저장함
+                    Path userDir = Paths.get("upload").resolve(user.getUsername()); // 저장 경로
+                    Files.createDirectories(userDir); // 없으면 생성
 
-                Path userDir = Paths.get("upload").resolve(user.getUsername()); // 저장 경로
-                Files.createDirectories(userDir); // 없으면 생성
+                    Path filePath = userDir.resolve(storedName); // 저장할 실제 파일 경로 만들기
 
-                Path filePath = userDir.resolve(storedName); // 저장할 실제 파일 경로 만들기
+                    Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // 파일 저장
 
-                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // 파일 저장
+                    String filePathForClient = "/upload/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
 
-                String filePathForClient = "/upload/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
-
-                Media media = new Media();
-                media.setMediaUrl(filePathForClient);
-                media.setMediaType(MediaType.valueOf(file.getContentType()));
-
-                mediaList.add(mediaRepository.save(media));
+                    Media media = new Media();
+                    media.setMediaUrl(filePathForClient);
+                    media.setMediaType(MediaType.fromMimeType(file.getContentType()));
+                    mediaList.add(mediaRepository.save(media));
+                }
             }
         }
-
         ToDo todo = new ToDo();
 
         todo.setTitle(dto.getTitle());
@@ -128,9 +128,9 @@ public class ToDoService {
         todo.setColor(dto.getColor());
         todo.setMedia(mediaList);
 
-        ToDo saved = toDoRepository.save(todo);
+        todo = toDoRepository.save(todo);
 
-        return saved.toTravelDTO();
+        return todo.toTravelDTO();
     }
 
     public AnniversaryDTO getAnniversaryById(Long id) {
@@ -159,7 +159,7 @@ public class ToDoService {
     public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto, List<MultipartFile> files) throws IOException {
         User user = userService.getCurrentUser();
         ToDo todo = toDoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 ID의 여행 이벤트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당 여행 일정을 찾을 수 없습니다."));
 
         // 기존 미디어 유지 or 삭제
         List<Media> originMedia = todo.getMedia();
@@ -174,7 +174,7 @@ public class ToDoService {
                 .toList();
 
         for (Media media : deleteMedia) {
-            String relative = media.getMediaUrl().replace("/upload/", "upload/");
+            String relative = media.getMediaUrl().replace("/uploads/", "uploads/");
             Files.deleteIfExists(Paths.get(relative));
             mediaRepository.delete(media);
         }
@@ -183,7 +183,7 @@ public class ToDoService {
 
         // 새 파일 업로드
         if (files != null) {
-            Path uploadPath = Paths.get("upload").resolve(user.getUsername());
+            Path uploadPath = Paths.get("uploads").resolve(user.getUsername());
             Files.createDirectories(uploadPath);
 
             for (MultipartFile file : files) {
@@ -193,11 +193,11 @@ public class ToDoService {
                     Path filePath = uploadPath.resolve(storedName);
                     Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                    String fileUrl = "/upload/" + user.getUsername() + "/" + storedName;
+                    String fileUrl = "/uploads/" + user.getUsername() + "/" + storedName;
 
                     Media media = new Media();
                     media.setMediaUrl(fileUrl);
-                    media.setMediaType(MediaType.valueOf(file.getContentType()));
+                    media.setMediaType(MediaType.fromMimeType(file.getContentType()));
                     originMedia.add(mediaRepository.save(media));
                 }
             }
@@ -274,7 +274,6 @@ public class ToDoService {
             // 파일 삭제 (선택)
             Path filePath = Paths.get("uploads")
                     .resolve(user.getUsername())
-                    .resolve("travel")
                     .resolve(Paths.get(media.getMediaUrl()).getFileName().toString());
 
             try {
@@ -289,6 +288,6 @@ public class ToDoService {
 
         toDoRepository.delete(todo);
 
-        return "기념일이 성공적으로 삭제되었습니다.";
+        return "여행 일정이 성공적으로 삭제되었습니다.";
     }
 }

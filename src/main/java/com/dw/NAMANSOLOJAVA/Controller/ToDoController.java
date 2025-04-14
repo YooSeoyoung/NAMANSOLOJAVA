@@ -35,7 +35,7 @@ public class ToDoController {
     }
 
     @PostMapping("/travel/save")
-    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestPart("dto") ToDoTravelDTO dto, @RequestPart("multipartFiles") List<MultipartFile> files) throws IOException {
+    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestPart("dto") ToDoTravelDTO dto, @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
         return new ResponseEntity<>(toDoService.saveTravel(dto, files), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class ToDoController {
 
     @PutMapping("/travel/update/{id}")
     public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestPart("dto") ToDoTravelDTO toDoTravelDTO,
-                                                              @RequestPart("multipartFiles") List<MultipartFile> files) throws IOException {
+                                                              @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
         return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO, files), HttpStatus.OK);
     }
 
