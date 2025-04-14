@@ -12,6 +12,7 @@ import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,35 +90,19 @@ public class ToDoService {
         return saved.toAnniDTO();
     }
 
-    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto, List<MultipartFile> files) throws IOException {
+    public ToDoTravelDTO saveTravel(ToDoTravelDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
 
-        List<Media> mediaList = new ArrayList<>();
-        if (files != null) {
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    String originalName = file.getOriginalFilename(); // 원래 파일명
-                    String storedName = System.currentTimeMillis() + "_" + originalName; // 시간을 읽어오고 이름과 같이 저장함
+        List<Media> mediaList = dto.getMediaUrl().stream().map(
+                mediaDTO -> new Media(
+                        null, mediaDTO.getMediaUrl(),
+                        MediaType.valueOf(mediaDTO.getMediaType()))
+        ).toList();
+        mediaRepository.saveAll(mediaList);
 
-                    Path userDir = Paths.get("upload").resolve(user.getUsername()); // 저장 경로
-                    Files.createDirectories(userDir); // 없으면 생성
-
-                    Path filePath = userDir.resolve(storedName); // 저장할 실제 파일 경로 만들기
-
-                    Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // 파일 저장
-
-                    String filePathForClient = "/var/upload/" + user.getUsername() + "/" + storedName; // DB에 저장할 경로 만들기
-
-                    Media media = new Media();
-                    media.setMediaUrl(filePathForClient);
-                    media.setMediaType(MediaType.fromMimeType(file.getContentType()));
-                    mediaList.add(mediaRepository.save(media));
-                }
-            }
-        }
         ToDo todo = new ToDo();
-
+        todo.setId(null);
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getEndDate());
@@ -128,9 +113,7 @@ public class ToDoService {
         todo.setColor(dto.getColor());
         todo.setMedia(mediaList);
 
-        todo = toDoRepository.save(todo);
-
-        return todo.toTravelDTO();
+        return toDoRepository.save(todo).toTravelDTO();
     }
 
     public AnniversaryDTO getAnniversaryById(Long id) {
@@ -156,52 +139,34 @@ public class ToDoService {
     }
 
     @Transactional
-    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto, List<MultipartFile> files) throws IOException {
+    public ToDoTravelDTO updateToDoTravelById(ToDoTravelDTO dto) {
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 여행 일정을 찾을 수 없습니다."));
+        ToDo todo = toDoRepository.findById(dto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정을 찾을 수 없습니다."));
 
-        // 기존 미디어 유지 or 삭제
-        List<Media> originMedia = todo.getMedia();
-        List<Long> incomingMediaIds = dto.getMediaUrl().stream()
+        // 기존 미디어 유지 / 삭제
+        List<Media> oldMedia = todo.getMedia();
+
+        List<Long> newMedia = dto.getMediaUrl().stream()
                 .map(MediaDTO::getId)
                 .filter(Objects::nonNull)
                 .toList();
 
         // 삭제 대상 미디어
-        List<Media> deleteMedia = originMedia.stream()
-                .filter(media -> !incomingMediaIds.contains(media.getId()))
+        List<Media> deleteMedia = oldMedia.stream()
+                .filter(media -> !newMedia.contains(media.getId()))
                 .toList();
 
-        for (Media media : deleteMedia) {
-            String relative = media.getMediaUrl().replace("/uploads/", "uploads/");
-            Files.deleteIfExists(Paths.get(relative));
-            mediaRepository.delete(media);
-        }
+        mediaRepository.deleteAll(deleteMedia);
 
-        originMedia.removeAll(deleteMedia); // 실제 엔티티에서 제거
-
-        // 새 파일 업로드
-        if (files != null) {
-            Path uploadPath = Paths.get("uploads").resolve(user.getUsername());
-            Files.createDirectories(uploadPath);
-
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    String originalName = file.getOriginalFilename();
-                    String storedName = System.currentTimeMillis() + "_" + originalName;
-                    Path filePath = uploadPath.resolve(storedName);
-                    Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-                    String fileUrl = "/uploads/" + user.getUsername() + "/" + storedName;
-
-                    Media media = new Media();
-                    media.setMediaUrl(fileUrl);
-                    media.setMediaType(MediaType.fromMimeType(file.getContentType()));
-                    originMedia.add(mediaRepository.save(media));
-                }
-            }
-        }
+        List<Media> newMediaToSave = dto.getMediaUrl().stream()
+                .map(mediaDTO -> mediaRepository.findById(mediaDTO.getId())
+                        .orElseGet(() -> new Media(
+                                null,
+                                mediaDTO.getMediaUrl(),
+                                MediaType.valueOf(mediaDTO.getMediaType())
+                        ))).toList();
+        mediaRepository.saveAll(newMediaToSave);
 
         // 나머지 속성 업데이트
         todo.setTitle(dto.getTitle());
@@ -210,17 +175,17 @@ public class ToDoService {
         todo.setColor(dto.getColor());
         todo.setFinalEditDate(LocalDate.now());
         todo.setType(dto.getType());
-        todo.setMedia(originMedia); // 최종 리스트 저장
+        todo.setMedia(oldMedia); // 최종 리스트 저장
 
         ToDo updated = toDoRepository.save(todo);
         return updated.toTravelDTO();
     }
 
     @Transactional
-    public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO dto) {
+    public AnniversaryDTO updateAnniversaryById(AnniversaryDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(dto.getId(), user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 기념일은 등록되어 있지 않습니다."));
 
         if (!"ANNIVERSARY".equalsIgnoreCase(todo.getType())) {
@@ -271,15 +236,13 @@ public class ToDoService {
 
         List<Media> mediaList = todo.getMedia();
         for (Media media : mediaList) {
-            // 파일 삭제 (선택)
-            Path filePath = Paths.get("uploads")
-                    .resolve(user.getUsername())
-                    .resolve(Paths.get(media.getMediaUrl()).getFileName().toString());
+            String relativePath = media.getMediaUrl().replace("/uploads/", "");
+            Path filePath = Paths.get(uploadDir).resolve(relativePath);
 
             try {
                 Files.deleteIfExists(filePath);
             } catch (IOException e) {
-                e.printStackTrace(); // 실패해도 일단 무시
+                e.printStackTrace();
             }
 
             // DB에서 삭제

@@ -1,23 +1,39 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
+import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoAllDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import com.dw.NAMANSOLOJAVA.Service.ToDoService;
+import com.dw.NAMANSOLOJAVA.Service.UserService;
+import com.dw.NAMANSOLOJAVA.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/todo")
 public class ToDoController {
     @Autowired
     ToDoService toDoService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/all")
     public ResponseEntity<ToDoAllDTO> getAllTodo() {
@@ -35,8 +51,8 @@ public class ToDoController {
     }
 
     @PostMapping("/travel/save")
-    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestPart("dto") ToDoTravelDTO dto, @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
-        return new ResponseEntity<>(toDoService.saveTravel(dto, files), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> saveTravel(@RequestBody ToDoTravelDTO dto) {
+        return new ResponseEntity<>(toDoService.saveTravel(dto), HttpStatus.OK);
     }
 
     @PostMapping("/anniversary/save")
@@ -55,14 +71,13 @@ public class ToDoController {
     }
 
     @PutMapping("/travel/update/{id}")
-    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestPart("dto") ToDoTravelDTO toDoTravelDTO,
-                                                              @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
-        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO, files), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@RequestBody ToDoTravelDTO toDoTravelDTO) {
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(toDoTravelDTO), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")
-    public ResponseEntity<AnniversaryDTO> updateAnniversaryById(@PathVariable Long id, @RequestBody AnniversaryDTO anniversaryDTO) {
-        return new ResponseEntity<>(toDoService.updateAnniversaryById(id, anniversaryDTO), HttpStatus.OK);
+    public ResponseEntity<AnniversaryDTO> updateAnniversaryById(@RequestBody AnniversaryDTO anniversaryDTO) {
+        return new ResponseEntity<>(toDoService.updateAnniversaryById(anniversaryDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/anniversary/delete/{id}")
@@ -73,5 +88,71 @@ public class ToDoController {
     @DeleteMapping("/travel/delete/{id}")
     public ResponseEntity<String> deleteTravelById(@PathVariable Long id) {
         return new ResponseEntity<>(toDoService.deleteTravelById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/upload/multiple")
+    public ResponseEntity<?> uploadMultiple(
+            @RequestParam("title") String title,
+            @RequestParam("files") List<MultipartFile> files) {
+
+        User user = userService.getCurrentUser();
+        String username = user.getUsername();
+        String uploadDir = "./var/upload/" + username;
+
+        File dir = new File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        List<MediaDTO> uploadedMedia = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            String originalFilename = file.getOriginalFilename();
+
+            String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+            String baseName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+            String newFileName = System.currentTimeMillis() + "_" + baseName + ext;
+
+            Path savePath = Paths.get(uploadDir, newFileName);
+
+            try {
+                Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
+
+                MediaDTO mediaDTO = new MediaDTO();
+                mediaDTO.setMediaUrl("/api/todo/media/" + username + "/" + newFileName); // ✅ 유저 경로 포함
+                mediaDTO.setMediaType(file.getContentType().startsWith("video") ? "VIDEO" : "PICTURE");
+
+                uploadedMedia.add(mediaDTO);
+
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("업로드 중 오류: " + e.getMessage());
+            }
+        }
+
+        return ResponseEntity.ok(uploadedMedia);
+    }
+
+    @GetMapping("/media/{fileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        try {
+            User user = userService.getCurrentUser();
+            String username = user.getUsername();
+
+            Path basePath = Paths.get("./var/upload").resolve(username).normalize();
+            Path filePath = basePath.resolve(fileName).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                String contentType = Files.probeContentType(filePath);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
