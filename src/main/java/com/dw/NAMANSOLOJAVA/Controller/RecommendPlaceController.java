@@ -1,14 +1,23 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
+import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceAdmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
+import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceMultipartDTO;
 import com.dw.NAMANSOLOJAVA.Service.RecommendPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -49,4 +58,51 @@ public class RecommendPlaceController {
     public ResponseEntity<List<RecommendPlaceDTO>> getRecommendPlacesByRegion(@PathVariable String region) {
         return new ResponseEntity<>(recommendPlaceService.getPlacesByRegion(region), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/upload/full")
+    public ResponseEntity<?> uploadPlaceWithFiles(
+            @RequestPart("place") RecommendPlaceAdmDTO dto,
+            @RequestPart("files") List<MultipartFile> files
+    ) {
+        List<MediaDTO> mediaList = recommendPlaceService.saveMediaFiles(files);
+        dto.setMediaUrl(mediaList);
+        return ResponseEntity.ok(recommendPlaceService.savePlaceWithMedia(dto));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/save")
+    public ResponseEntity<RecommendPlaceAdmDTO> savePlaceWithMedia(
+            @RequestBody RecommendPlaceAdmDTO dto
+    ) {
+        RecommendPlaceAdmDTO saved = recommendPlaceService.savePlaceWithMedia(dto);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
+        try {
+            Path filePath = Paths.get("./var/uploads").resolve(fileName).normalize();
+
+            System.out.println("📂 파일 절대 경로: " + filePath.toAbsolutePath());
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                String contentType = Files.probeContentType(filePath);
+                if (contentType == null) {
+                    contentType = "application/octet-stream";
+                }
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
 }
