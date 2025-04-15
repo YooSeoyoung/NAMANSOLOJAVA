@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ToDoService {
@@ -139,9 +140,9 @@ public class ToDoService {
     }
 
     @Transactional
-    public ToDoTravelDTO updateToDoTravelById(ToDoTravelDTO dto) {
+    public ToDoTravelDTO updateToDoTravelById(Long id, ToDoTravelDTO dto) {
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findById(dto.getId())
+        ToDo todo = toDoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("해당 여행 일정을 찾을 수 없습니다."));
 
         // 기존 미디어 유지 / 삭제
@@ -156,18 +157,35 @@ public class ToDoService {
         List<Media> deleteMedia = oldMedia.stream()
                 .filter(media -> !newMedia.contains(media.getId()))
                 .toList();
+        for (Media media : deleteMedia) {
+            String relativePath = media.getMediaUrl().replace("/api/todo/download/" + user.getUsername() + "/", "");
+            Path filePath = Paths.get("./var/upload").resolve(user.getUsername()).resolve(relativePath);
+
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         mediaRepository.deleteAll(deleteMedia);
 
         List<Media> newMediaToSave = dto.getMediaUrl().stream()
-                .map(mediaDTO -> mediaRepository.findById(mediaDTO.getId())
-                        .orElseGet(() -> new Media(
-                                null,
-                                mediaDTO.getMediaUrl(),
-                                MediaType.valueOf(mediaDTO.getMediaType())
-                        ))).toList();
+                .map(mediaDTO -> {
+                    if (mediaDTO.getId() != null) {
+                        return mediaRepository.findById(mediaDTO.getId())
+                                .orElseThrow(() -> new ResourceNotFoundException("존재하지 않는 미디어 ID: " + mediaDTO.getId()));
+                    } else {
+                        if (mediaDTO.getMediaType() == null) {
+                            throw new InvalidRequestException("해당 미디어의 타입을 알 수 없습니다.");
+                        }
+                        Media mediaSave = new Media();
+                        mediaSave.setMediaUrl(mediaDTO.getMediaUrl());
+                        mediaSave.setMediaType(MediaType.valueOf(mediaDTO.getMediaType()));
+                        return mediaRepository.save(mediaSave);
+                    }
+                }).collect(Collectors.toList());
         mediaRepository.saveAll(newMediaToSave);
-
         // 나머지 속성 업데이트
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
@@ -175,23 +193,23 @@ public class ToDoService {
         todo.setColor(dto.getColor());
         todo.setFinalEditDate(LocalDate.now());
         todo.setType(dto.getType());
-        todo.setMedia(oldMedia); // 최종 리스트 저장
+        todo.setMedia(newMediaToSave);
 
         ToDo updated = toDoRepository.save(todo);
         return updated.toTravelDTO();
     }
 
     @Transactional
-    public AnniversaryDTO updateAnniversaryById(AnniversaryDTO dto) {
+    public AnniversaryDTO updateAnniversaryById(Long id, AnniversaryDTO dto) {
 //        String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        ToDo todo = toDoRepository.findByIdAndUsername(dto.getId(), user.getUsername())
+        ToDo todo = toDoRepository.findByIdAndUsername(id, user.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 기념일은 등록되어 있지 않습니다."));
 
         if (!"ANNIVERSARY".equalsIgnoreCase(todo.getType())) {
             throw new InvalidRequestException("해당 항목은 기념일이 아닙니다.");
         }
-
+        dto.setId(id);
         todo.setTitle(dto.getTitle());
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getEndDate()); // 기념일은 시작일이 곧 일정의 끝
@@ -236,7 +254,7 @@ public class ToDoService {
 
         List<Media> mediaList = todo.getMedia();
         for (Media media : mediaList) {
-            String relativePath = media.getMediaUrl().replace("/api/todo/media/" + user.getUsername() + "/", "");
+            String relativePath = media.getMediaUrl().replace("/api/todo/download/" + user.getUsername() + "/", "");
             Path filePath = Paths.get("./var/upload").resolve(user.getUsername()).resolve(relativePath);
 
             try {

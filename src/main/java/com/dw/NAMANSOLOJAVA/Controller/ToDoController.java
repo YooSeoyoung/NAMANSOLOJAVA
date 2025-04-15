@@ -71,13 +71,15 @@ public class ToDoController {
     }
 
     @PutMapping("/travel/update/{id}")
-    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@RequestBody ToDoTravelDTO toDoTravelDTO) {
-        return new ResponseEntity<>(toDoService.updateToDoTravelById(toDoTravelDTO), HttpStatus.OK);
+    public ResponseEntity<ToDoTravelDTO> updateToDoTravelById(@PathVariable Long id, @RequestBody ToDoTravelDTO toDoTravelDTO) {
+        toDoTravelDTO.setId(id);
+        return new ResponseEntity<>(toDoService.updateToDoTravelById(id, toDoTravelDTO), HttpStatus.OK);
     }
 
     @PutMapping("/anniversary/update/{id}")
-    public ResponseEntity<AnniversaryDTO> updateAnniversaryById(@RequestBody AnniversaryDTO anniversaryDTO) {
-        return new ResponseEntity<>(toDoService.updateAnniversaryById(anniversaryDTO), HttpStatus.OK);
+    public ResponseEntity<AnniversaryDTO> updateAnniversaryById(@PathVariable Long id, @RequestBody AnniversaryDTO anniversaryDTO) {
+        anniversaryDTO.setId(id);
+        return new ResponseEntity<>(toDoService.updateAnniversaryById(id, anniversaryDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/anniversary/delete/{id}")
@@ -118,7 +120,7 @@ public class ToDoController {
                 Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
 
                 MediaDTO mediaDTO = new MediaDTO();
-                mediaDTO.setMediaUrl("/api/todo/media/" + username + "/" + newFileName); // ✅ 유저 경로 포함
+                mediaDTO.setMediaUrl("/api/todo/download/" + username + "/" + newFileName);
                 mediaDTO.setMediaType(file.getContentType().startsWith("video") ? "VIDEO" : "PICTURE");
 
                 uploadedMedia.add(mediaDTO);
@@ -132,12 +134,11 @@ public class ToDoController {
         return ResponseEntity.ok(uploadedMedia);
     }
 
-    @GetMapping("/media/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+    @GetMapping("/download/{username}/{fileName}")
+    public ResponseEntity<Resource> downloadFile(
+            @PathVariable String username,
+            @PathVariable String fileName) {
         try {
-            User user = userService.getCurrentUser();
-            String username = user.getUsername();
-
             Path basePath = Paths.get("./var/upload").resolve(username).normalize();
             Path filePath = basePath.resolve(fileName).normalize();
 
