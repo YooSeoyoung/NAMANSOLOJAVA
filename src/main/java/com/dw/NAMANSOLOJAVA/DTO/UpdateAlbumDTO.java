@@ -5,6 +5,7 @@ import com.dw.NAMANSOLOJAVA.model.AlbumTag;
 import com.dw.NAMANSOLOJAVA.model.Tag;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,5 +21,5 @@ public class UpdateAlbumDTO {
     private Double latitude;
     private Double longitude;
     private String location;
-    private List<Tag> taglist;
+    private List<Tag> taglist =new ArrayList<>();
 }

@@ -16,9 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,7 +70,7 @@ public class AlbumService {
         if (!album.getUser().equals(user)){
             throw new PermissionDeniedException("본인이 작성한 앨범에 대해서만 수정이 가능합니다.");
         }
-
+        album.setId(updateAlbumDTO.getId());
         album.setTitle(updateAlbumDTO.getTitle());
         album.setVisibility(Visibility.valueOf(updateAlbumDTO.getVisibility()));
         album.setLatitude(updateAlbumDTO.getLatitude());
@@ -97,30 +95,40 @@ public class AlbumService {
                 e.printStackTrace();
             }
         }
-
         // 삭제
         mediaRepository.deleteAll(toDelete);
         //유지할 + 새로 추가할 미디어 구성
         List<Media> finalMediaList = updateAlbumDTO.getMediaUrl().stream()
-                .map(mediaDTO -> mediaRepository.findById(mediaDTO.getId())
-                        .orElseGet(() -> new Media(
+                .map(mediaDTO -> {
+                    if (mediaDTO.getId() != null) {
+                        return mediaRepository.findById(mediaDTO.getId())
+                                .orElseThrow(() -> new ResourceNotFoundException("해당 ID의 Media가 존재하지 않습니다."));
+                    } else {
+                        return new Media(
                                 null,
                                 mediaDTO.getMediaUrl(),
                                 MediaType.valueOf(mediaDTO.getMediaType())
-                        ))).toList();
+                        );
+                    }
+                }).toList();
         mediaRepository.saveAll(finalMediaList);
         album.setMedia(finalMediaList);
 
         //기존 앨범태그 목록 조회
         List<AlbumTag> existingTag =  albumTagRepository.findByAlbumId(album.getId());
         //새 DTO로 받을 tag
-        List<Long> newTag = updateAlbumDTO.getTag().stream().map(Tag::getId).filter(Objects::nonNull).toList();
+        List<Tag> safeTagList = Optional.ofNullable(updateAlbumDTO.getTaglist()).orElse(Collections.emptyList());
+
+        List<Long> newTag = safeTagList.stream()
+                .map(Tag::getId)
+                .filter(Objects::nonNull)
+                .toList();
         //삭제할 앨범태그 필터링
         List<AlbumTag> deleteAlbumTag = existingTag.stream().filter(
-                albumTag -> !newTag.contains(albumTag.getTag())).toList();
+                albumTag -> !newTag.contains(albumTag.getTag().getId())).toList();
         albumTagRepository.deleteAll(deleteAlbumTag);
         //유지 및 새로 추가할 tag 및 앨범tag
-        List<Tag> tagList = updateAlbumDTO.getTag().stream()
+        List<Tag> tagList = updateAlbumDTO.getTaglist().stream()
                 .map(tag -> tagRepository.findByName(tag.getName())
                         .orElseGet(() -> tagRepository.save(new Tag(null, tag.getName())))
                 ).toList();
