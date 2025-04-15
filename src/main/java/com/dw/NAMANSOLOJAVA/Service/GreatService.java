@@ -22,6 +22,8 @@ public class GreatService {
     AlbumRepository albumRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    AlarmService alarmService;
 
     @Transactional
     public GreatToggleResultDTO toggleGreat(GreatDTO greatDTO){
@@ -40,7 +42,9 @@ public class GreatService {
             greatRepository.save(newGreat);
             liked = true;
         }
-
+        if (liked && !user.getUsername().equals(album.getUser().getUsername())) {
+            alarmService.sendGreatAlarm(album.getUser().getUsername(), user.getUsername());
+        }
         return new GreatToggleResultDTO(album.getId(), liked, user.getUsername());
     }
 

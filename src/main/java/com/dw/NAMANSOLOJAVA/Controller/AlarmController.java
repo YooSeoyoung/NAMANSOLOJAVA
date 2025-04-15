@@ -1,9 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -18,6 +15,6 @@ public class AlarmController {
     // 1:1 알림 전송
     // 예: 댓글, 좋아요 등 특정 유저에게 알림 보내기
     public void sendAlarmToUser(String username, AlarmDTO alarmDTO) {
-        messagingTemplate.convertAndSend( "/queue/private", alarmDTO);
+        messagingTemplate.convertAndSendToUser(username, "/queue/private", alarmDTO);
     }
 }

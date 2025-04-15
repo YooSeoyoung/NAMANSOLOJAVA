@@ -32,6 +32,8 @@ public class FollowService {
     AlbumTagRepository albumTagRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AlarmService alarmService;
 
     public List<UserRelationDTO> searchUsersWithRelation(String username) {
         User currentUser = userService.getCurrentUser();
@@ -171,7 +173,10 @@ public class FollowService {
                 user,
                 following
         );
-        return followRepository.save(follow).toFollowDTO();
+        FollowDTO result = followRepository.save(follow).toFollowDTO();
+        alarmService.sendFollowAlarm(following.getUsername(), user.getUsername());
+
+        return result;
     }
 
 }

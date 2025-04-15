@@ -7,6 +7,7 @@ import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Repository.CommentRepository;
 import com.dw.NAMANSOLOJAVA.Repository.RecommentRepository;
+import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Comment;
 import com.dw.NAMANSOLOJAVA.model.Tag;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -31,6 +32,8 @@ public class CommentService {
     AlbumRepository albumRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    AlarmService alarmService;
 
     public CommentDTO getCommentById(Long id){
 
@@ -72,15 +75,21 @@ public class CommentService {
                 comment.setUser(user);
         return  commentRepository.save(comment).toAddOrUpdateCommentDTO();
     }
+
     public AddOrUpdateCommentDTO saveComment(AddOrUpdateCommentDTO addOrUpdateCommentDTO){
-                Comment comment = new Comment(
-                        null,
-                        addOrUpdateCommentDTO.getContent(),
-                        LocalDateTime.now(),
-                        albumRepository.findById(addOrUpdateCommentDTO.getAlbumId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 앨범 ID입니다")),
-                        userService.getCurrentUser()
-                );
-        return  commentRepository.save(comment).toAddOrUpdateCommentDTO();
+        User user = userService.getCurrentUser();
+        Album album =  albumRepository.findById(addOrUpdateCommentDTO.getAlbumId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 앨범 ID입니다"));
+        Comment comment = new Comment(
+                null,
+                addOrUpdateCommentDTO.getContent(),
+                LocalDateTime.now(),
+                album,
+                user
+        );
+        AddOrUpdateCommentDTO result = commentRepository.save(comment).toAddOrUpdateCommentDTO();
+        alarmService.sendCommentAlarm(album.getUser().getUsername(), user.getUsername(), album.getTitle());
+
+        return result;
     }
 
 }

@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,9 @@ public class ToDoService {
 
     @Autowired
     MediaRepository mediaRepository;
+
+    @Autowired
+    AlarmService alarmService;
 
     public ToDoAllDTO getAllTodo() {
         User user = userService.getCurrentUser();
@@ -88,6 +92,13 @@ public class ToDoService {
         todo.setColor(dto.getColor());
 
         ToDo saved = toDoRepository.save(todo);
+
+        // 남은 일수 계산해서 알림 전송
+        long daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), saved.getStartDate());
+        if (daysUntil >= 0 && daysUntil <= 7) {
+            alarmService.sendTodoAlarm(user.getUsername(), saved.getTitle());
+        }
+
         return saved.toAnniDTO();
     }
 

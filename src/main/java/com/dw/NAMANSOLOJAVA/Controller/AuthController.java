@@ -64,13 +64,13 @@ public class AuthController {
         String authority = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
-        AlarmDTO alarmDTO = AlarmDTO.builder()
-                .type(AlarmType.EVENT)
-                .message("관리자가 새로운 공지를 등록했습니다.")
-                .isRead(false)
-                .build();
-
-        messagingTemplate.convertAndSendToUser(username, "/queue/alarm", alarmDTO);
+//        AlarmDTO alarmDTO = AlarmDTO.builder()
+//                .type(AlarmType.EVENT)
+//                .message("관리자가 새로운 공지를 등록했습니다.")
+//                .isRead(false)
+//                .build();
+//
+//        messagingTemplate.convertAndSendToUser(username, "/queue/private", alarmDTO);
 
         return new ResponseEntity<>(
                 new TokenDTO(jwt, username, authority),
