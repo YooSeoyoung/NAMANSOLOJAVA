@@ -159,7 +159,7 @@ public class ToDoService {
                 .toList();
         for (Media media : deleteMedia) {
             String relativePath = media.getMediaUrl().replace("/api/todo/download/" + user.getUsername() + "/", "");
-            Path filePath = Paths.get("./var/upload").resolve(user.getUsername()).resolve(relativePath);
+            Path filePath = Paths.get("./var/uploads").resolve(user.getUsername()).resolve(relativePath);
 
             try {
                 Files.deleteIfExists(filePath);
@@ -255,7 +255,7 @@ public class ToDoService {
         List<Media> mediaList = todo.getMedia();
         for (Media media : mediaList) {
             String relativePath = media.getMediaUrl().replace("/api/todo/download/" + user.getUsername() + "/", "");
-            Path filePath = Paths.get("./var/upload").resolve(user.getUsername()).resolve(relativePath);
+            Path filePath = Paths.get("./var/uploads").resolve(user.getUsername()).resolve(relativePath);
 
             try {
                 Files.deleteIfExists(filePath);

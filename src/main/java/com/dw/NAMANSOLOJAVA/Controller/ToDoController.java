@@ -99,7 +99,7 @@ public class ToDoController {
 
         User user = userService.getCurrentUser();
         String username = user.getUsername();
-        String uploadDir = "./var/upload/" + username;
+        String uploadDir = "./var/uploads/" + username;
 
         File dir = new File(uploadDir);
         if (!dir.exists()) dir.mkdirs();
@@ -139,7 +139,7 @@ public class ToDoController {
             @PathVariable String username,
             @PathVariable String fileName) {
         try {
-            Path basePath = Paths.get("./var/upload").resolve(username).normalize();
+            Path basePath = Paths.get("./var/uploads").resolve(username).normalize();
             Path filePath = basePath.resolve(fileName).normalize();
 
             Resource resource = new UrlResource(filePath.toUri());

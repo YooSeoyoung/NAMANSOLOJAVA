@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class EventPresentService {
 
     private List<EventPresentDTO> searchAndConvert(String keyword) {
         try {
-            String encodedQuery = URLEncoder.encode(keyword, "UTF-8");
+            String encodedQuery = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
             String apiUrl = NAVER_API_URL + "?query=" + encodedQuery + "&display=10";
 
             URL url = new URL(apiUrl);
