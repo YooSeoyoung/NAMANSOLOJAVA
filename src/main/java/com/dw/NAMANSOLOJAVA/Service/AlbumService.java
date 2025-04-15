@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -83,6 +87,17 @@ public class AlbumService {
         // 삭제할 미디어 필터링 (기존인데, 새 목록에 없는 경우)
         List<Media> toDelete = existingMedia.stream()
                 .filter(media -> !newMedia.contains(media.getId())).toList();
+        for (Media media : toDelete) {
+            String relativePath = media.getMediaUrl().replace("/api/album/download/" +  "/", "");
+            Path filePath = Paths.get("./var/upload").resolve(relativePath).normalize();
+
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         // 삭제
         mediaRepository.deleteAll(toDelete);
         //유지할 + 새로 추가할 미디어 구성

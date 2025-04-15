@@ -20,5 +20,5 @@ public class UpdateAlbumDTO {
     private Double latitude;
     private Double longitude;
     private String location;
-    private List<Tag> tag;
+    private List<Tag> taglist;
 }
