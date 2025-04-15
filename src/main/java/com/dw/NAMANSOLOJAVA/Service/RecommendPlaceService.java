@@ -19,6 +19,7 @@ import com.dw.NAMANSOLOJAVA.model.RecommendPlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -85,13 +87,27 @@ public class RecommendPlaceService {
         return recommendPlaceRepository.save(place).admDTO();
     }
 
+    @Transactional
     public String deleteRecommendPlace(Long id) {
         RecommendPlace place = recommendPlaceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("삭제할 장소가 존재하지 않습니다."));
 
+        List<Media> mediaList = place.getMedia();
+        for (Media media : mediaList) {
+            String relativePath = media.getMediaUrl().replace("/api/recommend_place/download/", "");
+            Path filePath = Paths.get("./var/uploads").resolve(relativePath);
+
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         recommendPlaceRepository.delete(place);
         return "삭제 완료: id = " + id;
     }
+
 
     public RecommendPlaceAdmDTO addRecommendPlace(RecommendPlaceAdmDTO dto) {
         List<Media> mediaList = dto.getMediaUrl().stream()
@@ -170,13 +186,49 @@ public class RecommendPlaceService {
         }).collect(Collectors.toList());
     }
 
+    public List<MediaDTO> updateMediaForPlace(Long placeId, MultipartFile file) {
+        RecommendPlace place = recommendPlaceRepository.findById(placeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Place not found"));
+
+        List<Media> oldMedia = place.getMedia();
+        for (Media media : oldMedia) {
+            mediaRepository.delete(media);
+        }
+
+        List<MediaDTO> newMediaList = saveMediaFiles(List.of(file));
+
+
+        List<Media> mediaList = new ArrayList<>();
+        for (MediaDTO dto : newMediaList) {
+            Media media = new Media();
+            media.setId(dto.getId());
+            media.setMediaUrl(dto.getMediaUrl());
+            mediaList.add(media);
+        }
+
+        place.setMedia(mediaList);
+        recommendPlaceRepository.save(place);
+
+        return newMediaList;
+    }
+
+
+
     public RecommendPlaceAdmDTO savePlaceWithMedia(RecommendPlaceAdmDTO dto) {
+        RecommendPlace place;
+
+        if (dto.getId() != null) {
+            place = recommendPlaceRepository.findById(dto.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("ID에 해당하는 추천 장소가 없습니다."));
+        } else {
+            place = new RecommendPlace();
+        }
+
         List<Media> mediaList = dto.getMediaUrl().stream()
                 .map(m -> mediaRepository.findById(m.getId())
                         .orElseThrow(() -> new ResourceNotFoundException("파일 없음: id=" + m.getId())))
                 .collect(Collectors.toList());
 
-        RecommendPlace place = new RecommendPlace();
         place.setName(dto.getName());
         place.setAddress(dto.getAddress());
         place.setCity(dto.getCity());
@@ -195,7 +247,6 @@ public class RecommendPlaceService {
                     .orElseGet(() -> categoryRepository.save(new Category(dto.getCategory())));
 
             categoryPlaceRepository.save(new CategoryPlace(category, place));
-
             result.setCategory(category.getName());
         }
 

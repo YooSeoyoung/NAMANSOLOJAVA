@@ -40,7 +40,11 @@ public class RecommendPlace {
     @Column(name = "description", length = 1000)
     private String description; // 상세 설명 (선택)
 
-        @Column(name = "detail")
+    @OneToMany(mappedBy = "recommendPlace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryPlace> categoryPlaces = new ArrayList<>();
+
+
+    @Column(name = "detail")
         private String detail;
 
         @OneToMany
@@ -73,6 +77,7 @@ public class RecommendPlace {
     public RecommendPlaceDTO placeDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new RecommendPlaceDTO(
+                this.id,
                 this.name,mediaDTO,
                 this.address, this.city,
                 this.description, this.detail);

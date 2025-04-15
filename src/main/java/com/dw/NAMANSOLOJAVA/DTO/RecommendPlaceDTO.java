@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 public class RecommendPlaceDTO {
+    private Long id;
     private String name;
     private List<MediaDTO> mediaUrl;
     private String address;

@@ -79,6 +79,17 @@ public class RecommendPlaceController {
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/upload/image/{placeId}")
+    public ResponseEntity<List<MediaDTO>> updatePlaceImage(
+            @PathVariable Long placeId,
+            @RequestPart("file") MultipartFile file
+    ) {
+        List<MediaDTO> updatedMedia = recommendPlaceService.updateMediaForPlace(placeId, file);
+        return ResponseEntity.ok(updatedMedia);
+    }
+
+
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
         try {

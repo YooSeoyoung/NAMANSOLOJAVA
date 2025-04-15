@@ -13,4 +13,5 @@ public interface RecommendPlaceRepository extends JpaRepository<RecommendPlace, 
     @Query("SELECT p FROM RecommendPlace p LEFT JOIN FETCH p.media")
     List<RecommendPlace> findAllWithMedia();
 
+
 }

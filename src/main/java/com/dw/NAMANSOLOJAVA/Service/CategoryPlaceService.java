@@ -51,6 +51,14 @@ public class CategoryPlaceService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public List<RecommendPlaceAdmDTO> getPlacesByRegionAndCategory(String city, String category) {
+        return categoryPlaceRepository
+                .findByRecommendPlace_CityAndCategory_Name(city, category)
+                .stream()
+                .map(cp -> cp.getRecommendPlace().admDTO()) // ✅ CategoryPlace → RecommendPlace → DTO
+                .collect(Collectors.toList());
+    }
 }
 
 

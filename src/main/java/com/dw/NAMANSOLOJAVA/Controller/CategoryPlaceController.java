@@ -17,7 +17,6 @@ public class CategoryPlaceController {
     @Autowired
     CategoryPlaceService categoryPlaceService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/category/{name}")
     public ResponseEntity<List<RecommendPlaceAdmDTO>> getPlacesByCategory(@PathVariable String name) {
         return ResponseEntity.ok(categoryPlaceService.getPlacesByCategory(name));
@@ -35,4 +34,13 @@ public class CategoryPlaceController {
         categoryPlaceService.deleteMapping(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/region/{region}/category/{category}")
+    public ResponseEntity<List<RecommendPlaceAdmDTO>> getByRegionAndCategory(
+            @PathVariable String region,
+            @PathVariable String category
+    ) {
+        return ResponseEntity.ok(categoryPlaceService.getPlacesByRegionAndCategory(region, category));
+    }
+
 }
