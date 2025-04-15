@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
+import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Service.AlbumService;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,8 @@ public class AlbumController {
     AlbumService albumService;
     @Autowired
     UserService userService;
+    @Autowired
+    AlbumRepository albumRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<AlbumDTO>> getAllAlbum() {
@@ -137,5 +143,21 @@ public class AlbumController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/daily")
+    public List<AlbumDailyDTO> getDailyFeeds(
+            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+
+        LocalDateTime start = from.atStartOfDay(); // 2025-04-01 00:00
+        LocalDateTime end = to.atTime(23, 59, 59); // 2025-04-10 23:59:59
+
+        return albumRepository.countDailyFeeds(start, end);
+    }
+
+    @GetMapping("/rank")
+    public List<AlbumRankDTO> getMonthlyRank(@RequestParam("month") String month) {
+        return albumRepository.countFeedsByUserPerMonth(month);
     }
 }
