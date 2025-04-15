@@ -1,9 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
-import com.dw.NAMANSOLOJAVA.DTO.AddOrUpdateCommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.AddOrUpdateReCommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.CommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.ReCommentDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.PermissionDeniedException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.CommentRepository;
@@ -32,8 +29,18 @@ public class RecommentService {
         return  recommentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("존재하지 않은  ID입니다")).toRecommentDTO();
     }
 
-    public List<ReCommentDTO> getReCommentByCommentId(Long commentId){
-        return  recommentRepository.findByCommentId(commentId).stream().map(ReComment::toRecommentDTO).toList();
+    public List<ReCommentWithAlbumDTO> getReCommentByCommentId(Long commentId){
+      Long albumId =  commentRepository.findById(commentId).map(comment -> comment.getAlbum().getId())  .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+        return  recommentRepository.findByCommentId(commentId).stream()
+                .map(reComment -> {
+                return   new ReCommentWithAlbumDTO(
+                            reComment.getId(),
+                            reComment.getContent(),
+                            reComment.getAddDate(),
+                            reComment.getComment().getId(),
+                            reComment.getUser().getUsername()
+                            , albumId);
+                }).toList();
     }
     public List<ReCommentDTO> getReCommentByUsername(){
         User user =userService.getCurrentUser();

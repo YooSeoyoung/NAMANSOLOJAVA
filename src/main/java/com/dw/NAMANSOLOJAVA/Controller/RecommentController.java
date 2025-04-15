@@ -1,10 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 
-import com.dw.NAMANSOLOJAVA.DTO.AddOrUpdateCommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.AddOrUpdateReCommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.CommentDTO;
-import com.dw.NAMANSOLOJAVA.DTO.ReCommentDTO;
+import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Service.RecommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +24,7 @@ public class RecommentController {
                 HttpStatus.OK);
     }
     @GetMapping("/comment-id/{commentId}")
-    public ResponseEntity<List<ReCommentDTO>> getReCommentByCommentId(@PathVariable Long commentId) {
+    public ResponseEntity<List<ReCommentWithAlbumDTO>> getReCommentByCommentId(@PathVariable Long commentId) {
         return new ResponseEntity<>(
                 recommentService.getReCommentByCommentId(commentId),
                 HttpStatus.OK);
