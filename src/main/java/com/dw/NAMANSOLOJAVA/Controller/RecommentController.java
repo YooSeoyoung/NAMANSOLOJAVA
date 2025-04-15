@@ -30,7 +30,7 @@ public class RecommentController {
                 HttpStatus.OK);
     }
     @GetMapping("/username")
-    public ResponseEntity<List<ReCommentDTO>> getReCommentByUsername() {
+    public ResponseEntity<List<ReCommentWithAlbumDTO>> getReCommentByUsername() {
         return new ResponseEntity<>(
                 recommentService.getReCommentByUsername(),
                 HttpStatus.OK);

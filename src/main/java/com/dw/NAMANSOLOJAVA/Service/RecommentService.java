@@ -42,9 +42,21 @@ public class RecommentService {
                             , albumId);
                 }).toList();
     }
-    public List<ReCommentDTO> getReCommentByUsername(){
+    public List<ReCommentWithAlbumDTO> getReCommentByUsername(){
         User user =userService.getCurrentUser();
-        return  recommentRepository.findByUser_Username(user.getUsername()).stream().map(ReComment::toRecommentDTO).toList();
+        return recommentRepository.findByUser_Username(user.getUsername()).stream()
+                .map(reComment -> {
+                    Long albumId = reComment.getComment().getAlbum().getId(); // 답글 → 댓글 → 앨범 ID
+                    return new ReCommentWithAlbumDTO(
+                            reComment.getId(),
+                            reComment.getContent(),
+                            reComment.getAddDate(),
+                            reComment.getComment().getId(),
+                            reComment.getUser().getUsername(),
+                            albumId
+                    );
+                })
+                .toList();
     }
 
     public String deleteReCommentById(Long id){
