@@ -53,9 +53,8 @@ public class Alarm {
     public AlarmDTO toAlarmDTO(){
         return new AlarmDTO(
                 this.id, this.user.getUsername(),
-                this.alarmType.name(), this.message,
-                this.addDate,this.isRead,
-                this.weatherInfo
+                this.alarmType, this.message,
+                this.addDate,this.isRead
         );
     }
 }

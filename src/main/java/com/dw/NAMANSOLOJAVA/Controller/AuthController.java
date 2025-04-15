@@ -1,13 +1,16 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 
+import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.LoginDTO;
 import com.dw.NAMANSOLOJAVA.DTO.TokenDTO;
+import com.dw.NAMANSOLOJAVA.enums.AlarmType;
 import com.dw.NAMANSOLOJAVA.jwt.JwtFilter;
 import com.dw.NAMANSOLOJAVA.jwt.TokenProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,12 +28,15 @@ import java.util.stream.Collectors;
 public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final SimpMessagingTemplate messagingTemplate;
 
     // 생성자함수를 사용하면 @Autowired가 필요없음 (스프링이 권장하는 방법)
     public AuthController(TokenProvider tokenProvider,
-                          AuthenticationManagerBuilder authenticationManagerBuilder) {
+                          AuthenticationManagerBuilder authenticationManagerBuilder,
+                          SimpMessagingTemplate messagingTemplate) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @PostMapping("/authenticate")
@@ -57,6 +63,14 @@ public class AuthController {
         String username = authentication.getName();
         String authority = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+
+        AlarmDTO alarmDTO = AlarmDTO.builder()
+                .type(AlarmType.EVENT)
+                .message("관리자가 새로운 공지를 등록했습니다.")
+                .isRead(false)
+                .build();
+
+        messagingTemplate.convertAndSendToUser(username, "/queue/alarm", alarmDTO);
 
         return new ResponseEntity<>(
                 new TokenDTO(jwt, username, authority),

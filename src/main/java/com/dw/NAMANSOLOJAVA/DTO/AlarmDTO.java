@@ -10,13 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Builder
 public class AlarmDTO {
     private Long id;
     private String username;
-    private String alarmType;
+    private AlarmType type;
     private String message;
     private LocalDateTime addDate;
     private boolean isRead;
-    private String weatherInfo;
-
 }

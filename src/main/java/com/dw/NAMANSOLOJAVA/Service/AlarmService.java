@@ -61,29 +61,21 @@ public class AlarmService {
     public void sendFollowAlarm(String toUser, String fromUser) {
         send(toUser,fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW);
     }
-    // 팔로우한 유저의 게시물이 등록되면 알림
-    public void sendAlbumAlarm(String toUser, String albumTitle) {
-        send(toUser, "새 앨범 \"" + albumTitle + "\"이(가) 등록되었습니다.", AlarmType.ALBUM);
-    }
     // 내가 작성한 게시물에 댓글이 달렸을때 알림
     public void sendCommentAlarm(String toUser, String fromUser, String postTitle) {
         send(toUser, fromUser + "님이 \"" + postTitle + "\"에 댓글을 남겼습니다.", AlarmType.COMMENT);
+    }
+    // 내가 남긴 댓글에 대댓글이 달렸을때 알림
+    public void sendReCommentAlarm(String toUser, String fromUser) {
+        send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT);
     }
     // 내 게시물을 좋아요 누르면 알림
     public void sendGreatAlarm(String toUser, String fromUser) {
         send(toUser,fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT);
     }
-    // 관리자가 이벤트 선물이나 장소를 등록했을때 알림
-    public void sendEventAlarm(String toUser, String eventTitle) {
-        send(toUser, "새로운 이벤트 \"" + eventTitle + "\"이(가) 시작되었습니다.", AlarmType.EVENT);
-    }
-    // 추천하는 장소가 있으면 유저에게 알림
+    // 추가한 장소가 있으면 유저에게 알림
     public void sendPlaceRecommendAlarm(String toUser, String placeName) {
-        send(toUser, "오늘의 추천 장소: " + placeName, AlarmType.RECOMMEND);
-    }
-    // 내가 남긴 댓글에 대댓글이 달렸을때 알림
-    public void sendReCommentAlarm(String toUser, String fromUser) {
-        send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT);
+        send(toUser, "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
     }
     // 기념일이나 일정에 관해 알림
     public void sendTodoAlarm(String toUser, String title) {
