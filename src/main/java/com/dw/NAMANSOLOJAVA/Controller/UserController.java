@@ -44,7 +44,6 @@ public class UserController {
 //        return new ResponseEntity<>(userService.getUserById(username),HttpStatus.OK);
 //    }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/check-id/{username}")
     public ResponseEntity<Boolean> checkId(@PathVariable String username){
         return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
