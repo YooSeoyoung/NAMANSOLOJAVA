@@ -14,4 +14,5 @@ public class AddOrUpdateReCommentDTO {
     private String content;
     private LocalDateTime addDate;
     private Long commentId;
+    private String username;
 }
