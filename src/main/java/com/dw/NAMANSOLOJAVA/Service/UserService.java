@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class UserService {
         }
 
         // 권한 조회
-        Authority authority = authorityRepository.findById(userDTO.getAuthority())
-                .orElseThrow(() -> new RuntimeException("권한이 존재하지 않습니다: " + userDTO.getAuthority()));
+//        Authority authority = authorityRepository.findById(userDTO.getAuthority())
+//                .orElseThrow(() -> new RuntimeException("권한이 존재하지 않습니다: " + userDTO.getAuthority()));
 
         User newUser = new User();
         newUser.setUsername(userDTO.getUsername());
@@ -61,9 +62,11 @@ public class UserService {
         newUser.setPhoneNumberF(userDTO.getPhoneNumberF());
         newUser.setBirthM(userDTO.getBirthM());
         newUser.setBirthF(userDTO.getBirthF());
-        newUser.setDDay(userDTO.getDDay());
+        System.out.println(userDTO.getDDay());
+        newUser.setDDay(LocalDate.now());
         newUser.setAddDate(LocalDate.now());
-        newUser.setAuthority(authority);
+        newUser.setAuthority(authorityRepository.findById("ROLE_USER")
+                .orElseThrow(()->new ResourceNotFoundException("No role")));
 
         // 기본 알림 설정
         newUser.setAlarmAlert(true);
@@ -75,9 +78,11 @@ public class UserService {
         newUser.setRecommentAlert(true);
         newUser.setTodoAlert(true);
 
-        Media defaultMedia = mediaRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("기본 이미지가 존재하지 않습니다."));
+        Media defaultMedia = mediaRepository.findById(userDTO.getMediaId())
+                .orElseThrow(() -> new ResourceNotFoundException("기본 이미지가 존재하지 않습니다."));
         newUser.setMedia(defaultMedia);
+
+        System.out.println("DDay: " + newUser.getDDay());
 
         userRepository.save(newUser);
 
@@ -96,20 +101,19 @@ public class UserService {
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        System.out.println(" 인증 객체: " + authentication);
+
         if (authentication == null || !authentication.isAuthenticated()
                 || authentication.getPrincipal().equals("anonymousUser")) {
             throw new UnauthorizedUserException("User is not authenticated");
         }
 
         String username = authentication.getName();
+        System.out.println(" 인증된 사용자명: " + username);
 
-        User user = userRepository.findById(username)
+        // DB에서 유저 조회
+        return userRepository.findById(username)
                 .orElseThrow(() -> new ResourceNotFoundException("No username: " + username));
-
-        user.setLastLogin(LocalDate.now());
-        userRepository.save(user);
-
-        return user;
     }
 
     public boolean checkId(String username){
@@ -273,6 +277,7 @@ public class UserService {
             }
         }
 
+        // 평균 날짜 계산
         if (!loginDates.isEmpty()) {
             long sumEpochDays = loginDates.stream()
                     .mapToLong(LocalDate::toEpochDay)

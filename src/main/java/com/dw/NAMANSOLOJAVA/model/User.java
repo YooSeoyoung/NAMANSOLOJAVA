@@ -1,7 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
-import com.dw.NAMANSOLOJAVA.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,11 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -56,9 +52,9 @@ public class User implements UserDetails {
     private LocalDate lastLogin;
     // 알람 발송 여부. 기본 true
     @Column(name = "alarm_alert", nullable = false)
-     private Boolean alarmAlert = true;
+    private Boolean alarmAlert = true;
     @Column(name = "comment_alert", nullable = false)
-     private Boolean commentAlert= true;
+    private Boolean commentAlert= true;
     @Column(name = "follow_alert", nullable = false)
     private Boolean followAlert= true;
     @Column(name = "great_alert", nullable = false)
@@ -75,8 +71,22 @@ public class User implements UserDetails {
     @JoinColumn(name = "media_id")
     private Media media;
 
-    public UserDTO toUserDTO() {
-        return new UserDTO(this);
+    public UserDTO toUserDTO(){
+        MediaDTO mediaDTO = this.media.toDTO();
+        return new UserDTO(
+                this.username,null,
+                this.realNameM, this.realNameF,
+                this.emailM,this.emailF,
+                this.birthM, this.birthF,
+                this.phoneNumberM, this.phoneNumberF,
+                this.authority.getAuthorityName(), this.addDate,
+                this.dDay, this.alarmAlert,
+                this.commentAlert, this.followAlert,
+                this.greatAlert, this.eventAlert,
+                this.recommendAlert, this.recommentAlert,
+                this.todoAlert, mediaDTO.getId(),
+                this.lastLogin
+        );
     }
 
     public UpdateImageDDayDTO toUpdateImageDDayDTO(){

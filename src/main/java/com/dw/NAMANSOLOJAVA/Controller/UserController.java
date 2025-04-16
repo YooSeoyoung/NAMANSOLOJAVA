@@ -21,6 +21,8 @@ public class UserController {
 
     @PostMapping("/register") // 회원가입
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
+        System.out.println(userDTO.getBirthM());
+        System.out.println(userDTO.getUsername());
         return new ResponseEntity<>(
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
@@ -119,12 +121,6 @@ public class UserController {
         return new ResponseEntity<>(
                 userService.getUserLastActivity(),
                 HttpStatus.OK);
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUserInfo() {
-        User currentUser = userService.getCurrentUser();
-        return new ResponseEntity<>(new UserDTO(currentUser), HttpStatus.OK);
     }
 
 }

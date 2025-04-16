@@ -4,9 +4,14 @@ package com.dw.NAMANSOLOJAVA.Controller;
 import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.LoginDTO;
 import com.dw.NAMANSOLOJAVA.DTO.TokenDTO;
+import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
+import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
+import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.enums.AlarmType;
 import com.dw.NAMANSOLOJAVA.jwt.JwtFilter;
 import com.dw.NAMANSOLOJAVA.jwt.TokenProvider;
+import com.dw.NAMANSOLOJAVA.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +26,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class AuthController {
+    @Autowired
+    private UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SimpMessagingTemplate messagingTemplate;
@@ -64,6 +72,9 @@ public class AuthController {
         String authority = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
+        User user = userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("해당 유저 정보가 없습니다."));
+
+        user.setLastLogin(LocalDate.now());
 //        AlarmDTO alarmDTO = AlarmDTO.builder()
 //                .type(AlarmType.EVENT)
 //                .message("관리자가 새로운 공지를 등록했습니다.")
