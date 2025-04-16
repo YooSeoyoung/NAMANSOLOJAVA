@@ -15,4 +15,5 @@ public class UserUpdateAndFIndDTO {
     private String emailF;
     private String phoneNumberM;
     private String phoneNumberF;
+    private String profileImageUrl;
 }

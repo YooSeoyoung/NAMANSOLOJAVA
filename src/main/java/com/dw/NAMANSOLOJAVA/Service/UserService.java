@@ -5,6 +5,7 @@ import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Exception.UnauthorizedUserException;
 import com.dw.NAMANSOLOJAVA.Repository.*;
+import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
@@ -17,6 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -185,27 +190,63 @@ public class UserService {
         return "비밀번호가 성공적으로 변경되었습니다.";
     }
 
+    @Transactional
     public UserUpdateAndFIndDTO UpdateUserData(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         User currentUser = getCurrentUser();
 
-        if (userUpdateAndFIndDTO.getRealNameM() != null) currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
-        if (userUpdateAndFIndDTO.getRealNameF() != null) currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
-        if (userUpdateAndFIndDTO.getEmailM() != null) currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
-        if (userUpdateAndFIndDTO.getEmailF() != null) currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
-        if (userUpdateAndFIndDTO.getPhoneNumberM() != null) currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
-        if (userUpdateAndFIndDTO.getPhoneNumberF() != null) currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
+        if (userUpdateAndFIndDTO.getRealNameM() != null) {
+            currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
+        }
+        if (userUpdateAndFIndDTO.getRealNameF() != null) {
+            currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
+        }
+        if (userUpdateAndFIndDTO.getEmailM() != null) {
+            currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
+        }
+        if (userUpdateAndFIndDTO.getEmailF() != null) {
+            currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
+        }
+        if (userUpdateAndFIndDTO.getPhoneNumberM() != null) {
+            currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
+        }
+        if (userUpdateAndFIndDTO.getPhoneNumberF() != null) {
+            currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
+        }
 
+        Media originMedia = currentUser.getMedia();
+
+        if (originMedia!= null) {
+            String ext = originMedia.getMediaUrl().substring(originMedia.getMediaUrl().lastIndexOf("."));
+            String fileName = currentUser.getUsername() + ext;
+            Path filePath = Paths.get("./var/upload", currentUser.getUsername(), fileName);
+
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                // 삭제 실패 시 로그만
+                System.err.println("기존 이미지 삭제 실패: " + e.getMessage());
+            }
+
+            mediaRepository.delete(originMedia);
+        }
+        if (userUpdateAndFIndDTO.getProfileImageUrl() != null) {
+            Media media = new Media();
+            media.setMediaUrl(userUpdateAndFIndDTO.getProfileImageUrl()); // ex: /api/user/download/username/username.jpg
+            media.setMediaType(MediaType.valueOf("PICTURE"));
+            Media savedMedia = mediaRepository.save(media);
+            currentUser.setMedia(savedMedia);
+        }
         userRepository.save(currentUser);
 
-        UserUpdateAndFIndDTO updatedDTO = new UserUpdateAndFIndDTO(
+        return new UserUpdateAndFIndDTO(
                 currentUser.getRealNameM(),
                 currentUser.getRealNameF(),
                 currentUser.getEmailM(),
                 currentUser.getEmailF(),
                 currentUser.getPhoneNumberM(),
-                currentUser.getPhoneNumberF()
+                currentUser.getPhoneNumberF(),
+                currentUser.getMedia().getMediaUrl()
         );
-        return updatedDTO;
     }
 
     public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
