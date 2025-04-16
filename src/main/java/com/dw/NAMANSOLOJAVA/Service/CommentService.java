@@ -7,7 +7,6 @@ import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Repository.CommentRepository;
 import com.dw.NAMANSOLOJAVA.Repository.RecommentRepository;
-import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Comment;
 import com.dw.NAMANSOLOJAVA.model.Tag;
@@ -35,8 +34,7 @@ public class CommentService {
     UserService userService;
     @Autowired
     AlarmService alarmService;
-    @Autowired
-    UserRepository userRepository;
+
 
     public CommentDTO getCommentById(Long id){
 
@@ -80,7 +78,7 @@ public class CommentService {
     }
 
     public AddOrUpdateCommentDTO saveComment(AddOrUpdateCommentDTO addOrUpdateCommentDTO){
-        User user = userRepository.findByUsername(addOrUpdateCommentDTO.getUsername()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 유저입니다"));
+        User user = userService.getCurrentUser();
         Album album =  albumRepository.findById(addOrUpdateCommentDTO.getAlbumId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 앨범 ID입니다"));
         Comment comment = new Comment(
                 null,

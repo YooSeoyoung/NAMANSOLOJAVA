@@ -15,5 +15,4 @@ public class AddOrUpdateCommentDTO {
     private String content;
     private LocalDateTime addDate;
     private Long albumId;
-    private String username;
 }
