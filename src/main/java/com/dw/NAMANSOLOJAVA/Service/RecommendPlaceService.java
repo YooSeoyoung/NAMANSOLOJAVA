@@ -7,17 +7,12 @@ import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceMultipartDTO;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
-import com.dw.NAMANSOLOJAVA.Repository.CategoryPlaceRepository;
-import com.dw.NAMANSOLOJAVA.Repository.CategoryRepository;
-import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
-import com.dw.NAMANSOLOJAVA.Repository.RecommendPlaceRepository;
+import com.dw.NAMANSOLOJAVA.Repository.*;
 import com.dw.NAMANSOLOJAVA.enums.MediaType;
-import com.dw.NAMANSOLOJAVA.model.Category;
-import com.dw.NAMANSOLOJAVA.model.CategoryPlace;
-import com.dw.NAMANSOLOJAVA.model.Media;
-import com.dw.NAMANSOLOJAVA.model.RecommendPlace;
+import com.dw.NAMANSOLOJAVA.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +38,12 @@ public class RecommendPlaceService {
     CategoryPlaceRepository categoryPlaceRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    AlarmService alarmService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
     public List<RecommendPlaceDTO> getAllRecommendPlaces() {
         return recommendPlaceRepository.findAllWithMedia().stream()
@@ -110,6 +111,10 @@ public class RecommendPlaceService {
 
 
     public RecommendPlaceAdmDTO addRecommendPlace(RecommendPlaceAdmDTO dto) {
+        User currentUser = userService.getCurrentUser();
+        if (!currentUser.getAuthority().getAuthorityName().equals("ROLE_ADMIN")) {
+            throw new AccessDeniedException("관리자만 추천 장소를 등록할 수 있습니다.");
+        }
         List<Media> mediaList = dto.getMediaUrl().stream()
                 .map(mediaDTO -> mediaRepository.findById(mediaDTO.getId())
                         .orElseGet(() -> new Media(
@@ -139,8 +144,11 @@ public class RecommendPlaceService {
                     .orElseGet(() -> categoryRepository.save(new Category(dto.getCategory())));
 
             categoryPlaceRepository.save(new CategoryPlace(category, place));
-
             result.setCategory(category.getName());
+        }
+        List<User> allUsers = userRepository.findAll();
+        for (User user : allUsers) {
+            alarmService.sendPlaceRecommendAlarm(user.getUsername(), place.getName());
         }
 
         return result;
