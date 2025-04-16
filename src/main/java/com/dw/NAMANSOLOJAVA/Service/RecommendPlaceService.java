@@ -111,10 +111,6 @@ public class RecommendPlaceService {
 
 
     public RecommendPlaceAdmDTO addRecommendPlace(RecommendPlaceAdmDTO dto) {
-        User currentUser = userService.getCurrentUser();
-        if (!currentUser.getAuthority().getAuthorityName().equals("ROLE_ADMIN")) {
-            throw new AccessDeniedException("관리자만 추천 장소를 등록할 수 있습니다.");
-        }
         List<Media> mediaList = dto.getMediaUrl().stream()
                 .map(mediaDTO -> mediaRepository.findById(mediaDTO.getId())
                         .orElseGet(() -> new Media(
@@ -135,9 +131,8 @@ public class RecommendPlaceService {
         place.setDescription(dto.getDescription());
         place.setDetail(dto.getDetail());
 
-        recommendPlaceRepository.save(place);
 
-        RecommendPlaceAdmDTO result = place.admDTO();
+        RecommendPlaceAdmDTO result = recommendPlaceRepository.save(place).admDTO();
 
         if (dto.getCategory() != null && !dto.getCategory().isBlank()) {
             Category category = categoryRepository.findByName(dto.getCategory())
@@ -146,10 +141,8 @@ public class RecommendPlaceService {
             categoryPlaceRepository.save(new CategoryPlace(category, place));
             result.setCategory(category.getName());
         }
-        List<User> allUsers = userRepository.findAll();
-        for (User user : allUsers) {
-            alarmService.sendPlaceRecommendAlarm(user.getUsername(), place.getName());
-        }
+
+            alarmService.sendPlaceRecommendAlarmToAllUsers(place.getName());
 
         return result;
     }

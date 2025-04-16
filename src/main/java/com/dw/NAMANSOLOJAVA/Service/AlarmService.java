@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AlarmService {
@@ -74,8 +75,14 @@ public class AlarmService {
         send(toUser,fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT);
     }
     // 추가한 장소가 있으면 유저에게 알림
-    public void sendPlaceRecommendAlarm(String toUser, String placeName) {
-        send(toUser, "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
+//    public void sendPlaceRecommendAlarm(String toUser, String placeName) {
+//        send(toUser, "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
+//    }
+    public void sendPlaceRecommendAlarmToAllUsers(String placeName) {
+        List<User> allUsers = userRepository.findAll();
+        for (User user : allUsers) {
+            send(user.getUsername(), "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
+        }
     }
     // 기념일이나 일정에 관해 알림
     public void sendTodoAlarm(String toUser, String title) {
