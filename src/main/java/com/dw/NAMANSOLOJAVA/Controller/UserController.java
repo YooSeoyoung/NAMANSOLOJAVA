@@ -208,4 +208,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PutMapping("/city")
+    public ResponseEntity<String> updateCity(@RequestParam String city) {
+        userService.updateCity(city);
+        return ResponseEntity.ok("도시 정보가 수정되었습니다: " + city);
+    }
 }

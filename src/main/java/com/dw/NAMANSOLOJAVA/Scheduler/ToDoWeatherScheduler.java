@@ -21,7 +21,7 @@ public class ToDoWeatherScheduler {
     private final WeatherService weatherService;
     private final AlarmService alarmService;
 
-    @Scheduled(cron = "0 0 7 * * *") // 매일 오전 6시 실행
+    @Scheduled(cron = "0 0 7 * * *") // 매일 오전 7시 실행
     public void sendWeatherAlarms() {
         LocalDate today = LocalDate.now();
         List<LocalDate> targetDates = List.of(today, today.plusDays(3), today.plusDays(7));

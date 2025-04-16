@@ -349,5 +349,11 @@ public class UserService {
         return result;
     }
 
+    public void updateCity(String city) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
 
+        user.setCity(city); // 도시 변경
+        userRepository.save(user); // DB에 반영
+    }
 }

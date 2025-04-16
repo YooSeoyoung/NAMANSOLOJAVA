@@ -36,7 +36,7 @@ public class WeatherService {
                 String description = json.get("weather").get(0).get("description").asText();
                 double temp = json.get("main").get("temp").asDouble();
 
-                return String.format("%s, %.1f도", description, temp);
+                return String.format("%s의 날씨: %s, %.1f도", city, description, temp);
             } else {
                 return "날씨 정보를 가져올 수 없습니다 (API 응답 오류)";
             }
