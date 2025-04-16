@@ -86,7 +86,7 @@ public class User implements UserDetails {
                 this.commentAlert, this.followAlert,
                 this.greatAlert, this.eventAlert,
                 this.recommendAlert, this.recommentAlert,
-                this.todoAlert, mediaDTO.getId(), // 널 들어가도 됨
+                this.todoAlert, mediaDTO,
                 this.lastLogin
         );
     }

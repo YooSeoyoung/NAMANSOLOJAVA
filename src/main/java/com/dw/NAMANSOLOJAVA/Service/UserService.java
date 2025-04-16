@@ -83,7 +83,7 @@ public class UserService {
         newUser.setRecommentAlert(true);
         newUser.setTodoAlert(true);
 
-        Media defaultMedia = mediaRepository.findById(userDTO.getMediaId())
+        Media defaultMedia = mediaRepository.findById(userDTO.getMediaDTO().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("기본 이미지가 존재하지 않습니다."));
         newUser.setMedia(defaultMedia);
 

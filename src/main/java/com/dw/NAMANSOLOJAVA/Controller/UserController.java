@@ -1,7 +1,9 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
+import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
+import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.User;
@@ -26,6 +28,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     UserService userService;
@@ -162,28 +166,33 @@ public class UserController {
             dir.mkdirs();
         }
 
-        // 확장자 추출
         String originalFilename = file.getOriginalFilename();
         String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-
-        // 사용자명으로 고정된 파일명 설정
         String newFileName = username + ext;
         Path savePath = Paths.get(uploadDir, newFileName);
 
-        MediaDTO mediaDTO = new MediaDTO();
-
         try {
+            if (!file.getContentType().startsWith("image")) {
+                throw new InvalidRequestException("올바르지 않은 파일 타입입니다. 프로필은 이미지만 허용됩니다.");
+            }
             Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
 
-            mediaDTO.setMediaUrl("/api/user/download/" + username + "/" + newFileName);
-            mediaDTO.setMediaType(file.getContentType().startsWith("video") ? "VIDEO" : "PICTURE");
+            Media media = new Media();
+            media.setMediaUrl("/api/user/download/" + username + "/" + newFileName);
+            media.setMediaType(com.dw.NAMANSOLOJAVA.enums.MediaType.valueOf("PICTURE"));
 
-            return new ResponseEntity(mediaDTO, HttpStatus.OK);
+            mediaRepository.save(media); // ✅ DB 저장!
+
+            user.setMedia(media);
+            userRepository.save(user);
+
+            return new ResponseEntity<>(media.toDTO(), HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("업로드 중 오류: " + e.getMessage());
         }
     }
+
 
     // 프로필 이미지 다운로드
     @GetMapping("/download/{username}/{fileName}")
@@ -208,6 +217,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @PutMapping("/city")
     public ResponseEntity<String> updateCity(@RequestParam String city) {
         userService.updateCity(city);

@@ -34,7 +34,7 @@ public class UserDTO {
     private Boolean recommendAlert;
     private Boolean recommentAlert;
     private Boolean todoAlert;
-    private Long mediaId;
+    private MediaDTO mediaDTO;
     private LocalDate lastLogin;
     public UserDTO(User user) {
         this.username = user.getUsername();
