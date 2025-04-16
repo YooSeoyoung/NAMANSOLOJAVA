@@ -71,7 +71,7 @@ public class AuthController {
         String username = authentication.getName();
         String authority = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-        
+
 //        AlarmDTO alarmDTO = AlarmDTO.builder()
 //                .type(AlarmType.EVENT)
 //                .message("관리자가 새로운 공지를 등록했습니다.")

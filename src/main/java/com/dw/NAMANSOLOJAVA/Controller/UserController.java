@@ -123,4 +123,9 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUserInfo() {
+        User currentUser = userService.getCurrentUser();
+        return new ResponseEntity<>(new UserDTO(currentUser), HttpStatus.OK);
+    }
 }
