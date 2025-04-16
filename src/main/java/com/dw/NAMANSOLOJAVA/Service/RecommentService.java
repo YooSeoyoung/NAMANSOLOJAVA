@@ -24,6 +24,8 @@ public class RecommentService {
     UserService userService;
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    AlarmService alarmService;
 
     public ReCommentDTO getReCommentById(Long id){
         return  recommentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("존재하지 않은  ID입니다")).toRecommentDTO();
@@ -82,13 +84,20 @@ public class RecommentService {
         return  recommentRepository.save(reComment).toAddOrUpdateReCommentDTO();
     }
     public AddOrUpdateReCommentDTO saveReComment(AddOrUpdateReCommentDTO addOrUpdateReCommentDTO){
-            ReComment reComment=new ReComment(
+        User user = userService.getCurrentUser();
+
+        Comment parentComment = commentRepository.findById(addOrUpdateReCommentDTO.getCommentId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 댓글 ID입니다"));
+
+                ReComment reComment=new ReComment(
                     null,
                     addOrUpdateReCommentDTO.getContent(),
                     LocalDateTime.now(),
-                    commentRepository.findById(addOrUpdateReCommentDTO.getCommentId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 댓글 ID입니다")),
-                    userService.getCurrentUser()
+                    parentComment,
+                    user
                     );
-        return  recommentRepository.save(reComment).toAddOrUpdateReCommentDTO();
+        AddOrUpdateReCommentDTO result = recommentRepository.save(reComment).toAddOrUpdateReCommentDTO();
+        alarmService.sendReCommentAlarm(parentComment.getUser().getUsername(),user.getUsername());
+
+        return result;
     }
 }
