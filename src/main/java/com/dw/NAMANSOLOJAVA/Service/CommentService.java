@@ -88,8 +88,9 @@ public class CommentService {
                 user
         );
         AddOrUpdateCommentDTO result = commentRepository.save(comment).toAddOrUpdateCommentDTO();
-        alarmService.sendCommentAlarm(album.getUser().getUsername(), user.getUsername(), album.getTitle());
-
+        if (!user.getUsername().equals(album.getUser().getUsername())) {
+            alarmService.sendCommentAlarm(album.getUser().getUsername(), user.getUsername(), album.getTitle());
+        }
         return result;
     }
 
