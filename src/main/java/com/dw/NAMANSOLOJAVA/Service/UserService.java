@@ -231,20 +231,7 @@ public class UserService {
 
         Media originMedia = currentUser.getMedia();
 
-        if (originMedia!= null) {
-            String ext = originMedia.getMediaUrl().substring(originMedia.getMediaUrl().lastIndexOf("."));
-            String fileName = currentUser.getUsername() + ext;
-            Path filePath = Paths.get("./var/upload", currentUser.getUsername(), fileName);
 
-            try {
-                Files.deleteIfExists(filePath);
-            } catch (IOException e) {
-                // 삭제 실패 시 로그만
-                System.err.println("기존 이미지 삭제 실패: " + e.getMessage());
-            }
-
-            mediaRepository.delete(originMedia);
-        }
         if (userUpdateAndFIndDTO.getProfileImageUrl() != null) {
             Media media = new Media();
             media.setMediaUrl(userUpdateAndFIndDTO.getProfileImageUrl()); // ex: /api/user/download/username/username.jpg
