@@ -7,20 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,String> {
-    Optional<User> findByEmailMAndEmailFAndPhoneNumberMAndPhoneNumberFAndRealNameMAndRealNameF(
-            String emailM,
-            String emailF,
-            String phoneNumberM,
-            String phoneNumberF,
-            String realNameM,
-            String realNameF
-    );
-
-    Optional<User> findByPhoneNumberMAndRealNameMOrPhoneNumberFAndRealNameF(
-            String phoneNumberM, String realNameM,
-            String phoneNumberF, String realNameF
-    );
-
     List<User> findByUsernameLike(String username);
     Optional<User> findByUsername(String username);
 
