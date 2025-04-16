@@ -146,36 +146,52 @@ public class UserService {
 
         return dto;
     }
-    // 이메일로 통하여 아이디 찾기
-    public String getIdByEmail(UserUpdateAndFIndDTO dto) {
-        Optional<User> userOpt = userRepository.findByEmailMAndEmailFAndPhoneNumberMAndPhoneNumberFAndRealNameMAndRealNameF(
-                dto.getEmailM(), dto.getEmailF(),
-                dto.getPhoneNumberM(), dto.getPhoneNumberF(),
-                dto.getRealNameM(), dto.getRealNameF());
 
-        return userOpt
-                .map(User::getUsername)
-                .orElseThrow(() -> new RuntimeException("일치하는 사용자를 찾을 수 없습니다."));
+    public String getIdByPhone(String realName, String phoneNumber){
+        Optional<User> femaleUser = userRepository.findByRealNameFAndPhoneNumberF(realName, phoneNumber);
+        if (femaleUser.isPresent()) {
+            return femaleUser.get().getUsername();
+        }
+
+        Optional<User> maleUser = userRepository.findByRealNameMAndPhoneNumberM(realName, phoneNumber);
+        if (maleUser.isPresent()) {
+            return maleUser.get().getUsername();
+        }
+
+        throw new ResourceNotFoundException("입력하신 정보와 일치하는 아이디가 없습니다.");
     }
 
-    public String getIdByPhone(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 전화번호로 통하여 아이디 찾기
-        Optional<User> foundUser = userRepository
-                .findByPhoneNumberMAndRealNameMOrPhoneNumberFAndRealNameF(
-                        userUpdateAndFIndDTO.getPhoneNumberM(), userUpdateAndFIndDTO.getRealNameM(),
-                        userUpdateAndFIndDTO.getPhoneNumberF(), userUpdateAndFIndDTO.getRealNameF()
-                );
+    public String getIdByEmail(String realName, String email){
+        Optional<User> femaleUser = userRepository.findByRealNameFAndEmailF(realName, email);
+        if (femaleUser.isPresent()) {
+            return femaleUser.get().getUsername();
+        }
 
-        return foundUser
-                .map(User::getUsername)
-                .orElseThrow(() -> new UsernameNotFoundException("일치하는 회원 정보를 찾을 수 없습니다."));
+        Optional<User> maleUser = userRepository.findByRealNameMAndEmailM(realName, email);
+        if (maleUser.isPresent()) {
+            return maleUser.get().getUsername();
+        }
+
+        throw new ResourceNotFoundException("입력하신 정보와 일치하는 아이디가 없습니다.");
+    }
+
+    public Boolean ExistEmailAndUsername(String username,String realName, String email){
+        Optional<User> femaleUser = userRepository.findByUsernameAndRealNameFAndEmailF(username,realName, email);
+        if (femaleUser.isPresent()) {
+            return true;
+        }
+        Optional<User> maleUser = userRepository.findByUsernameAndRealNameMAndEmailM(username,realName, email);
+        if (maleUser.isPresent()) {
+            return false;
+        }
+        throw new ResourceNotFoundException("입력하신 정보가 틀립니다");
     }
 
     @Transactional
     public String UpdatePw(PasswordDTO passwordDTO) {
         // 1. 유저 존재 여부 체크
         User user = userRepository.findById(passwordDTO.getUsername())
-                .filter(u -> u.getEmailM().equals(passwordDTO.getEmail()) || u.getEmailF().equals(passwordDTO.getEmail()))
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없거나 이메일이 일치하지 않습니다."));
+        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없거나 이메일이 일치하지 않습니다."));
 
         // 2. 비밀번호 일치 확인
         if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())) {

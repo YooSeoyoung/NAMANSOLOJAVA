@@ -82,17 +82,25 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/find-user/email")
-    public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO dto) {
-        return new ResponseEntity<>(userService.getIdByEmail(dto), HttpStatus.OK);
+    @GetMapping("/find-user/email")
+    public ResponseEntity<String> getIdByEmail(@RequestParam String realName, @RequestParam String email) {
+        return new ResponseEntity<>(userService.getIdByEmail(realName,email), HttpStatus.OK);
     }
 
-    @PostMapping("/find-user/phone")
-    public ResponseEntity<String> getIdByPhone(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
+    @GetMapping("/find-user/phone")
+    public ResponseEntity<String> getIdByPhone(@RequestParam String realName, @RequestParam String phoneNumber) {
         return new ResponseEntity<>(
-                userService.getIdByPhone(userUpdateAndFIndDTO),
+                userService.getIdByPhone(realName,phoneNumber),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/exist")
+    public ResponseEntity<Boolean> ExistEmailAndUsername(@RequestParam String username, @RequestParam String realName, @RequestParam String email){
+        return new ResponseEntity<>(
+                userService.ExistEmailAndUsername(username,realName,email),
+                HttpStatus.OK);
+    }
+
 
     @PutMapping("/modify-pw")
     public ResponseEntity<String> UpdatePw(@RequestBody PasswordDTO passwordDTO) {
