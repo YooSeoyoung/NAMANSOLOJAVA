@@ -17,7 +17,4 @@ public class AlarmController {
     public void sendAlarmToUser(String username, AlarmDTO alarmDTO) {
         messagingTemplate.convertAndSendToUser(username, "/queue/private", alarmDTO);
     }
-//    public void sendBroadcastAlarm(AlarmDTO alarmDTO) {
-//        messagingTemplate.convertAndSend("/topic/broadcast", alarmDTO);
-//    }
 }

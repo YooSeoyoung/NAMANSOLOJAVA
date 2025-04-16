@@ -44,6 +44,8 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "ROLE_authority", nullable = false)
     private Authority authority; // 권한
+    @Column(name = "city")
+    private String city; // 도시
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
     @Column(name ="d_day", nullable = false)
