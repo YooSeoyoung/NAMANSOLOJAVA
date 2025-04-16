@@ -75,21 +75,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "media_id")
     private Media media;
 
-    public UserDTO toUserDTO(){
-
-        return new UserDTO(
-                this.username,null,this.realNameM,
-                this.realNameF,
-                this.emailM,this.emailF,this.birthM,
-                this.birthF,this.phoneNumberM,
-                this.phoneNumberF,this.authority.getAuthorityName(),
-                this.addDate,this.dDay,
-                this.alarmAlert,this.commentAlert,
-                this.followAlert,this.greatAlert,
-                this.eventAlert,this.recommendAlert,
-                this.recommentAlert,this.todoAlert,
-               this.media.toDTO()
-        );
+    public UserDTO toUserDTO() {
+        return new UserDTO(this);
     }
 
     public UpdateImageDDayDTO toUpdateImageDDayDTO(){

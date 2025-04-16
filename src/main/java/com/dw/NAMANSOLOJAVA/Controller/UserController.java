@@ -3,6 +3,7 @@ package com.dw.NAMANSOLOJAVA.Controller;
 import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
+import com.dw.NAMANSOLOJAVA.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,11 +114,17 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/last-activity") // 오타 수정
+    @GetMapping("/admin/last-activity")
     public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity() {
         return new ResponseEntity<>(
-                userService.getUserLastActivity(), // 파라미터 제거
+                userService.getUserLastActivity(),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUserInfo() {
+        User currentUser = userService.getCurrentUser();
+        return new ResponseEntity<>(new UserDTO(currentUser), HttpStatus.OK);
     }
 
 }

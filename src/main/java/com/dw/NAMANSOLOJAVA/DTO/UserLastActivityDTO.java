@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 @ToString
 public class UserLastActivityDTO {
     private String username;
-    private LocalDate lastActivity;
+    private LocalDate lastLogin;
 }
