@@ -21,39 +21,32 @@ public class ToDoWeatherScheduler {
     private final WeatherService weatherService;
     private final AlarmService alarmService;
 
-    @Scheduled(cron = "0 0 7 * * *") // 매일 오전 7시 실행
+    @Scheduled(cron = "0 0 7 * * *") // 자동 실행: 매일 오전 7시
+    public void scheduledSendWeatherAlarms() {
+        sendWeatherAlarms();
+    }
+
+    // ✅ 수동 호출도 가능하게 public으로 열어줌
     public void sendWeatherAlarms() {
         LocalDate today = LocalDate.now();
         List<LocalDate> targetDates = List.of(today, today.plusDays(3), today.plusDays(7));
 
         for (LocalDate date : targetDates) {
             List<ToDo> toDos = toDoRepository.findByTargetDateInRange(date);
-
             for (ToDo todo : toDos) {
                 User user = todo.getUser();
-                String city = user.getCity(); // 유저 도시 정보
-                String weather = weatherService.getCurrentWeather(city); // 날씨 API 호출
+                String city = user.getCity();
+                String weather = weatherService.getCurrentWeather(city);
 
                 int daysBetween = (int) ChronoUnit.DAYS.between(today, date);
+                String summary = switch (daysBetween) {
+                    case 7 -> "7일 후 기념일 날씨: " + weather;
+                    case 3 -> "3일 후 일정 날씨: " + weather;
+                    case 0 -> weather;
+                    default -> date + " 날씨: " + weather;
+                };
 
-                String summary;
-                boolean isFuture;
-
-                if (daysBetween == 7) {
-                    summary = "7일 후 기념일 날씨: " + weather;
-                    isFuture = true;
-                } else if (daysBetween == 3) {
-                    summary = "3일 후 일정 날씨: " + weather;
-                    isFuture = false;
-                } else if (daysBetween == 0) {
-                    summary = weather; // "오늘의 날씨:"는 sendWeatherAlarm 메서드에서 자동 붙음
-                    isFuture = false;
-                } else {
-                    summary = date + " 날씨: " + weather;
-                    isFuture = false;
-                }
-
-                alarmService.sendWeatherAlarm(user.getUsername(), summary, isFuture);
+                alarmService.sendWeatherAlarm(user.getUsername(), summary, daysBetween == 7);
             }
         }
     }

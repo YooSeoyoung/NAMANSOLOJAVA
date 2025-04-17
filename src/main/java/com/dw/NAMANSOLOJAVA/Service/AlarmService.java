@@ -3,6 +3,7 @@ package com.dw.NAMANSOLOJAVA.Service;
 import com.dw.NAMANSOLOJAVA.Controller.AlarmController;
 import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
 import com.dw.NAMANSOLOJAVA.Repository.AlarmRepository;
+import com.dw.NAMANSOLOJAVA.Repository.AlarmSettingRepository;
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.enums.AlarmType;
 import com.dw.NAMANSOLOJAVA.model.Alarm;
@@ -26,9 +27,30 @@ public class AlarmService {
     @Autowired
     private AlarmController alarmController;
 
+    @Autowired
+    private AlarmSettingRepository alarmSettingRepository;
+
+    private boolean isAlarmEnabled(User user, AlarmType type) {
+        return alarmSettingRepository.findByUser(user)
+                .map(setting -> {
+                    return switch (type) {
+                        case FOLLOW -> setting.isFollow();
+                        case COMMENT -> setting.isComment();
+                        case GREAT -> setting.isGreat();
+                        case RECOMMENT -> setting.isRecomment();
+                        case TODO -> setting.isTodo();
+                        case WEATHER -> setting.isWeather();
+                        default -> true;
+                    };
+                })
+                .orElse(true); // 설정 없으면 기본값 true
+    }
+
     // toUser에게 message 내용으로 type 알림
     private void send(String toUser, String message, AlarmType type) {
         User user = userRepository.findByUsername(toUser).orElseThrow();
+
+        if (!isAlarmEnabled(user, type)) return;
 
         Alarm alarm = new Alarm();
         alarm.setUser(user);
@@ -93,4 +115,5 @@ public class AlarmService {
         String prefix = isFuture ? "7일 후 기념일의 예상 날씨: " : "오늘의 날씨: ";
         send(toUser, prefix + summary, AlarmType.WEATHER);
     }
+
 }
