@@ -72,6 +72,7 @@ public class UserService {
         newUser.setAddDate(LocalDate.now());
         newUser.setAuthority(authorityRepository.findById("ROLE_USER")
                 .orElseThrow(()->new ResourceNotFoundException("No role")));
+        newUser.setCity(userDTO.getCity());
 
         // 기본 알림 설정
         newUser.setAlarmAlert(true);
@@ -228,7 +229,9 @@ public class UserService {
         if (userUpdateAndFIndDTO.getPhoneNumberF() != null) {
             currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
         }
-
+        if (userUpdateAndFIndDTO.getCity() != null) {
+            currentUser.setCity(userUpdateAndFIndDTO.getCity());
+        }
 
         if (userUpdateAndFIndDTO.getProfileImageUrl() != null) {
             Media media = new Media();
@@ -246,7 +249,8 @@ public class UserService {
                 currentUser.getEmailF(),
                 currentUser.getPhoneNumberM(),
                 currentUser.getPhoneNumberF(),
-                currentUser.getMedia().getMediaUrl()
+                currentUser.getMedia().getMediaUrl(),
+                currentUser.getCity()
         );
     }
 

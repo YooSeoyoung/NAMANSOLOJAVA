@@ -80,13 +80,13 @@ public class User implements UserDetails {
                 this.emailM,this.emailF,
                 this.birthM, this.birthF,
                 this.phoneNumberM, this.phoneNumberF,
-                this.authority.getAuthorityName(), this.addDate,
-                this.dDay, this.alarmAlert,
-                this.commentAlert, this.followAlert,
-                this.greatAlert, this.eventAlert,
-                this.recommendAlert, this.recommentAlert,
-                this.todoAlert, this.media.toDTO(),
-                this.lastLogin
+                this.authority.getAuthorityName(), this.city,
+                this.addDate, this.dDay,
+                this.alarmAlert, this.commentAlert,
+                this.followAlert, this.greatAlert,
+                this.eventAlert, this.recommendAlert,
+                this.recommentAlert, this.todoAlert,
+                this.media.toDTO(), this.lastLogin
         );
     }
 

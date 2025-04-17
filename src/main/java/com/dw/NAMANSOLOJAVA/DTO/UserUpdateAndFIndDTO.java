@@ -16,4 +16,5 @@ public class UserUpdateAndFIndDTO {
     private String phoneNumberM;
     private String phoneNumberF;
     private String profileImageUrl;
+    private String city;
 }

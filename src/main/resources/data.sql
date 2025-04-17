@@ -20,21 +20,22 @@ INSERT INTO user (
     phone_number_m, phone_number_f, ROLE_authority,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id, city
 ) VALUES (
     'admin', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '관리자남', '관리자여',
     'adminm@example.com', 'adminf@example.com', '1990-01-01', '1991-02-02',
     '010-0000-0000', '010-1111-2222', 'ROLE_ADMIN',
     '2023-01-01', '2020-01-01', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 1),
+    true, true, true, true, 1, '서울'),
 (
      'steve12', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '스티브남', '스티브여',
      'steve1@example.com', 'steve2@example.com', '1990-01-01', '1991-02-02',
      '010-0000-0000', '010-1111-2222', 'ROLE_USER',
      '2023-01-01', '2020-01-01', '2025-04-08',
      true, true, true, true,
-     true, true, true, true, 1
+     true, true, true, true, 1, '울산'
 );
 
 INSERT INTO user (
@@ -43,14 +44,15 @@ INSERT INTO user (
     phone_number_m, phone_number_f, ROLE_authority,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id, city
 ) VALUES (
     'couple001', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '민수', '지민',
     'minsu@example.com', 'jimin@example.com', '1995-05-10', '1996-08-15',
     '010-1234-5678', '010-8765-4321', 'ROLE_USER',
     '2024-04-01', '2022-06-15', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 2
+    true, true, true, true, 2, '대전'
 );
 
 INSERT INTO user (
@@ -59,14 +61,15 @@ INSERT INTO user (
     phone_number_m, phone_number_f, ROLE_authority,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id, city
 ) VALUES (
     'couple002', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '영호', '수아',
     'youngho@example.com', 'sua@example.com', '1994-07-12', '1995-10-30',
     '010-2345-6789', '010-9876-5432', 'ROLE_USER',
     '2024-03-01', '2022-05-20', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 3
+    true, true, true, true, 3, '부산'
 );
 
 INSERT INTO user (
@@ -75,14 +78,15 @@ INSERT INTO user (
     phone_number_m, phone_number_f, ROLE_authority,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id, city
 ) VALUES (
     'couple003', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '준호', '예림',
     'junho@example.com', 'yerim@example.com', '1993-03-05', '1994-11-22',
     '010-3456-7890', '010-1122-3344', 'ROLE_USER',
     '2024-02-15', '2021-12-01', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 4
+    true, true, true, true, 4, '제주'
 );
 
 INSERT INTO follow (follower_name, following_name) VALUES ('couple002', 'couple001');
