@@ -154,7 +154,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getCurrentUserInfo() {
         User currentUser = userService.getCurrentUser();
-        return new ResponseEntity<>(new UserDTO(currentUser), HttpStatus.OK);
+        return new ResponseEntity<>(currentUser.toUserDTO(), HttpStatus.OK);
     }
 
     @PostMapping("/upload/profile-image")

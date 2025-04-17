@@ -74,7 +74,6 @@ public class User implements UserDetails {
     private Media media;
 
     public UserDTO toUserDTO(){
-        MediaDTO mediaDTO = this.media.toDTO();
         return new UserDTO(
                 this.username,null,
                 this.realNameM, this.realNameF,
@@ -86,7 +85,7 @@ public class User implements UserDetails {
                 this.commentAlert, this.followAlert,
                 this.greatAlert, this.eventAlert,
                 this.recommendAlert, this.recommentAlert,
-                this.todoAlert, mediaDTO,
+                this.todoAlert, this.media.toDTO(),
                 this.lastLogin
         );
     }
