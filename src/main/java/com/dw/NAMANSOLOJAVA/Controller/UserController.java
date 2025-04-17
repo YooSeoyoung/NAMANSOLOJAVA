@@ -2,11 +2,13 @@ package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
 import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
+import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -168,25 +170,22 @@ public class UserController {
 
         String originalFilename = file.getOriginalFilename();
         String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String newFileName = username + ext;
+        String newFileName = username + ext; // 고정 파일명
         Path savePath = Paths.get(uploadDir, newFileName);
 
         try {
             if (!file.getContentType().startsWith("image")) {
                 throw new InvalidRequestException("올바르지 않은 파일 타입입니다. 프로필은 이미지만 허용됩니다.");
             }
+
             Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
 
-            Media media = new Media();
-            media.setMediaUrl("/api/user/download/" + username + "/" + newFileName);
-            media.setMediaType(com.dw.NAMANSOLOJAVA.enums.MediaType.valueOf("PICTURE"));
+            MediaDTO mediaDTO = new MediaDTO();
+            mediaDTO.setMediaUrl("/api/user/download/" + username + "/" + newFileName);
+            mediaDTO.setMediaType("PICTURE");
 
-            mediaRepository.save(media); // ✅ DB 저장!
+            return new ResponseEntity<>(mediaDTO, HttpStatus.OK);
 
-            user.setMedia(media);
-            userRepository.save(user);
-
-            return new ResponseEntity<>(media.toDTO(), HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("업로드 중 오류: " + e.getMessage());

@@ -83,7 +83,7 @@ public class UserService {
         newUser.setRecommentAlert(true);
         newUser.setTodoAlert(true);
 
-        Media defaultMedia = mediaRepository.findById(userDTO.getMediaDTO().getId())
+        Media defaultMedia = mediaRepository.findById(1L)
                 .orElseThrow(() -> new ResourceNotFoundException("기본 이미지가 존재하지 않습니다."));
         newUser.setMedia(defaultMedia);
 
@@ -228,8 +228,6 @@ public class UserService {
         if (userUpdateAndFIndDTO.getPhoneNumberF() != null) {
             currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
         }
-
-        Media originMedia = currentUser.getMedia();
 
 
         if (userUpdateAndFIndDTO.getProfileImageUrl() != null) {
