@@ -198,4 +198,15 @@ public class OfficialEventService {
 
         todoRepository.saveAll(todos);
     }
+
+    @Transactional
+    public void refreshOfficialEvents(User user) {
+        List<ToDo> oldAnniversary = todoRepository.findOfficialAnniversariesByUsername(user.getUsername());
+
+        todoRepository.deleteAll(oldAnniversary);
+
+        // 새로운 D-Day 기반으로 공식기념일 다시 생성
+        applyOfficialEventsToUser(user); // 이건 원래 registerUser에서 쓰던 거 재활용
+    }
+
 }

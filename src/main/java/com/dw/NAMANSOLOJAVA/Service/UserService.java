@@ -214,21 +214,33 @@ public class UserService {
         if (userUpdateAndFIndDTO.getRealNameM() != null) {
             currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
         }
+        
         if (userUpdateAndFIndDTO.getRealNameF() != null) {
             currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
         }
+
         if (userUpdateAndFIndDTO.getEmailM() != null) {
             currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
         }
+
         if (userUpdateAndFIndDTO.getEmailF() != null) {
             currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
         }
+
         if (userUpdateAndFIndDTO.getPhoneNumberM() != null) {
             currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
         }
+
         if (userUpdateAndFIndDTO.getPhoneNumberF() != null) {
             currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
         }
+
+        if (userUpdateAndFIndDTO.getDDay() != null) {
+            currentUser.setDDay(userUpdateAndFIndDTO.getDDay());
+
+            officialEventService.refreshOfficialEvents(currentUser);
+        }
+
         if (userUpdateAndFIndDTO.getCity() != null) {
             currentUser.setCity(userUpdateAndFIndDTO.getCity());
         }
@@ -250,6 +262,7 @@ public class UserService {
                 currentUser.getPhoneNumberM(),
                 currentUser.getPhoneNumberF(),
                 currentUser.getMedia().getMediaUrl(),
+                currentUser.getDDay(),
                 currentUser.getCity()
         );
     }
