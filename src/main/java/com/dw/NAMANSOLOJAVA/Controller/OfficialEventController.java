@@ -23,6 +23,18 @@ public class OfficialEventController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/static")
+    public ResponseEntity<List<OfficialEventDTO>> getStaticOfficialEvent() {
+        return new ResponseEntity<>(officialEventService.getStaticOfficialEvent(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/none-static")
+    public ResponseEntity<List<OfficialEventDTO>> getNoneStaticOfficialEvent() {
+        return new ResponseEntity<>(officialEventService.getNoneStaticOfficialEvent(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/single/{id}")
     public ResponseEntity<OfficialEventDTO> getSingleOfficialEvent(@PathVariable Long id) {
         return new ResponseEntity<>(officialEventService.getSingleOfficialEvent(id), HttpStatus.OK);

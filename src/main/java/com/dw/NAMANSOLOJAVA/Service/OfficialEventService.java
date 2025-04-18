@@ -37,6 +37,16 @@ public class OfficialEventService {
         return officialEventDTOs;
     }
 
+    public List<OfficialEventDTO> getStaticOfficialEvent() {
+        List<OfficialEvent> officialEvents = officialEventRepository.findStaticEvents();
+        return officialEvents.stream().map(OfficialEvent::offEventDTO).toList();
+    }
+
+    public List<OfficialEventDTO> getNoneStaticOfficialEvent() {
+        List<OfficialEvent> officialEvents = officialEventRepository.findDynamicEvents();
+        return officialEvents.stream().map(OfficialEvent::offEventDTO).toList();
+    }
+
     public OfficialEventDTO getSingleOfficialEvent(Long id) {
         OfficialEvent officialEvent = officialEventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("해당 일정을 찾지 못했습니다."));
 
