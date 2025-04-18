@@ -32,18 +32,16 @@ public class AlarmService {
 
     private boolean isAlarmEnabled(User user, AlarmType type) {
         return alarmSettingRepository.findByUser(user)
-                .map(setting -> {
-                    return switch (type) {
-                        case FOLLOW -> setting.isFollow();
-                        case COMMENT -> setting.isComment();
-                        case GREAT -> setting.isGreat();
-                        case RECOMMENT -> setting.isRecomment();
-                        case TODO -> setting.isTodo();
-                        case WEATHER -> setting.isWeather();
-                        default -> true;
-                    };
+                .map(setting -> switch (type) {
+                    case FOLLOW -> "true".equalsIgnoreCase(setting.getFollow());
+                    case COMMENT -> "true".equalsIgnoreCase(setting.getComment());
+                    case GREAT -> "true".equalsIgnoreCase(setting.getGreat());
+                    case RECOMMENT -> "true".equalsIgnoreCase(setting.getRecomment());
+                    case TODO -> "true".equalsIgnoreCase(setting.getTodo());
+                    case WEATHER -> "true".equalsIgnoreCase(setting.getWeather());
+                    default -> true;
                 })
-                .orElse(true); // 설정 없으면 기본값 true
+                .orElse(true); // 설정이 없으면 기본값 true
     }
 
     // toUser에게 message 내용으로 type 알림

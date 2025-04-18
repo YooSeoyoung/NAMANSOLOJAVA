@@ -10,10 +10,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlarmSettingDTO {
-    private boolean follow;
-    private boolean comment;
-    private boolean great;
-    private boolean recomment;
-    private boolean todo;
-    private boolean weather;
+    private String username;
+    private String follow;
+    private String comment;
+    private String great;
+    private String recomment;
+    private String todo;
+    private String weather;
 }

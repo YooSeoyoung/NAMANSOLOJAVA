@@ -17,10 +17,17 @@ public class AlarmSettingService {
 
     public AlarmSetting getSetting(String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
+
         return settingRepository.findByUser(user)
                 .orElseGet(() -> {
                     AlarmSetting defaultSetting = new AlarmSetting();
                     defaultSetting.setUser(user);
+                    defaultSetting.setFollow("true");
+                    defaultSetting.setComment("true");
+                    defaultSetting.setGreat("true");
+                    defaultSetting.setRecomment("true");
+                    defaultSetting.setTodo("true");
+                    defaultSetting.setWeather("true");
                     return settingRepository.save(defaultSetting);
                 });
     }
@@ -35,12 +42,12 @@ public class AlarmSettingService {
                     return s;
                 });
 
-        setting.setFollow(dto.isFollow());
-        setting.setComment(dto.isComment());
-        setting.setGreat(dto.isGreat());
-        setting.setRecomment(dto.isRecomment());
-        setting.setTodo(dto.isTodo());
-        setting.setWeather(dto.isWeather());
+        setting.setFollow(dto.getFollow());
+        setting.setComment(dto.getComment());
+        setting.setGreat(dto.getGreat());
+        setting.setRecomment(dto.getRecomment());
+        setting.setTodo(dto.getTodo());
+        setting.setWeather(dto.getWeather());
 
         settingRepository.save(setting);
     }

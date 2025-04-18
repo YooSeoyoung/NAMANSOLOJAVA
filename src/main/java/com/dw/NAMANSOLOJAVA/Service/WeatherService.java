@@ -1,5 +1,6 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
+import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class WeatherService {
 
-    @Value("${openweather.api.key}")
-    private String apiKey;
+    private final String apiKey;
+
+    public WeatherService() {
+        this.apiKey = SecurityConfig.dotenv.get("OPENWEATHER_API_KEY");
+    }
 
     private static final Map<String, String> cityNameMap = Map.ofEntries(
             Map.entry("Seoul", "서울"),

@@ -22,10 +22,10 @@ public class AlarmSetting {
     @JoinColumn(name = "username")
     private User user;
 
-    private boolean follow = true;
-    private boolean comment = true;
-    private boolean great = true;
-    private boolean recomment = true;
-    private boolean todo = true;
-    private boolean weather = true;
+    private String follow ;
+    private String comment ;
+    private String great;
+    private String recomment;
+    private String todo ;
+    private String weather ;
 }
