@@ -71,6 +71,14 @@ public class UserController {
     public ResponseEntity<Boolean> checkId(@PathVariable String username){
         return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
     }
+    @GetMapping("/check-email/{email}")
+    public ResponseEntity<Boolean> checkEmail(@PathVariable String email){
+        return new ResponseEntity<>(userService.checkEmail(email),HttpStatus.OK);
+    }
+    @GetMapping("/check-phone/{phone}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable String phone){
+        return new ResponseEntity<>(userService.checkPhone(phone),HttpStatus.OK);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/all/add-date")

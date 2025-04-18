@@ -29,17 +29,17 @@ public class User implements UserDetails {
     private String realNameM; // 남자 이름
     @Column(name = "real_name_f", nullable = false)
     private String realNameF; // 여자 이름
-    @Column(name="email_m", nullable = false)
+    @Column(name="email_m", nullable = false,unique = true)
     private String emailM; // 남자 이메일
-    @Column(name="email_f", nullable = false)
+    @Column(name="email_f", nullable = false,unique = true)
     private String emailF; // 여자 이메일
     @Column(name = "birth_m", nullable = false, updatable = false)
     private LocalDate birthM; // 남자 생일
     @Column(name = "birth_f", nullable = false,updatable = false)
     private LocalDate birthF; // 여자 생일
-    @Column(name = "phone_number_m", nullable = false)
+    @Column(name = "phone_number_m", nullable = false,unique = true)
     private String phoneNumberM; // 남자 번호
-    @Column(name = "phone_number_f", nullable = false)
+    @Column(name = "phone_number_f", nullable = false,unique = true)
     private String phoneNumberF; // 여자 번호
     @ManyToOne
     @JoinColumn(name = "ROLE_authority", nullable = false)

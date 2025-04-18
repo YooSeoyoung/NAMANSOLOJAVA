@@ -125,6 +125,8 @@ public class UserService {
     public boolean checkId(String username){
         return userRepository.existsById(username);
     }
+    public  boolean checkEmail(String email){return  userRepository.existsByEmailMOrEmailF(email);}
+    public  boolean checkPhone(String phone){return  userRepository.existsByPhoneNumberMOrPhoneNumberF(phone);}
 
     public List<UserAddDateDTO> getAllUsersAddDate() {
         List<User> users = userRepository.findAll();
