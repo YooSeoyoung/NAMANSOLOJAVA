@@ -80,19 +80,23 @@ public class AlarmService {
     }
     // 1:1 알림으로 팔로우 소식 알림
     public void sendFollowAlarm(String toUser, String fromUser) {
-        send(toUser,fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW);
+        if (toUser.equals(fromUser)) return; // 본인에게 알림 X
+        send(toUser, fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW);
     }
     // 내가 작성한 게시물에 댓글이 달렸을때 알림
     public void sendCommentAlarm(String toUser, String fromUser, String postTitle) {
+        if (toUser.equals(fromUser)) return;
         send(toUser, fromUser + "님이 \"" + postTitle + "\"에 댓글을 남겼습니다.", AlarmType.COMMENT);
     }
     // 내가 남긴 댓글에 대댓글이 달렸을때 알림
     public void sendReCommentAlarm(String toUser, String fromUser) {
+        if (toUser.equals(fromUser)) return;
         send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT);
     }
     // 내 게시물을 좋아요 누르면 알림
     public void sendGreatAlarm(String toUser, String fromUser) {
-        send(toUser,fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT);
+        if (toUser.equals(fromUser)) return;
+        send(toUser, fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT);
     }
     // 추가한 장소가 있으면 유저에게 알림
 //    public void sendPlaceRecommendAlarm(String toUser, String placeName) {
@@ -113,5 +117,4 @@ public class AlarmService {
         String prefix = isFuture ? "7일 후 기념일의 예상 날씨: " : "오늘의 날씨: ";
         send(toUser, prefix + summary, AlarmType.WEATHER);
     }
-
 }

@@ -22,10 +22,10 @@ public class WeatherController {
         return ResponseEntity.ok(result);
     }
 
-    // 수동 날씨 알람 전송용
-    @PostMapping("/send-now")
-    public ResponseEntity<String> triggerManualWeatherAlarm() {
-        toDoWeatherScheduler.sendWeatherAlarms(); // 수동 실행
-        return ResponseEntity.ok("날씨 알람 수동 실행 완료");
-    }
+//    // 수동 날씨 알람 전송용
+//    @PostMapping("/send-now")
+//    public ResponseEntity<String> triggerManualWeatherAlarm() {
+//        toDoWeatherScheduler.sendWeatherAlarms(); // 수동 실행
+//        return ResponseEntity.ok("날씨 알람 수동 실행 완료");
+//    }
 }

@@ -21,15 +21,10 @@ public class ToDoWeatherScheduler {
     private final WeatherService weatherService;
     private final AlarmService alarmService;
 
-    @Scheduled(cron = "0 0 7 * * *") // 자동 실행: 매일 오전 7시
+    @Scheduled(cron = "0 0 8 * * *") // 매일 오전 8시 자동 실행
     public void scheduledSendWeatherAlarms() {
-        sendWeatherAlarms();
-    }
-
-    // ✅ 수동 호출도 가능하게 public으로 열어줌
-    public void sendWeatherAlarms() {
         LocalDate today = LocalDate.now();
-        List<LocalDate> targetDates = List.of(today, today.plusDays(3), today.plusDays(7));
+        List<LocalDate> targetDates = List.of(today.plusDays(3), today.plusDays(7)); // 3일, 7일 전만
 
         for (LocalDate date : targetDates) {
             List<ToDo> toDos = toDoRepository.findByTargetDateInRange(date);
@@ -42,11 +37,12 @@ public class ToDoWeatherScheduler {
                 String summary = switch (daysBetween) {
                     case 7 -> "7일 후 기념일 날씨: " + weather;
                     case 3 -> "3일 후 일정 날씨: " + weather;
-                    case 0 -> weather;
-                    default -> date + " 날씨: " + weather;
+                    default -> null;
                 };
 
-                alarmService.sendWeatherAlarm(user.getUsername(), summary, daysBetween == 7);
+                if (summary != null) {
+                    alarmService.sendWeatherAlarm(user.getUsername(), summary, daysBetween == 7);
+                }
             }
         }
     }
