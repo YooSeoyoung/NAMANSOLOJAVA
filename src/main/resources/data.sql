@@ -270,21 +270,3 @@ VALUES (
     '2025-04-09 11:00:00', false, null
 );
 
--- 주의: 향후 관리 목적이나 차단 필요 시 저장한 예시 데이터
--- 실시간 검색과는 별도로 내부 캐싱/추천용으로 쓰일 수 있음
-INSERT INTO event_present (
-    title, description, image_url, shopping_url, price
-) VALUES (
-    '커플 무드등',
-    '분위기 좋은 감성 커플 무드등입니다. 인테리어 효과도 뛰어납니다.',
-    'https://cdn.example.com/images/moonlight.jpg',
-    'https://shopping.naver.com/product/abc123',
-    '32,900원'
-);
--- ****** NOTE:
--- 이 데이터는 네이버 API 검색 결과와는 무관하게,
--- 서비스 내에서 수동 추천하거나, 특정 키워드 차단/우선 노출 용도로 사용될 수 있습니다.
--- 실시간 검색이 우선이며, 저장형 데이터를 사용자에게 보여줄 경우 반드시 표시 또는 분리 필요
-INSERT INTO media (media_url, media_type)
-VALUES ('https://cdn.example.com/video.mp4', 0);
-
