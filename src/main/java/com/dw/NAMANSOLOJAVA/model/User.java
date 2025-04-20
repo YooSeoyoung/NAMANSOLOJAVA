@@ -1,7 +1,6 @@
 package com.dw.NAMANSOLOJAVA.model;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
-import com.dw.NAMANSOLOJAVA.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,11 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,21 +29,23 @@ public class User implements UserDetails {
     private String realNameM; // 남자 이름
     @Column(name = "real_name_f", nullable = false)
     private String realNameF; // 여자 이름
-    @Column(name="email_m", nullable = false)
+    @Column(name="email_m", nullable = false,unique = true)
     private String emailM; // 남자 이메일
-    @Column(name="email_f", nullable = false)
+    @Column(name="email_f", nullable = false,unique = true)
     private String emailF; // 여자 이메일
     @Column(name = "birth_m", nullable = false, updatable = false)
     private LocalDate birthM; // 남자 생일
     @Column(name = "birth_f", nullable = false,updatable = false)
     private LocalDate birthF; // 여자 생일
-    @Column(name = "phone_number_m", nullable = false)
+    @Column(name = "phone_number_m", nullable = false,unique = true)
     private String phoneNumberM; // 남자 번호
-    @Column(name = "phone_number_f", nullable = false)
+    @Column(name = "phone_number_f", nullable = false,unique = true)
     private String phoneNumberF; // 여자 번호
     @ManyToOne
     @JoinColumn(name = "ROLE_authority", nullable = false)
     private Authority authority; // 권한
+    @Column(name = "city")
+    private String city; // 도시
     @Column(name = "add_date", updatable = false)
     private LocalDate addDate; // 회원가입일자
     @Column(name ="d_day", nullable = false)
@@ -56,9 +54,9 @@ public class User implements UserDetails {
     private LocalDate lastLogin;
     // 알람 발송 여부. 기본 true
     @Column(name = "alarm_alert", nullable = false)
-     private Boolean alarmAlert = true;
+    private Boolean alarmAlert = true;
     @Column(name = "comment_alert", nullable = false)
-     private Boolean commentAlert= true;
+    private Boolean commentAlert= true;
     @Column(name = "follow_alert", nullable = false)
     private Boolean followAlert= true;
     @Column(name = "great_alert", nullable = false)
@@ -76,19 +74,19 @@ public class User implements UserDetails {
     private Media media;
 
     public UserDTO toUserDTO(){
-
         return new UserDTO(
-                this.username,null,this.realNameM,
-                this.realNameF,
-                this.emailM,this.emailF,this.birthM,
-                this.birthF,this.phoneNumberM,
-                this.phoneNumberF,this.authority.getAuthorityName(),
-                this.addDate,this.dDay,
-                this.alarmAlert,this.commentAlert,
-                this.followAlert,this.greatAlert,
-                this.eventAlert,this.recommendAlert,
-                this.recommentAlert,this.todoAlert,
-               this.media.toDTO()
+                this.username,null,
+                this.realNameM, this.realNameF,
+                this.emailM,this.emailF,
+                this.birthM, this.birthF,
+                this.phoneNumberM, this.phoneNumberF,
+                this.authority.getAuthorityName(), this.city,
+                this.addDate, this.dDay,
+                this.alarmAlert, this.commentAlert,
+                this.followAlert, this.greatAlert,
+                this.eventAlert, this.recommendAlert,
+                this.recommentAlert, this.todoAlert,
+                this.media.toDTO(), this.lastLogin
         );
     }
 

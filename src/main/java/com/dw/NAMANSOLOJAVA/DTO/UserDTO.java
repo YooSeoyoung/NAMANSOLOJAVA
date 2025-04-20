@@ -1,6 +1,9 @@
 package com.dw.NAMANSOLOJAVA.DTO;
 
 
+import com.dw.NAMANSOLOJAVA.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,7 +25,9 @@ public class UserDTO {
     private String phoneNumberM;
     private String phoneNumberF;
     private String authority;
+    private String city;
     private LocalDate addDate;
+    @JsonProperty("dDay")
     private LocalDate dDay;
     private Boolean alarmAlert;
     private Boolean commentAlert;
@@ -32,5 +37,6 @@ public class UserDTO {
     private Boolean recommendAlert;
     private Boolean recommentAlert;
     private Boolean todoAlert;
-    private MediaDTO mediaUrl;
+    private MediaDTO mediaDTO;
+    private LocalDate lastLogin;
 }

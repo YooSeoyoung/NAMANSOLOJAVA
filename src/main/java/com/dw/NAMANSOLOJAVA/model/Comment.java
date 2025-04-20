@@ -36,7 +36,7 @@ public class Comment { // 댓글 기능
 
     public AddOrUpdateCommentDTO toAddOrUpdateCommentDTO(){
         return  new AddOrUpdateCommentDTO(
-                this.id,this.content, this.addDate, this.album.getId()
+                this.id,this.content, this.addDate, this.album.getId(),this.user.getUsername()
         );
     }
 

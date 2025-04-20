@@ -38,7 +38,8 @@ public class ReComment {  // 대댓글 기능
         return new AddOrUpdateReCommentDTO(
                 this.id,
                 this.content, this.addDate,
-                this.comment.getId()
+                this.comment.getId(),
+                this.user.getUsername()
         );
     }
     public ReCommentDTO toRecommentDTO(){

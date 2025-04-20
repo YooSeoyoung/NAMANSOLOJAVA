@@ -1,25 +1,48 @@
 package com.dw.NAMANSOLOJAVA.Controller;
 
 import com.dw.NAMANSOLOJAVA.DTO.*;
+import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
+import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
+import com.dw.NAMANSOLOJAVA.Repository.MediaRepository;
+import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
 import com.dw.NAMANSOLOJAVA.Service.UserService;
 import com.dw.NAMANSOLOJAVA.model.Media;
+import com.dw.NAMANSOLOJAVA.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     UserService userService;
 
+    @Autowired
+    MediaRepository mediaRepository;
+
     @PostMapping("/register") // 회원가입
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
+        System.out.println(userDTO.getBirthM());
+        System.out.println(userDTO.getUsername());
         return new ResponseEntity<>(
                 userService.registerUser(userDTO),
                 HttpStatus.CREATED);
@@ -48,6 +71,14 @@ public class UserController {
     public ResponseEntity<Boolean> checkId(@PathVariable String username){
         return new ResponseEntity<>(userService.checkId(username),HttpStatus.OK);
     }
+    @GetMapping("/check-email/{email}")
+    public ResponseEntity<Boolean> checkEmail(@PathVariable String email){
+        return new ResponseEntity<>(userService.checkEmail(email),HttpStatus.OK);
+    }
+    @GetMapping("/check-phone/{phone}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable String phone){
+        return new ResponseEntity<>(userService.checkPhone(phone),HttpStatus.OK);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/all/add-date")
@@ -65,17 +96,25 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/find-user/email")
-    public ResponseEntity<String> getIdByEmail(@RequestBody UserUpdateAndFIndDTO dto) {
-        return new ResponseEntity<>(userService.getIdByEmail(dto), HttpStatus.OK);
+    @GetMapping("/find-user/email")
+    public ResponseEntity<String> getIdByEmail(@RequestParam String realName, @RequestParam String email) {
+        return new ResponseEntity<>(userService.getIdByEmail(realName,email), HttpStatus.OK);
     }
 
-    @PostMapping("/find-user/phone")
-    public ResponseEntity<String> getIdByPhone(@RequestBody UserUpdateAndFIndDTO userUpdateAndFIndDTO) {
+    @GetMapping("/find-user/phone")
+    public ResponseEntity<String> getIdByPhone(@RequestParam String realName, @RequestParam String phoneNumber) {
         return new ResponseEntity<>(
-                userService.getIdByPhone(userUpdateAndFIndDTO),
+                userService.getIdByPhone(realName,phoneNumber),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/exist")
+    public ResponseEntity<Boolean> ExistEmailAndUsername(@RequestParam String username, @RequestParam String realName, @RequestParam String email){
+        return new ResponseEntity<>(
+                userService.ExistEmailAndUsername(username,realName,email),
+                HttpStatus.OK);
+    }
+
 
     @PutMapping("/modify-pw")
     public ResponseEntity<String> UpdatePw(@RequestBody PasswordDTO passwordDTO) {
@@ -113,11 +152,82 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/last-activity") // 오타 수정
+    @GetMapping("/admin/last-activity")
     public ResponseEntity<List<UserLastActivityDTO>> getUserLastActivity() {
         return new ResponseEntity<>(
-                userService.getUserLastActivity(), // 파라미터 제거
+                userService.getUserLastActivity(),
                 HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUserInfo() {
+        User currentUser = userService.getCurrentUser();
+        return new ResponseEntity<>(currentUser.toUserDTO(), HttpStatus.OK);
+    }
+
+    @PostMapping("/upload/profile-image")
+    public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file) {
+        User user = userService.getCurrentUser();
+        String username = user.getUsername();
+        String uploadDir = "./var/upload/" + username;
+
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        String originalFilename = file.getOriginalFilename();
+        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String newFileName = username + ext; // 고정 파일명
+        Path savePath = Paths.get(uploadDir, newFileName);
+
+        try {
+            if (!file.getContentType().startsWith("image")) {
+                throw new InvalidRequestException("올바르지 않은 파일 타입입니다. 프로필은 이미지만 허용됩니다.");
+            }
+
+            Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
+
+            MediaDTO mediaDTO = new MediaDTO();
+            mediaDTO.setMediaUrl("/api/user/download/" + username + "/" + newFileName);
+            mediaDTO.setMediaType("PICTURE");
+
+            return new ResponseEntity<>(mediaDTO, HttpStatus.OK);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("업로드 중 오류: " + e.getMessage());
+        }
+    }
+
+
+    // 프로필 이미지 다운로드
+    @GetMapping("/download/{username}/{fileName}")
+    public ResponseEntity<Resource> downloadProfileImage(
+            @PathVariable String username,
+            @PathVariable String fileName) {
+        try {
+            Path basePath = Paths.get("./var/upload").resolve(username).normalize();
+            Path filePath = basePath.resolve(fileName).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                String contentType = Files.probeContentType(filePath);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/city")
+    public ResponseEntity<String> updateCity(@RequestParam String city) {
+        userService.updateCity(city);
+        return ResponseEntity.ok("도시 정보가 수정되었습니다: " + city);
+    }
 }

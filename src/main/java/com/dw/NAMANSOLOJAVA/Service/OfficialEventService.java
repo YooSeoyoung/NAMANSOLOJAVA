@@ -37,6 +37,16 @@ public class OfficialEventService {
         return officialEventDTOs;
     }
 
+    public List<OfficialEventDTO> getStaticOfficialEvent() {
+        List<OfficialEvent> officialEvents = officialEventRepository.findStaticEvents();
+        return officialEvents.stream().map(OfficialEvent::offEventDTO).toList();
+    }
+
+    public List<OfficialEventDTO> getNoneStaticOfficialEvent() {
+        List<OfficialEvent> officialEvents = officialEventRepository.findDynamicEvents();
+        return officialEvents.stream().map(OfficialEvent::offEventDTO).toList();
+    }
+
     public OfficialEventDTO getSingleOfficialEvent(Long id) {
         OfficialEvent officialEvent = officialEventRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("해당 일정을 찾지 못했습니다."));
 
@@ -198,4 +208,15 @@ public class OfficialEventService {
 
         todoRepository.saveAll(todos);
     }
+
+    @Transactional
+    public void refreshOfficialEvents(User user) {
+        List<ToDo> oldAnniversary = todoRepository.findOfficialAnniversariesByUsername(user.getUsername());
+
+        todoRepository.deleteAll(oldAnniversary);
+
+        // 새로운 D-Day 기반으로 공식기념일 다시 생성
+        applyOfficialEventsToUser(user); // 이건 원래 registerUser에서 쓰던 거 재활용
+    }
+
 }

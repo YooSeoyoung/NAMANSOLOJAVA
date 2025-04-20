@@ -5,6 +5,7 @@ import com.dw.NAMANSOLOJAVA.Exception.InvalidRequestException;
 import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Exception.UnauthorizedUserException;
 import com.dw.NAMANSOLOJAVA.Repository.*;
+import com.dw.NAMANSOLOJAVA.enums.MediaType;
 import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
@@ -17,7 +18,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +53,8 @@ public class UserService {
         }
 
         // 권한 조회
-        Authority authority = authorityRepository.findById(userDTO.getAuthority())
-                .orElseThrow(() -> new RuntimeException("권한이 존재하지 않습니다: " + userDTO.getAuthority()));
+//        Authority authority = authorityRepository.findById(userDTO.getAuthority())
+//                .orElseThrow(() -> new RuntimeException("권한이 존재하지 않습니다: " + userDTO.getAuthority()));
 
         User newUser = new User();
         newUser.setUsername(userDTO.getUsername());
@@ -61,9 +67,12 @@ public class UserService {
         newUser.setPhoneNumberF(userDTO.getPhoneNumberF());
         newUser.setBirthM(userDTO.getBirthM());
         newUser.setBirthF(userDTO.getBirthF());
-        newUser.setDDay(userDTO.getDDay());
+        System.out.println(userDTO.getDDay());
+        newUser.setDDay(LocalDate.now());
         newUser.setAddDate(LocalDate.now());
-        newUser.setAuthority(authority);
+        newUser.setAuthority(authorityRepository.findById("ROLE_USER")
+                .orElseThrow(()->new ResourceNotFoundException("No role")));
+        newUser.setCity(userDTO.getCity());
 
         // 기본 알림 설정
         newUser.setAlarmAlert(true);
@@ -76,8 +85,10 @@ public class UserService {
         newUser.setTodoAlert(true);
 
         Media defaultMedia = mediaRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("기본 이미지가 존재하지 않습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("기본 이미지가 존재하지 않습니다."));
         newUser.setMedia(defaultMedia);
+
+        System.out.println("DDay: " + newUser.getDDay());
 
         userRepository.save(newUser);
 
@@ -114,6 +125,8 @@ public class UserService {
     public boolean checkId(String username){
         return userRepository.existsById(username);
     }
+    public  boolean checkEmail(String email){return  userRepository.existsByEmailMOrEmailF(email);}
+    public  boolean checkPhone(String phone){return  userRepository.existsByPhoneNumberMOrPhoneNumberF(phone);}
 
     public List<UserAddDateDTO> getAllUsersAddDate() {
         List<User> users = userRepository.findAll();
@@ -136,36 +149,52 @@ public class UserService {
 
         return dto;
     }
-    // 이메일로 통하여 아이디 찾기
-    public String getIdByEmail(UserUpdateAndFIndDTO dto) {
-        Optional<User> userOpt = userRepository.findByEmailMAndEmailFAndPhoneNumberMAndPhoneNumberFAndRealNameMAndRealNameF(
-                dto.getEmailM(), dto.getEmailF(),
-                dto.getPhoneNumberM(), dto.getPhoneNumberF(),
-                dto.getRealNameM(), dto.getRealNameF());
 
-        return userOpt
-                .map(User::getUsername)
-                .orElseThrow(() -> new RuntimeException("일치하는 사용자를 찾을 수 없습니다."));
+    public String getIdByPhone(String realName, String phoneNumber){
+        Optional<User> femaleUser = userRepository.findByRealNameFAndPhoneNumberF(realName, phoneNumber);
+        if (femaleUser.isPresent()) {
+            return femaleUser.get().getUsername();
+        }
+
+        Optional<User> maleUser = userRepository.findByRealNameMAndPhoneNumberM(realName, phoneNumber);
+        if (maleUser.isPresent()) {
+            return maleUser.get().getUsername();
+        }
+
+        throw new ResourceNotFoundException("입력하신 정보와 일치하는 아이디가 없습니다.");
     }
 
-    public String getIdByPhone(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 전화번호로 통하여 아이디 찾기
-        Optional<User> foundUser = userRepository
-                .findByPhoneNumberMAndRealNameMOrPhoneNumberFAndRealNameF(
-                        userUpdateAndFIndDTO.getPhoneNumberM(), userUpdateAndFIndDTO.getRealNameM(),
-                        userUpdateAndFIndDTO.getPhoneNumberF(), userUpdateAndFIndDTO.getRealNameF()
-                );
+    public String getIdByEmail(String realName, String email){
+        Optional<User> femaleUser = userRepository.findByRealNameFAndEmailF(realName, email);
+        if (femaleUser.isPresent()) {
+            return femaleUser.get().getUsername();
+        }
 
-        return foundUser
-                .map(User::getUsername)
-                .orElseThrow(() -> new UsernameNotFoundException("일치하는 회원 정보를 찾을 수 없습니다."));
+        Optional<User> maleUser = userRepository.findByRealNameMAndEmailM(realName, email);
+        if (maleUser.isPresent()) {
+            return maleUser.get().getUsername();
+        }
+
+        throw new ResourceNotFoundException("입력하신 정보와 일치하는 아이디가 없습니다.");
+    }
+
+    public Boolean ExistEmailAndUsername(String username,String realName, String email){
+        Optional<User> femaleUser = userRepository.findByUsernameAndRealNameFAndEmailF(username,realName, email);
+        if (femaleUser.isPresent()) {
+            return true;
+        }
+        Optional<User> maleUser = userRepository.findByUsernameAndRealNameMAndEmailM(username,realName, email);
+        if (maleUser.isPresent()) {
+            return false;
+        }
+        throw new ResourceNotFoundException("입력하신 정보가 틀립니다");
     }
 
     @Transactional
     public String UpdatePw(PasswordDTO passwordDTO) {
         // 1. 유저 존재 여부 체크
         User user = userRepository.findById(passwordDTO.getUsername())
-                .filter(u -> u.getEmailM().equals(passwordDTO.getEmail()) || u.getEmailF().equals(passwordDTO.getEmail()))
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없거나 이메일이 일치하지 않습니다."));
+        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없거나 이메일이 일치하지 않습니다."));
 
         // 2. 비밀번호 일치 확인
         if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())) {
@@ -180,27 +209,64 @@ public class UserService {
         return "비밀번호가 성공적으로 변경되었습니다.";
     }
 
+    @Transactional
     public UserUpdateAndFIndDTO UpdateUserData(UserUpdateAndFIndDTO userUpdateAndFIndDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
         User currentUser = getCurrentUser();
 
-        if (userUpdateAndFIndDTO.getRealNameM() != null) currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
-        if (userUpdateAndFIndDTO.getRealNameF() != null) currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
-        if (userUpdateAndFIndDTO.getEmailM() != null) currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
-        if (userUpdateAndFIndDTO.getEmailF() != null) currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
-        if (userUpdateAndFIndDTO.getPhoneNumberM() != null) currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
-        if (userUpdateAndFIndDTO.getPhoneNumberF() != null) currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
+        if (userUpdateAndFIndDTO.getRealNameM() != null) {
+            currentUser.setRealNameM(userUpdateAndFIndDTO.getRealNameM());
+        }
+        
+        if (userUpdateAndFIndDTO.getRealNameF() != null) {
+            currentUser.setRealNameF(userUpdateAndFIndDTO.getRealNameF());
+        }
 
+        if (userUpdateAndFIndDTO.getEmailM() != null) {
+            currentUser.setEmailM(userUpdateAndFIndDTO.getEmailM());
+        }
+
+        if (userUpdateAndFIndDTO.getEmailF() != null) {
+            currentUser.setEmailF(userUpdateAndFIndDTO.getEmailF());
+        }
+
+        if (userUpdateAndFIndDTO.getPhoneNumberM() != null) {
+            currentUser.setPhoneNumberM(userUpdateAndFIndDTO.getPhoneNumberM());
+        }
+
+        if (userUpdateAndFIndDTO.getPhoneNumberF() != null) {
+            currentUser.setPhoneNumberF(userUpdateAndFIndDTO.getPhoneNumberF());
+        }
+
+        if (userUpdateAndFIndDTO.getDDay() != null) {
+            currentUser.setDDay(userUpdateAndFIndDTO.getDDay());
+
+            officialEventService.refreshOfficialEvents(currentUser);
+        }
+
+        if (userUpdateAndFIndDTO.getCity() != null) {
+            currentUser.setCity(userUpdateAndFIndDTO.getCity());
+        }
+
+        if (userUpdateAndFIndDTO.getProfileImageUrl() != null) {
+            Media media = new Media();
+            media.setMediaUrl(userUpdateAndFIndDTO.getProfileImageUrl()); // ex: /api/user/download/username/username.jpg
+            media.setMediaType(MediaType.valueOf("PICTURE"));
+            Media savedMedia = mediaRepository.save(media);
+            currentUser.setMedia(savedMedia);
+        }
         userRepository.save(currentUser);
 
-        UserUpdateAndFIndDTO updatedDTO = new UserUpdateAndFIndDTO(
+        return new UserUpdateAndFIndDTO(
                 currentUser.getRealNameM(),
                 currentUser.getRealNameF(),
                 currentUser.getEmailM(),
                 currentUser.getEmailF(),
                 currentUser.getPhoneNumberM(),
-                currentUser.getPhoneNumberF()
+                currentUser.getPhoneNumberF(),
+                currentUser.getMedia().getMediaUrl(),
+                currentUser.getDDay(),
+                currentUser.getCity()
         );
-        return updatedDTO;
     }
 
     public UpdateImageDDayDTO UpdateUserDataImageDday(UpdateImageDDayDTO updateImageDDayDTO) { // 회원 정보 수정(이름, 이메일, 전화번호)
@@ -287,5 +353,11 @@ public class UserService {
         return result;
     }
 
+    public void updateCity(String city) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
 
+        user.setCity(city); // 도시 변경
+        userRepository.save(user); // DB에 반영
+    }
 }

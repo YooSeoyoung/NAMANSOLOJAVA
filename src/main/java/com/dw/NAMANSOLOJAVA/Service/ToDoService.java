@@ -85,7 +85,7 @@ public class ToDoService {
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getEndDate()); // 기념일은 시작일 = 종료일
         todo.setFinalEditDate(LocalDate.now());
-        todo.setType(dto.getType());
+        todo.setType(dto.getType().toUpperCase());
         todo.setUser(user);
         todo.setEditable(true);
         todo.setMedia(new ArrayList<>());
@@ -119,7 +119,7 @@ public class ToDoService {
         todo.setStartDate(dto.getStartDate());
         todo.setLastDate(dto.getEndDate());
         todo.setFinalEditDate(LocalDate.now());
-        todo.setType(dto.getType());
+        todo.setType(dto.getType().toUpperCase());
         todo.setUser(user);
         todo.setEditable(true);
         todo.setColor(dto.getColor());

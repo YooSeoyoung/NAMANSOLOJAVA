@@ -18,4 +18,5 @@ public class AlarmDTO {
     private String message;
     private LocalDateTime addDate;
     private boolean isRead;
+    private String icon;
 }

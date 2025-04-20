@@ -41,20 +41,24 @@ public class Alarm {
     @Column(name ="is_read")
     private boolean isRead = false; // 읽음 여부
 
-    @Column(name = "weather_info")
-    private String weatherInfo; // 날씨 API 결과 (TEXT) 날씨 정보
+    @Column(name = "icon_code")
+    private String iconCode; // 날씨 아이콘
+
+    // @Column(name = "weather_info")
+    // private String weatherInfo;// 날씨 API 결과 (TEXT) 날씨 정보
 
     public AddAlarmDTO toAddAlarmDTO(){
         return new AddAlarmDTO(
                 this.user.getUsername(), this.alarmType.name(),
-                this.message, this.weatherInfo
+                this.message, this.iconCode
         );
     }
     public AlarmDTO toAlarmDTO(){
         return new AlarmDTO(
                 this.id, this.user.getUsername(),
                 this.alarmType, this.message,
-                this.addDate,this.isRead
+                this.addDate,this.isRead,
+                this.iconCode
         );
     }
 }

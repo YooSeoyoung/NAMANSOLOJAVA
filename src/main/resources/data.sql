@@ -18,68 +18,69 @@ INSERT INTO user (
     username, password, real_name_m, real_name_f,
     email_m, email_f, birth_m, birth_f,
     phone_number_m, phone_number_f, ROLE_authority,
-    add_date, d_day, last_login,
+    city, add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id
 ) VALUES (
     'admin', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '관리자남', '관리자여',
     'adminm@example.com', 'adminf@example.com', '1990-01-01', '1991-02-02',
-    '010-0000-0000', '010-1111-2222', 'ROLE_ADMIN',
+    '010-0000-0000', '010-0000-0001', 'ROLE_ADMIN', '서울',
     '2023-01-01', '2020-01-01', '2025-04-08',
     true, true, true, true,
     true, true, true, true, 1),
 (
      'steve12', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '스티브남', '스티브여',
      'steve1@example.com', 'steve2@example.com', '1990-01-01', '1991-02-02',
-     '010-0000-0000', '010-1111-2222', 'ROLE_USER',
+     '010-0000-0003', '010-0000-0002', 'ROLE_USER', '울산',
      '2023-01-01', '2020-01-01', '2025-04-08',
      true, true, true, true,
-     true, true, true, true, 1
-);
+     true, true, true, true, 1);
 
 INSERT INTO user (
     username, password, real_name_m, real_name_f,
     email_m, email_f, birth_m, birth_f,
-    phone_number_m, phone_number_f, ROLE_authority,
+    phone_number_m, phone_number_f, ROLE_authority, city,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id
 ) VALUES (
     'couple001', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '민수', '지민',
     'minsu@example.com', 'jimin@example.com', '1995-05-10', '1996-08-15',
-    '010-1234-5678', '010-8765-4321', 'ROLE_USER',
+    '010-0000-0004', '010-0000-0005', 'ROLE_USER', '대전',
     '2024-04-01', '2022-06-15', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 2
-);
+    true, true, true, true, 2);
 
 INSERT INTO user (
     username, password, real_name_m, real_name_f,
     email_m, email_f, birth_m, birth_f,
-    phone_number_m, phone_number_f, ROLE_authority,
+    phone_number_m, phone_number_f, ROLE_authority,city,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id
 ) VALUES (
     'couple002', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '영호', '수아',
     'youngho@example.com', 'sua@example.com', '1994-07-12', '1995-10-30',
-    '010-2345-6789', '010-9876-5432', 'ROLE_USER',
+    '010-0000-0006', '010-0000-0007', 'ROLE_USER', '부산',
     '2024-03-01', '2022-05-20', '2025-04-08',
     true, true, true, true,
-    true, true, true, true, 3
-);
+    true, true, true, true, 3);
 
 INSERT INTO user (
     username, password, real_name_m, real_name_f,
     email_m, email_f, birth_m, birth_f,
-    phone_number_m, phone_number_f, ROLE_authority,
+    phone_number_m, phone_number_f, ROLE_authority, city,
     add_date, d_day, last_login,
     alarm_alert, comment_alert, follow_alert, great_alert,
-    event_alert, recommend_alert, recomment_alert, todo_alert, media_id
+    event_alert, recommend_alert, recomment_alert,
+    todo_alert, media_id
 ) VALUES (
     'couple003', '$2b$12$VOkWoMWTob2tHuXyyyh2hu14TPUH9iy6aB/NR1WkfqXvxxyAUnuW.', '준호', '예림',
     'junho@example.com', 'yerim@example.com', '1993-03-05', '1994-11-22',
-    '010-3456-7890', '010-1122-3344', 'ROLE_USER',
+    '010-0000-0008', '010-0000-0009', 'ROLE_USER', '제주',
     '2024-02-15', '2021-12-01', '2025-04-08',
     true, true, true, true,
     true, true, true, true, 4
@@ -219,9 +220,9 @@ VALUES
 -- todo 2 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://cdn.namansolo.com/media/couple001/jeju_trip_01.jpg', 0),
-('https://cdn.namansolo.com/media/couple001/jeju_trip_02.jpg', 0),
-('https://cdn.namansolo.com/media/couple001/jeju_trip_jeep.mp4', 1);
+('https://kor.pngtree.com/freebackground/background-map-of-spring-rapeseed-flowers-in-jinzhou-island-qingxin_982009.html', 0),
+('https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTNfMTQ3/MDAxNjM5MzkxMjM3NTUw.aaekK8dYRosCgU1jT-RxnPe3LvokCB55dXhf3YMbA54g.QDSbyG8Fo47YSLw-s8wxGkkNXzYS0HbsiAPeVL8mBwog.JPEG.ichufs/DSC_3609.jpg?type=w800', 0),
+('https://cdn.pixabay.com/video/2019/08/29/26356-357839112_large.mp4', 1);
 
 -- recommend place 관련 미디어
 INSERT INTO media (media_url, media_type) VALUES
@@ -268,22 +269,4 @@ VALUES (
     'couple002', 'FOLLOW', 'couple003님이 당신을 팔로우했습니다.',
     '2025-04-09 11:00:00', false, null
 );
-
--- 주의: 향후 관리 목적이나 차단 필요 시 저장한 예시 데이터
--- 실시간 검색과는 별도로 내부 캐싱/추천용으로 쓰일 수 있음
-INSERT INTO event_present (
-    title, description, image_url, shopping_url, price
-) VALUES (
-    '커플 무드등',
-    '분위기 좋은 감성 커플 무드등입니다. 인테리어 효과도 뛰어납니다.',
-    'https://cdn.example.com/images/moonlight.jpg',
-    'https://shopping.naver.com/product/abc123',
-    '32,900원'
-);
--- ****** NOTE:
--- 이 데이터는 네이버 API 검색 결과와는 무관하게,
--- 서비스 내에서 수동 추천하거나, 특정 키워드 차단/우선 노출 용도로 사용될 수 있습니다.
--- 실시간 검색이 우선이며, 저장형 데이터를 사용자에게 보여줄 경우 반드시 표시 또는 분리 필요
-INSERT INTO media (media_url, media_type)
-VALUES ('https://cdn.example.com/video.mp4', 0);
 
