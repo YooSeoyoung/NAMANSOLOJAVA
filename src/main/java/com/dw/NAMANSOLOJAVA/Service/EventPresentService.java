@@ -54,6 +54,8 @@ public class EventPresentService {
         LocalDate birthM = user.getBirthM();
         int ageM = calculateExactAge(birthM);
         int ageF = calculateExactAge(birthF);
+//        System.out.println("🎂 나이 계산 결과 (남자): " + ageM);
+//        System.out.println("🎂 나이 계산 결과 (여자): " + ageF);
         List<EventPresentDTO> male = searchAndConvert(ageM + "대 남자 선물");
         List<EventPresentDTO> female = searchAndConvert(ageF + "대 여자 선물");
 
@@ -67,6 +69,8 @@ public class EventPresentService {
         User user = userService.getCurrentUser();
         LocalDate birthF = user.getBirthF();
         int ageF = calculateExactAge(birthF);
+        System.out.println("남자 생일: " + user.getBirthM());
+        System.out.println("여자 생일: " + user.getBirthF());
         return searchAndConvert(ageF+"대 여자 선물");
     }
 
@@ -74,6 +78,7 @@ public class EventPresentService {
         User user = userService.getCurrentUser();
         LocalDate birthM = user.getBirthM();
         int ageM = calculateExactAge(birthM);
+        System.out.println("🎂 나이 계산 결과 (남자): " + ageM);
         return searchAndConvert(ageM+"대 남자 선물");
     }
 
@@ -100,6 +105,7 @@ public class EventPresentService {
                 sb.append(inputLine);
             }
             br.close();
+            System.out.println("🧾 네이버 응답 JSON: " + sb.toString()); // 여기 출력해봐
 
             Map<String, Object> jsonMap = new ObjectMapper().readValue(sb.toString(), Map.class);
             List<Map<String, Object>> items = (List<Map<String, Object>>) jsonMap.get("items");

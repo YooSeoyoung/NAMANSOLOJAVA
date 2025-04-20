@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OfficialEventService {
@@ -212,11 +213,39 @@ public class OfficialEventService {
     @Transactional
     public void refreshOfficialEvents(User user) {
         List<ToDo> oldAnniversary = todoRepository.findOfficialAnniversariesByUsername(user.getUsername());
+        List<OfficialEvent> events = officialEventRepository.findAll();
 
-        todoRepository.deleteAll(oldAnniversary);
+        for (OfficialEvent event : events) {
+            if (user.getUsername().equalsIgnoreCase("admin")) continue;
 
-        // 새로운 D-Day 기반으로 공식기념일 다시 생성
-        applyOfficialEventsToUser(user); // 이건 원래 registerUser에서 쓰던 거 재활용
+            Optional<ToDo> maybeTodo = oldAnniversary.stream()
+                    .filter(t -> !t.getEditable() && t.getTitle().equals(event.getEventTitle()))
+                    .findFirst();
+
+            LocalDate newDate = event.getOffsetDays() == 0
+                    ? event.getEventDate()
+                    : user.getDDay().plusDays(event.getOffsetDays());
+
+            if (maybeTodo.isPresent()) {
+                ToDo todo = maybeTodo.get();
+                todo.setStartDate(newDate);
+                todo.setLastDate(newDate);
+                todo.setFinalEditDate(LocalDate.now());
+                todoRepository.save(todo);
+            } else {
+                // 없을 경우 새로 생성
+                ToDo newTodo = new ToDo();
+                newTodo.setUser(user);
+                newTodo.setTitle(event.getEventTitle());
+                newTodo.setEditable(false);
+                newTodo.setType("ANNIVERSARY");
+                newTodo.setColor("#b22222");
+                newTodo.setFinalEditDate(LocalDate.now());
+                newTodo.setStartDate(newDate);
+                newTodo.setLastDate(newDate);
+                todoRepository.save(newTodo);
+            }
+        }
     }
 
 }

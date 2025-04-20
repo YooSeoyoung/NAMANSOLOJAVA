@@ -220,7 +220,7 @@ VALUES
 -- todo 2 관련 media
 INSERT INTO media (media_url, media_type)
 VALUES
-('https://kor.pngtree.com/freebackground/background-map-of-spring-rapeseed-flowers-in-jinzhou-island-qingxin_982009.html', 0),
+('https://mblogthumb-phinf.pstatic.net/MjAyNTAxMTZfMjk4/MDAxNzM2OTg5MTcwNjQw.Qc7XPSWMa9aLOjHiKFuMnk0ROZRpppDT8NDKz2kgu5Qg.GTBcURVGZgeps1mhk0OfgrgyWr1O3TJj_ypoGtyzR8kg.PNG/image.png?type=w800', 0),
 ('https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTNfMTQ3/MDAxNjM5MzkxMjM3NTUw.aaekK8dYRosCgU1jT-RxnPe3LvokCB55dXhf3YMbA54g.QDSbyG8Fo47YSLw-s8wxGkkNXzYS0HbsiAPeVL8mBwog.JPEG.ichufs/DSC_3609.jpg?type=w800', 0),
 ('https://cdn.pixabay.com/video/2019/08/29/26356-357839112_large.mp4', 1);
 
