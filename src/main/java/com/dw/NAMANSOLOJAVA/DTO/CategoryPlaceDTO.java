@@ -2,12 +2,14 @@ package com.dw.NAMANSOLOJAVA.DTO;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @ToString
 public class CategoryPlaceDTO {
-    private CategoryDTO category;
     private Long recommendPlaceId;
+    private List<String> categoryIds;
 }

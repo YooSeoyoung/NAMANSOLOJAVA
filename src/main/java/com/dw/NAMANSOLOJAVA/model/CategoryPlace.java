@@ -4,6 +4,8 @@ import com.dw.NAMANSOLOJAVA.DTO.CategoryPlaceDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -31,7 +33,7 @@ public class CategoryPlace {
 //    private EventPlace eventPlace;
 
     public CategoryPlaceDTO toDTO() {
-        return new CategoryPlaceDTO(category.toDTO(), recommendPlace.getId());
+        return new CategoryPlaceDTO( recommendPlace.getId(), List.of(category.getName()));
     }
 
     public CategoryPlace(Category category, RecommendPlace recommendPlace) {

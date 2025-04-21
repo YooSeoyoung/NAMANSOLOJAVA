@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +28,15 @@ public class CategoryPlaceService {
     RecommendPlaceRepository recommendPlaceRepository;
 
     public void addMapping(CategoryPlaceDTO dto) {
-        Category category = categoryRepository.findByName(dto.getCategory().getCategoryName())
-                .orElseThrow(() -> new RuntimeException("카테고리 없음"));
-
         RecommendPlace place = recommendPlaceRepository.findById(dto.getRecommendPlaceId())
                 .orElseThrow(() -> new RuntimeException("장소 없음"));
 
-        categoryPlaceRepository.save(new CategoryPlace(category, place));
+        for (String categoryId : dto.getCategoryIds()) {
+            Category category = categoryRepository.findByName(categoryId)
+                    .orElseThrow(() -> new RuntimeException("카테고리 없음"));
+
+            categoryPlaceRepository.save(new CategoryPlace(category, place));
+        }
     }
 
     public void deleteMapping(Long id) {
@@ -56,9 +59,26 @@ public class CategoryPlaceService {
         return categoryPlaceRepository
                 .findByRecommendPlace_CityAndCategory_Name(city, category)
                 .stream()
-                .map(cp -> cp.getRecommendPlace().admDTO()) // ✅ CategoryPlace → RecommendPlace → DTO
+                .map(cp -> cp.getRecommendPlace().admDTO())
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void updateMapping(Long placeId, List<String> categoryIds) {
+        // 기존 매핑 삭제
+        categoryPlaceRepository.deleteByRecommendPlaceId(placeId);
+
+        // 새 매핑 추가
+        for (String categoryName : categoryIds) {
+            Category category = categoryRepository.findByName(categoryName)
+                    .orElseThrow(() -> new RuntimeException("카테고리 없음: " + categoryName));
+            RecommendPlace place = recommendPlaceRepository.findById(placeId)
+                    .orElseThrow(() -> new RuntimeException("장소 없음: " + placeId));
+
+            categoryPlaceRepository.save(new CategoryPlace(category, place));
+        }
+    }
+
 }
 
 
