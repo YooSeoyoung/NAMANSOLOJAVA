@@ -85,7 +85,7 @@ public class EventPresentService {
     private List<EventPresentDTO> searchAndConvert(String keyword) {
         try {
             String encodedQuery = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
-            String apiUrl = NAVER_API_URL + "?query=" + encodedQuery + "&display=10";
+            String apiUrl = NAVER_API_URL + "?query=" + encodedQuery + "&display=20";
 
             URL url = new URL(apiUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
