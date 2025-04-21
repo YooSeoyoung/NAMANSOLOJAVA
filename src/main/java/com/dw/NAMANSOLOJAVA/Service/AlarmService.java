@@ -2,6 +2,7 @@ package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.Controller.AlarmController;
 import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
+import com.dw.NAMANSOLOJAVA.DTO.WeatherDTO;
 import com.dw.NAMANSOLOJAVA.Repository.AlarmRepository;
 import com.dw.NAMANSOLOJAVA.Repository.AlarmSettingRepository;
 import com.dw.NAMANSOLOJAVA.Repository.UserRepository;
@@ -113,8 +114,24 @@ public class AlarmService {
         send(toUser, "'" + title + "' 일정이 다가오고 있어요", AlarmType.TODO);
     }
     // 날씨 정보 알림 (오늘 or 미래 구분)
-    public void sendWeatherAlarm(String toUser, String summary, boolean isFuture) {
+    public void sendWeatherAlarm(String toUser, WeatherDTO weather, boolean isFuture) {
+        if (weather == null) return;
+
         String prefix = isFuture ? "7일 후 기념일의 예상 날씨: " : "오늘의 날씨: ";
-        send(toUser, prefix + summary, AlarmType.WEATHER);
+        String message = prefix + weather.getDescription() + ", " + weather.getTemp() + "도";
+
+        User user = userRepository.findByUsername(toUser).orElseThrow();
+        if (!isAlarmEnabled(user, AlarmType.WEATHER)) return;
+
+        Alarm alarm = new Alarm();
+        alarm.setUser(user);
+        alarm.setAlarmType(AlarmType.WEATHER);
+        alarm.setMessage(message);
+        alarm.setIcon(weather.getIcon()); // 프론트로 전송될 iconCode
+        alarm.setAddDate(LocalDateTime.now());
+        alarm.setRead(false);
+
+        Alarm saved = alarmRepository.save(alarm);
+        alarmController.sendAlarmToUser(toUser, saved.toAlarmDTO());
     }
 }

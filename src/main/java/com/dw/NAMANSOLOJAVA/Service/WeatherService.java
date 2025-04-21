@@ -1,6 +1,7 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
 import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
+import com.dw.NAMANSOLOJAVA.DTO.WeatherDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -205,6 +206,32 @@ public class WeatherService {
             }
         } catch (Exception e) {
             return "날씨 API 호출 실패: " + e.getMessage();
+        }
+    }
+    public WeatherDTO getWeatherDetail(String city) {
+        try {
+            String url = String.format(
+                    "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric&lang=kr",
+                    URLEncoder.encode(city, StandardCharsets.UTF_8), apiKey
+            );
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("GET");
+
+            if (connection.getResponseCode() == 200) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode json = mapper.readTree(connection.getInputStream());
+
+                String description = json.get("weather").get(0).get("description").asText();
+                double temp = json.get("main").get("temp").asDouble();
+                String icon = json.get("weather").get(0).get("icon").asText();
+
+                return new WeatherDTO(description, temp, icon);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 }

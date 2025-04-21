@@ -41,8 +41,8 @@ public class Alarm {
     @Column(name ="is_read")
     private boolean isRead = false; // 읽음 여부
 
-    @Column(name = "icon_code")
-    private String iconCode; // 날씨 아이콘
+    @Column(name = "icon")
+    private String icon; // 날씨 아이콘
 
     // @Column(name = "weather_info")
     // private String weatherInfo;// 날씨 API 결과 (TEXT) 날씨 정보
@@ -50,7 +50,7 @@ public class Alarm {
     public AddAlarmDTO toAddAlarmDTO(){
         return new AddAlarmDTO(
                 this.user.getUsername(), this.alarmType.name(),
-                this.message, this.iconCode
+                this.message, this.icon
         );
     }
     public AlarmDTO toAlarmDTO(){
@@ -58,7 +58,7 @@ public class Alarm {
                 this.id, this.user.getUsername(),
                 this.alarmType, this.message,
                 this.addDate,this.isRead,
-                this.iconCode
+                this.icon
         );
     }
 }
