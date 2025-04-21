@@ -13,7 +13,6 @@ public class AlarmController {
         this.messagingTemplate = messagingTemplate;
     }
     // 1:1 알림 전송
-    // 예: 댓글, 좋아요 등 특정 유저에게 알림 보내기
     public void sendAlarmToUser(String username, AlarmDTO alarmDTO) {
         messagingTemplate.convertAndSendToUser(username, "/queue/private", alarmDTO);
     }

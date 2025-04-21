@@ -3,6 +3,8 @@ package com.dw.NAMANSOLOJAVA.DTO;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,5 +18,5 @@ public class RecommendPlaceMultipartDTO {
     private String city;
     private Double latitude;
     private Double longitude;
-    private MultipartFile file;
+    private List<MultipartFile> files;
 }

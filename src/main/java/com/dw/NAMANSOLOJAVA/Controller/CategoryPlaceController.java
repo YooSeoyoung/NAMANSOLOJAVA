@@ -43,4 +43,10 @@ public class CategoryPlaceController {
         return ResponseEntity.ok(categoryPlaceService.getPlacesByRegionAndCategory(region, category));
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<String> updateCategoryMapping(@RequestBody CategoryPlaceDTO dto) {
+        categoryPlaceService.updateMapping(dto.getRecommendPlaceId(), dto.getCategoryIds());
+        return ResponseEntity.ok("카테고리 수정 완료");
+    }
+
 }
