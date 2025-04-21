@@ -12,22 +12,17 @@ import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,19 +42,25 @@ public class ToDoService {
     @Autowired
     AlarmService alarmService;
 
-    public ToDoAllDTO getAllTodo() {
+    public List<ToDoAllDTO> getAllTodo() {
         User user = userService.getCurrentUser();
-        List<ToDo> anniversaryList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "ANNIVERSARY");
-        List<ToDo> toTravelList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "TRAVEL");
-        List<AnniversaryDTO> anverDTOs = anniversaryList.stream().map(ToDo::toAnniDTO).toList();
-        List<ToDoTravelDTO> travelDTOs = toTravelList.stream().map(ToDo::toTravelDTO).toList();
-        return new ToDoAllDTO(travelDTOs, anverDTOs);
+        List<ToDo> toBfTravelList = toDoRepository.findUpcomingTodosAll(user.getUsername(), LocalDate.now());
+        List<ToDo> toAfTravelList = toDoRepository.findPastTodosAll(user.getUsername(), LocalDate.now());
+
+        List<ToDoAllDTO> list = new ArrayList<>();
+        list.addAll(toBfTravelList.stream().map(ToDo::allDTO).toList());
+        list.addAll(toAfTravelList.stream().map(ToDo::allDTO).toList());
+        return list;
     }
 
     public List<AnniversaryDTO> getAllAnniversary() {
 //            String username = getCurrentUsername();
         User user = userService.getCurrentUser();
-        List<ToDo> anniversaryList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "ANNIVERSARY");
+        List<ToDo> anniversaryBfList = toDoRepository.findUpcomingTodos(user.getUsername(), LocalDate.now(), "ANNIVERSARY");
+        List<ToDo> anniversaryAtList = toDoRepository.findPastTodos(user.getUsername(), LocalDate.now(), "ANNIVERSARY");
+        List<ToDo> anniversaryList = new ArrayList<>();
+        anniversaryList.addAll(anniversaryBfList);
+        anniversaryList.addAll(anniversaryAtList);
         if (anniversaryList.isEmpty()) {
             throw new ResourceNotFoundException("작성된 기념일이 없습니다.");
         }
@@ -70,8 +71,12 @@ public class ToDoService {
 //            String username = getCurrentUsername();
 
         User user = userService.getCurrentUser();
+        List<ToDo> toBfTravelList = toDoRepository.findUpcomingTodos(user.getUsername(), LocalDate.now(), "TRAVEL");
+        List<ToDo> toAfTravelList = toDoRepository.findPastTodos(user.getUsername(), LocalDate.now(), "TRAVEL");
 
-        List<ToDo> toTravelList = toDoRepository.findAllByUsernameAndType(user.getUsername(), "TRAVEL");
+        List<ToDo> toTravelList = new ArrayList<>();
+        toTravelList.addAll(toBfTravelList);
+        toTravelList.addAll(toAfTravelList);
         return toTravelList.stream().map(ToDo::toTravelDTO).toList();
     }
 

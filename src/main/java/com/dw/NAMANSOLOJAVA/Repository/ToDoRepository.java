@@ -16,6 +16,18 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long> {
     @Query("SELECT t FROM ToDo t WHERE t.id = :id AND t.user.username = :username")
     Optional<ToDo> findByIdAndUsername(Long id, String username);
 
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.startDate >= :baseDate ORDER BY t.startDate ASC")
+    List<ToDo> findUpcomingTodosAll(String username, LocalDate baseDate); // 추가 조건 : t.type로 정렬 가능
+
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.startDate < :baseDate ORDER BY t.startDate DESC")
+    List<ToDo> findPastTodosAll(String username, LocalDate baseDate);
+
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.startDate >= :baseDate AND t.type = :type ORDER BY t.startDate ASC")
+    List<ToDo> findUpcomingTodos(String username, LocalDate baseDate, String type); // 추가 조건 : t.type로 정렬 가능
+
+    @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.startDate < :baseDate AND t.type = :type ORDER BY t.startDate DESC")
+    List<ToDo> findPastTodos(String username, LocalDate baseDate, String type);
+
     @Query("SELECT t FROM ToDo t WHERE t.user.username = :username")
     List<ToDo> findAllByUsername(String username);
 

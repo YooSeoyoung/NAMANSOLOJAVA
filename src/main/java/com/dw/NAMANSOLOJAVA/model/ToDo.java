@@ -2,6 +2,7 @@ package com.dw.NAMANSOLOJAVA.model;
 
 import com.dw.NAMANSOLOJAVA.DTO.AnniversaryDTO;
 import com.dw.NAMANSOLOJAVA.DTO.MediaDTO;
+import com.dw.NAMANSOLOJAVA.DTO.ToDoAllDTO;
 import com.dw.NAMANSOLOJAVA.DTO.ToDoTravelDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -69,6 +70,14 @@ public class ToDo {
     public ToDoTravelDTO toTravelDTO() {
         List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
         return new ToDoTravelDTO(this.id, this.title,
+                this.startDate, this.lastDate,
+                mediaDTO, this.color,
+                this.type, this.editable);
+    }
+
+    public ToDoAllDTO allDTO() {
+        List<MediaDTO> mediaDTO = media.stream().map(Media::toDTO).toList();
+        return new ToDoAllDTO(this.id, this.title,
                 this.startDate, this.lastDate,
                 mediaDTO, this.color,
                 this.type, this.editable);

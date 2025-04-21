@@ -36,7 +36,7 @@ public class ToDoController {
     UserService userService;
 
     @GetMapping("/all")
-    public ResponseEntity<ToDoAllDTO> getAllTodo() {
+    public ResponseEntity<List<ToDoAllDTO>> getAllTodo() {
         return new ResponseEntity<>(toDoService.getAllTodo(), HttpStatus.OK);
     }
 
