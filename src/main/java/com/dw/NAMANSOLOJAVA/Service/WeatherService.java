@@ -4,6 +4,7 @@ import com.dw.NAMANSOLOJAVA.Config.SecurityConfig;
 import com.dw.NAMANSOLOJAVA.DTO.WeatherDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -13,18 +14,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class WeatherService {
-
-    private final String apiKey;
-
-    public WeatherService() {
-        this.apiKey = SecurityConfig.dotenv.get("OPENWEATHER_API_KEY");
-    }
-
+    @Value("${openweather.api.key}")
+    private String apiKey;
     private static final Map<String, String> cityNameMap = Map.ofEntries(
             Map.entry("Seoul", "서울"),
             Map.entry("Busan", "부산"),
@@ -77,7 +76,7 @@ public class WeatherService {
             Map.entry("Yanggu", "양구군"),
             Map.entry("Inje", "인제군"),
             Map.entry("Goseong_Gangwon", "고성군"),
-            Map.entry("Yangyang", "양양군"),
+            Map.entry("Yangyang", "양양"),
             Map.entry("Cheongju", "청주시"),
             Map.entry("Chungju", "충주시"),
             Map.entry("Jecheon", "제천시"),
@@ -171,7 +170,6 @@ public class WeatherService {
             Map.entry("Uiryeong", "의령군"),
             Map.entry("Haman", "함안군"),
             Map.entry("Changnyeong", "창녕군"),
-            Map.entry("Goseong_Gyeongnam", "고성군"),
             Map.entry("Namhae", "남해군"),
             Map.entry("Hadong", "하동군"),
             Map.entry("Sancheong", "산청군"),
@@ -218,6 +216,7 @@ public class WeatherService {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
 
+
             if (connection.getResponseCode() == 200) {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode json = mapper.readTree(connection.getInputStream());
@@ -234,4 +233,101 @@ public class WeatherService {
             return null;
         }
     }
+
+    public WeatherDTO getWeatherForecast(String city, int dayOffset) {
+        try {
+            String normalizedCity = normalizeCityName(city);
+            System.out.println("🧭 도시명 정제 결과: " + city + " → " + normalizedCity);
+
+            String forecastUrl = String.format(
+                    "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric&lang=kr&appid=%s",
+                    URLEncoder.encode(normalizedCity, StandardCharsets.UTF_8), apiKey
+            );
+            System.out.println("📡 Forecast URL: " + forecastUrl);
+
+            HttpURLConnection conn = (HttpURLConnection) new URL(forecastUrl).openConnection();
+            conn.setRequestMethod("GET");
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("📡 Forecast 응답 코드: " + responseCode);
+            if (responseCode != 200) return null;
+
+            String body = new String(conn.getInputStream().readAllBytes());
+            System.out.println("📡 Forecast 응답 본문:\n" + body);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(body);
+            JsonNode list = root.get("list");
+
+            if (list == null || list.isEmpty()) return null;
+
+            // 3시간 간격, 하루는 8개 → dayOffset * 8
+            int targetIndex = Math.min(dayOffset * 8, list.size() - 1);
+            if (list.size() <= targetIndex) return null;
+
+            JsonNode target = list.get(targetIndex);
+            String description = target.get("weather").get(0).get("description").asText();
+            double temp = target.get("main").get("temp").asDouble();
+            String icon = target.get("weather").get(0).get("icon").asText();
+
+            return new WeatherDTO(description, temp, icon);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static final Map<String, String> korToEngMap = cityNameMap.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+
+    private static String normalizeCityName(String rawCity) {
+        if (rawCity == null || rawCity.isBlank()) return "Seoul";
+
+        String cleaned = rawCity.replace("시", "")
+                .replace("군", "")
+                .replace("구", "")
+                .trim();
+
+        // 1️⃣ 한글로 들어오는 경우 직접 변환
+        switch (cleaned) {
+            case "서울": return "Seoul";
+            case "부산": return "Busan";
+            case "대구": return "Daegu";
+            case "인천": return "Incheon";
+            case "광주": return "Gwangju";
+            case "대전": return "Daejeon";
+            case "울산": return "Ulsan";
+            case "세종": return "Sejong";
+            case "수원": return "Suwon";
+            case "청주": return "Cheongju";
+            case "전주": return "Jeonju";
+            case "제주": return "Jeju";
+            case "창원": return "Changwon";
+            // 🧩 필요하면 더 추가
+            default: break;
+        }
+
+        // 2️⃣ 영어로 저장된 경우 (cityNameMap에 있는 경우)
+        for (Map.Entry<String, String> entry : cityNameMap.entrySet()) {
+            String mappedKor = entry.getValue().replace("시", "").replace("군", "").replace("구", "").trim();
+            if (mappedKor.equals(cleaned)) {
+                return entry.getKey();
+            }
+        }
+
+        return "Seoul"; // fallback
+    }
+
+    public WeatherDTO getWeatherForecast(String city, LocalDate targetDate) {
+        LocalDate today = LocalDate.now();
+        int offset = (int) ChronoUnit.DAYS.between(today, targetDate);
+
+        if (offset < 0 || offset > 4) { // openweathermap forecast는 5일까지
+            System.out.println("5일 초과 forecast는 제공되지 않음: offset=" + offset);
+            return null;
+        }
+
+        return getWeatherForecast(city, offset);
+    }
+
 }

@@ -40,4 +40,6 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long> {
 
     @Query("SELECT t FROM ToDo t WHERE t.user.username = :username AND t.editable = false AND t.type = 'ANNIVERSARY'")
     List<ToDo> findOfficialAnniversariesByUsername(String username);
+
+    List<ToDo> findByStartDate(LocalDate startDate);
 }

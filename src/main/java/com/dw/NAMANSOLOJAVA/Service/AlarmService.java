@@ -1,6 +1,5 @@
 package com.dw.NAMANSOLOJAVA.Service;
 
-import com.dw.NAMANSOLOJAVA.Controller.AlarmController;
 import com.dw.NAMANSOLOJAVA.DTO.AlarmDTO;
 import com.dw.NAMANSOLOJAVA.DTO.WeatherDTO;
 import com.dw.NAMANSOLOJAVA.Repository.AlarmRepository;
@@ -10,11 +9,14 @@ import com.dw.NAMANSOLOJAVA.enums.AlarmType;
 import com.dw.NAMANSOLOJAVA.model.Alarm;
 import com.dw.NAMANSOLOJAVA.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlarmService {
@@ -26,10 +28,13 @@ public class AlarmService {
     private UserRepository userRepository;
 
     @Autowired
-    private AlarmController alarmController;
-
-    @Autowired
     private AlarmSettingRepository alarmSettingRepository;
+
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public AlarmService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     private boolean isAlarmEnabled(User user, AlarmType type) {
         return alarmSettingRepository.findByUser(user)
@@ -41,12 +46,10 @@ public class AlarmService {
                     case TODO -> "true".equalsIgnoreCase(setting.getTodo());
                     case WEATHER -> "true".equalsIgnoreCase(setting.getWeather());
                     default -> true;
-                })
-                .orElse(true); // 설정이 없으면 기본값 true
+                }).orElse(true);
     }
 
-    // toUser에게 message 내용으로 type 알림
-    private void send(String toUser, String message, AlarmType type) {
+    private void send(String toUser, String message, AlarmType type, String icon) {
         User user = userRepository.findByUsername(toUser).orElseThrow();
 
         if (!isAlarmEnabled(user, type)) return;
@@ -57,12 +60,86 @@ public class AlarmService {
         alarm.setMessage(message);
         alarm.setAddDate(LocalDateTime.now());
         alarm.setRead(false);
+        alarm.setIcon(icon);
 
         Alarm saved = alarmRepository.save(alarm);
-        alarmController.sendAlarmToUser(toUser, saved.toAlarmDTO());
+        messagingTemplate.convertAndSendToUser(toUser, "/queue/private", saved.toAlarmDTO());
+        System.out.println("✅ WebSocket 알림 전송 완료 → " + toUser);
     }
 
-    // 관리자가 직접 이벤트 등록 시 유저에게 알림
+    // 🔔 기능별 알림
+    public void sendFollowAlarm(String toUser, String fromUser) {
+        if (!toUser.equals(fromUser)) {
+            send(toUser, fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW, null);
+        }
+    }
+
+    public void sendCommentAlarm(String toUser, String fromUser, String postTitle) {
+        if (!toUser.equals(fromUser)) {
+            send(toUser, fromUser + "님이 \"" + postTitle + "\"에 댓글을 남겼습니다.", AlarmType.COMMENT, null);
+        }
+    }
+
+    public void sendReCommentAlarm(String toUser, String fromUser) {
+        if (!toUser.equals(fromUser)) {
+            send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT, null);
+        }
+    }
+
+    public void sendGreatAlarm(String toUser, String fromUser) {
+        if (!toUser.equals(fromUser)) {
+            send(toUser, fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT, null);
+        }
+    }
+
+    public void sendPlaceRecommendAlarmToAllUsers(String placeName) {
+        List<User> allUsers = userRepository.findAll();
+        for (User user : allUsers) {
+            send(user.getUsername(), "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND, null);
+        }
+    }
+
+    // 📅 일정 등록 시: 기본 알림
+    public void sendTodoAlarm(String toUser, String title) {
+        send(toUser, "'" + title + "' 일정이 등록되었습니다.", AlarmType.TODO, null);
+    }
+
+    // 🌦️ 날씨 포함 알림 (스케줄러 등 전용)
+    public void sendTodoWeatherAlarm(String toUser, String title, WeatherDTO weather) {
+        if (weather == null) return;
+
+        String message = "'" + title + "' 일정이 3일 후입니다! 🌦 예상 날씨: " +
+                weather.getDescription() + ", " + weather.getTemp() + "도";
+
+        Optional<Alarm> existing = alarmRepository.findFirstByUser_UsernameAndAlarmTypeAndMessageOrderByAddDateDesc(
+                toUser, AlarmType.TODO, message
+        );
+        if (existing.isPresent()) {
+            System.out.println("⚠️ 중복 일정 알림 생략: " + message);
+            return;
+        }
+
+        send(toUser, message, AlarmType.TODO, weather.getIcon());
+    }
+
+    // 🌤 날씨 알림 (기념일, 일반 날씨)
+    public void sendWeatherAlarm(String toUser, WeatherDTO weather, boolean isFuture) {
+        if (weather == null) return;
+
+        String message = "[예정된 날씨] " + weather.getDescription() + ", " + weather.getTemp() + "도";
+
+        Optional<Alarm> existing = alarmRepository.findFirstByUser_UsernameAndAlarmTypeAndMessageOrderByAddDateDesc(
+                toUser, AlarmType.WEATHER, message
+        );
+        if (existing.isPresent()) {
+            System.out.println("❗ 중복 날씨 알림 있음 → 생략: " + message);
+            return;
+        }
+
+        send(toUser, message, AlarmType.WEATHER, weather.getIcon());
+    }
+
+    // 📢 관리자 공지 알림
     public AlarmDTO saveAlarm() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow();
@@ -75,63 +152,13 @@ public class AlarmService {
         alarm.setRead(false);
 
         Alarm saved = alarmRepository.save(alarm);
-        alarmController.sendAlarmToUser(user.getUsername(), saved.toAlarmDTO());
+        messagingTemplate.convertAndSendToUser(username, "/queue/private", saved.toAlarmDTO());
 
         return saved.toAlarmDTO();
     }
-    // 1:1 알림으로 팔로우 소식 알림
-    public void sendFollowAlarm(String toUser, String fromUser) {
-        if (toUser.equals(fromUser)) return; // 본인에게 알림 X
-        send(toUser, fromUser + "님이 당신을 팔로우했습니다.", AlarmType.FOLLOW);
-    }
-    // 내가 작성한 게시물에 댓글이 달렸을때 알림
-    public void sendCommentAlarm(String toUser, String fromUser, String postTitle) {
-        if (toUser.equals(fromUser)) return;
-        send(toUser, fromUser + "님이 \"" + postTitle + "\"에 댓글을 남겼습니다.", AlarmType.COMMENT);
-    }
-    // 내가 남긴 댓글에 대댓글이 달렸을때 알림
-    public void sendReCommentAlarm(String toUser, String fromUser) {
-        if (toUser.equals(fromUser)) return;
-        send(toUser, fromUser + "님이 당신의 댓글에 답글을 남겼습니다.", AlarmType.RECOMMENT);
-    }
-    // 내 게시물을 좋아요 누르면 알림
-    public void sendGreatAlarm(String toUser, String fromUser) {
-        if (toUser.equals(fromUser)) return;
-        send(toUser, fromUser + "님이 게시글에 좋아요를 눌렀습니다.", AlarmType.GREAT);
-    }
-    // 추가한 장소가 있으면 유저에게 알림
-//    public void sendPlaceRecommendAlarm(String toUser, String placeName) {
-//        send(toUser, "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
-//    }
-    public void sendPlaceRecommendAlarmToAllUsers(String placeName) {
-        List<User> allUsers = userRepository.findAll();
-        for (User user : allUsers) {
-            send(user.getUsername(), "추천 장소 '" + placeName + "'이(가) 새로 등록되었습니다.", AlarmType.RECOMMEND);
-        }
-    }
-    // 기념일이나 일정에 관해 알림
-    public void sendTodoAlarm(String toUser, String title) {
-        send(toUser, "'" + title + "' 일정이 다가오고 있어요", AlarmType.TODO);
-    }
-    // 날씨 정보 알림 (오늘 or 미래 구분)
-    public void sendWeatherAlarm(String toUser, WeatherDTO weather, boolean isFuture) {
-        if (weather == null) return;
 
-        String prefix = isFuture ? "7일 후 기념일의 예상 날씨: " : "오늘의 날씨: ";
-        String message = prefix + weather.getDescription() + ", " + weather.getTemp() + "도";
-
-        User user = userRepository.findByUsername(toUser).orElseThrow();
-        if (!isAlarmEnabled(user, AlarmType.WEATHER)) return;
-
-        Alarm alarm = new Alarm();
-        alarm.setUser(user);
-        alarm.setAlarmType(AlarmType.WEATHER);
-        alarm.setMessage(message);
-        alarm.setIcon(weather.getIcon()); // 프론트로 전송될 iconCode
-        alarm.setAddDate(LocalDateTime.now());
-        alarm.setRead(false);
-
-        Alarm saved = alarmRepository.save(alarm);
-        alarmController.sendAlarmToUser(toUser, saved.toAlarmDTO());
+    public List<AlarmDTO> getAlarmsByUsername(String username) {
+        List<Alarm> alarms = alarmRepository.findByUser_UsernameOrderByAddDateDesc(username);
+        return alarms.stream().map(Alarm::toAlarmDTO).collect(Collectors.toList());
     }
 }

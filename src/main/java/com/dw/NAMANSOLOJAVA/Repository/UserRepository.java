@@ -11,7 +11,6 @@ public interface UserRepository extends JpaRepository<User,String> {
     List<User> findByUsernameLike(String username);
     Optional<User> findByUsername(String username);
 
-
     // 여성용 - 이름과 번호로 username 찾기
     Optional<User> findByRealNameFAndPhoneNumberF(String realNameF, String phoneNumberF);
 
@@ -34,5 +33,6 @@ public interface UserRepository extends JpaRepository<User,String> {
     boolean existsByEmailMOrEmailF(String email);
     @Query("select count(u)>0 from User u where u.phoneNumberM =:phone or u.phoneNumberF =:phone")
     boolean existsByPhoneNumberMOrPhoneNumberF(String phone);
+    List<User> findAll();
 }
 

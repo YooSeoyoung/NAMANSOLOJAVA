@@ -12,17 +12,22 @@ import com.dw.NAMANSOLOJAVA.model.ToDo;
 import com.dw.NAMANSOLOJAVA.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +46,9 @@ public class ToDoService {
 
     @Autowired
     AlarmService alarmService;
+
+    @Autowired
+    WeatherService weatherService;
 
     public List<ToDoAllDTO> getAllTodo() {
         User user = userService.getCurrentUser();
@@ -101,7 +109,9 @@ public class ToDoService {
         // 남은 일수 계산해서 알림 전송
         long daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), saved.getStartDate());
         if (daysUntil >= 0 && daysUntil <= 7) {
-            alarmService.sendTodoAlarm(user.getUsername(), saved.getTitle());
+            // 📡 날씨 포함 알림
+            WeatherDTO weather = weatherService.getWeatherForecast(user.getCity(), saved.getStartDate());
+            alarmService.sendTodoWeatherAlarm(user.getUsername(), saved.getTitle(), weather);
         }
 
         return saved.toAnniDTO();
@@ -130,7 +140,15 @@ public class ToDoService {
         todo.setColor(dto.getColor());
         todo.setMedia(mediaList);
 
-        return toDoRepository.save(todo).toTravelDTO();
+        ToDo saved = toDoRepository.save(todo);
+
+        long daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), saved.getStartDate());
+        if (daysUntil >= 0 && daysUntil <= 7) {
+            WeatherDTO weather = weatherService.getWeatherForecast(user.getCity(), saved.getStartDate());
+            alarmService.sendTodoWeatherAlarm(user.getUsername(), saved.getTitle(), weather);
+        }
+
+        return saved.toTravelDTO();
     }
 
     public AnniversaryDTO getAnniversaryById(Long id) {
