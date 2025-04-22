@@ -94,7 +94,6 @@ public class AlbumController {
     }
     @PostMapping("/upload/multiple")
     public ResponseEntity<?> uploadMultiple(
-            @RequestParam("title") String title,
             @RequestParam("files") List<MultipartFile> files) {
 
         String uploadDir = "./var/upload"; // 공용 폴더
@@ -105,16 +104,21 @@ public class AlbumController {
 
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
-            String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String newFileName = UUID.randomUUID().toString() + ext;
+            String extWithDot  = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFileName = UUID.randomUUID().toString() + extWithDot ;
             Path savePath = Paths.get(uploadDir, newFileName);
 
+            String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
             try {
                 Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
 
                 MediaDTO mediaDTO = new MediaDTO();
                 mediaDTO.setMediaUrl("/api/album/download/" + newFileName); // ✅ 경로에 username 없음
-                mediaDTO.setMediaType(file.getContentType().startsWith("video") ? "VIDEO" : "PICTURE");
+                if (List.of("mp4", "avi", "mov").contains(ext)) {
+                    mediaDTO.setMediaType("VIDEO");
+                } else {
+                    mediaDTO.setMediaType("PICTURE");
+                }
 
                 uploadedMedia.add(mediaDTO);
 
