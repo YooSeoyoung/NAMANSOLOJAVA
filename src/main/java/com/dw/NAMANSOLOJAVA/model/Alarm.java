@@ -44,8 +44,8 @@ public class Alarm {
     @Column(name = "icon")
     private String icon; // 날씨 아이콘
 
-    // @Column(name = "weather_info")
-    // private String weatherInfo;// 날씨 API 결과 (TEXT) 날씨 정보
+    @Column(name = "weather_info")
+    private String weatherInfo;// 날씨 API 결과 (TEXT) 날씨 정보
 
     public AddAlarmDTO toAddAlarmDTO(){
         return new AddAlarmDTO(
