@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 //react의 서버 주소(이쪽에서날라온건 받아달라는 의미)
-                .setAllowedOriginPatterns("http://localhost:5173")
+                .setAllowedOriginPatterns("http://localhost:5173", "http://192.168.0.77:82")
                 .withSockJS();
     }
 
