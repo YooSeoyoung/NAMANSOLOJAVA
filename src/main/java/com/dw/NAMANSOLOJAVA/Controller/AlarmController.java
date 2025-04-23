@@ -23,6 +23,8 @@ public class AlarmController {
 
     @Autowired
     AlarmRepository alarmRepository;
+
+    @Autowired
     AlarmService alarmService;
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -45,5 +47,4 @@ public class AlarmController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return alarmService.getAlarmsByUsername(username);
     }
-
 }

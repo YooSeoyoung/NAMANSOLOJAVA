@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 // 허용 범위( 즉, jwt 토큰이 없어도 보안을 거치지 말고 모두 허락 , restapi랑 html *은 자식 , **은 자식의 후손까지 전부)
                                 new AntPathRequestMatcher("/*.html"),
                                 new AntPathRequestMatcher("/api/authenticate"),
+                                new AntPathRequestMatcher("/api/alarm/me"),
                                 new AntPathRequestMatcher("/api/products/**"),
                                 new AntPathRequestMatcher("/api/album/**"),
                                 new AntPathRequestMatcher("/api/user/**"),
