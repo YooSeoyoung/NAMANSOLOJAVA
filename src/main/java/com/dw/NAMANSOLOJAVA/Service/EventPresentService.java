@@ -110,6 +110,9 @@ public class EventPresentService {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(sb.toString(), Map.class);
             List<Map<String, Object>> items = (List<Map<String, Object>>) jsonMap.get("items");
 
+            System.out.println("아이디: "+clientId);
+            System.out.println("비번: "+clientSecret);
+
             if (items == null) return Collections.emptyList();
 
             return items.stream().map(this::mapToDTO).toList();
