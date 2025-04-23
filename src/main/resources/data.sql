@@ -202,7 +202,6 @@ VALUES
 ('https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTNfMTQ3/MDAxNjM5MzkxMjM3NTUw.aaekK8dYRosCgU1jT-RxnPe3LvokCB55dXhf3YMbA54g.QDSbyG8Fo47YSLw-s8wxGkkNXzYS0HbsiAPeVL8mBwog.JPEG.ichufs/DSC_3609.jpg?type=w800', 0),
 ('https://cdn.pixabay.com/video/2019/08/29/26356-357839112_large.mp4', 1);
 
--
 
 -- album_media 연결 (media_id: 1, 2 -> album_id: 1), (media_id: 3 -> album_id: 2)
 INSERT INTO album_media (media_id, album_id) VALUES (5, 1);
