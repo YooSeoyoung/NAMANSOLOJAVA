@@ -21,6 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -47,6 +52,9 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/api/recommend_place/all"),
                                 new AntPathRequestMatcher("/api/recommend_place/single/**"),
                                 new AntPathRequestMatcher("/api/recommend_place/region/**"),
+                                new AntPathRequestMatcher("/api/user/download/**"),
+                                new AntPathRequestMatcher("/api/album/download/**"),
+                                new AntPathRequestMatcher("/api/recommend_place/download/**"),
                                 new AntPathRequestMatcher("/ws/**"),
                                 new AntPathRequestMatcher("/css/**"),
                                 new AntPathRequestMatcher("/js/**"),
@@ -94,6 +102,19 @@ public class SecurityConfig {
             .filename(".env")
             .ignoreIfMissing()
             .load();
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // 모든 도메인에서 오는 요청을 허용하도록 설정 (자세한 도메인 설정이 필요 없다면)
+        configuration.setAllowedOrigins(Arrays.asList("*")); // '*'는 모든 도메인 허용
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 }
 
