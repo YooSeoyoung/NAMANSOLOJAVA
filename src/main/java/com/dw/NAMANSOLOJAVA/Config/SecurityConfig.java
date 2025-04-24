@@ -42,6 +42,13 @@ public class SecurityConfig {
                         .requestMatchers(
                                 // 허용 범위( 즉, jwt 토큰이 없어도 보안을 거치지 말고 모두 허락 , restapi랑 html *은 자식 , **은 자식의 후손까지 전부)
                                 new AntPathRequestMatcher("/*.html"),
+                                new AntPathRequestMatcher("/api/user/register"),
+                                new AntPathRequestMatcher("/api/user/check-id/**"),
+                                new AntPathRequestMatcher("/api/user/check-email/**"),
+                                new AntPathRequestMatcher("/api/user/check-phone/**"),
+                                new AntPathRequestMatcher("/api/user/find-user/**"),
+                                new AntPathRequestMatcher("/api/user/exist"),
+                                new AntPathRequestMatcher("/api/user/modify-pw"),
                                 new AntPathRequestMatcher("/api/authenticate"),
                                 new AntPathRequestMatcher("/api/album/all"),
                                 new AntPathRequestMatcher("/api/album/id/**"),
