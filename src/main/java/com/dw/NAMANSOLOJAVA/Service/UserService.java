@@ -68,7 +68,7 @@ public class UserService {
         newUser.setBirthM(userDTO.getBirthM());
         newUser.setBirthF(userDTO.getBirthF());
         System.out.println(userDTO.getDDay());
-        newUser.setDDay(LocalDate.now());
+        newUser.setDDay(userDTO.getDDay());
         newUser.setAddDate(LocalDate.now());
         newUser.setAuthority(authorityRepository.findById("ROLE_USER")
                 .orElseThrow(()->new ResourceNotFoundException("No role")));
