@@ -62,6 +62,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/api/user/download/**"),
                                 new AntPathRequestMatcher("/api/album/download/**"),
                                 new AntPathRequestMatcher("/api/recommend_place/download/**"),
+                                new AntPathRequestMatcher("/api/todo/download/**"),
                                 new AntPathRequestMatcher("/ws/**"),
                                 new AntPathRequestMatcher("/css/**"),
                                 new AntPathRequestMatcher("/js/**"),
