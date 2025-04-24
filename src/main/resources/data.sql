@@ -146,7 +146,6 @@ VALUES
 -- todo_media 연결 (media_id: 4~6 -> todo_id: 2)
 INSERT INTO todo_media (media_id, todo_id) VALUES (5, 2);
 INSERT INTO todo_media (media_id, todo_id) VALUES (6, 2);
-INSERT INTO todo_media (media_id, todo_id) VALUES (7, 2);
 
 -- 알람
 INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
@@ -177,17 +176,28 @@ VALUES (
 
 INSERT INTO tag (name) VALUES
  ('#데이트'),('#커플'),('#프로필'),('#바다'),('#뷰맛집'), ('#인생샷'),('#봄 소풍'), ('#산책'), ('#사랑'), ('#행복'),
- ('#돗자리'),('#노을'),('#떡볶이'), ('#대기중'),('#롯데월드'), ('#파전'),('#스쿠버다이빙'), ('#수목원'), ('#인생네컷'), ('#파크');
+ ('#돗자리'),('#노을'),('#떡볶이'), ('#대기중'),('#롯데월드'), ('#파전'),('#스쿠버다이빙'), ('#수목원'), ('#인생네컷'), ('#파크'),
+ ('#캠핑'),('#1박2일'),('#더워'), ('#열기구'),('#무서워'), ('#사랑해'),('#폭싹'), ('#속았수다'), ('#패러디'), ('#등산'),
+  ('#힘들다'),('#5분만더..'),('#스케이트'), ('#엉덩방아'),('#근육통'), ('#영화관'),('#먹방중'), ('#눈물'), ('#PC방'), ('#여친'),
+   ('#라면'), ('#롤');
 
-INSERT INTO album (title, username, latitude, longitude, location, visibility) VALUES
-('커플 프로필 찰칵♥','couple001',36.326319, 127.422978, '대전 중구 중앙로112번길 24', 'PUBLIC'),
-('둘이 하는 바다 산책', 'couple002', 37.7950, 128.9070, '강원특별자치도 강릉시 강문동 산1', 'PUBLIC'),
-('떡볶이 먹고 같이 롯데월드★', 'couple003',37.5115,127.0967, '서울 송파구 올림픽로 240', 'PUBLIC'),
-('봄 나들이','steve12',36.3510,127.3848, '대전 서구 둔산대로 169', 'PUBLIC'),
-('비 오는 날에는 파전', 'couple001', 36.773123,126.319272, '충남 태안군 태안읍 시장1길 34', 'PUBLIC'),
-('베어트리파크 데이트', 'couple002', 36.521,127.2873, '세종 전동면 신송로 217', 'PUBLIC'),
-('노을을 보면서 즐기는 중', 'couple003', 37.67861,129.05167, '강원 강릉시 강동면 정동진리', 'PUBLIC'),
-('맛집 기달리는 중..', 'steve12',37.5141939,127.1040148, '서울특별시 송파구 올림픽로 300 롯데월드몰 1층', 'PUBLIC');
+INSERT INTO album (title,add_date, username, latitude, longitude, location, visibility) VALUES
+('커플 프로필 찰칵♥','2025-04-08 20:00:00','couple001',36.326319, 127.422978, '대전 중구 중앙로112번길 24', 'PUBLIC'),
+('둘이 하는 바다 산책','2025-04-08 10:30:00', 'couple002', 37.7950, 128.9070, '강원특별자치도 강릉시 강문동 산1', 'PUBLIC'),
+('떡볶이 먹고 같이 롯데월드★','2025-04-10 12:06:00', 'couple003',37.5115,127.0967, '서울 송파구 올림픽로 240', 'PUBLIC'),
+('봄 나들이','2025-04-11 20:30:00','steve12',36.3510,127.3848, '대전 서구 둔산대로 169', 'PUBLIC'),
+('비 오는 날에는 파전','2025-04-12 20:11:00', 'couple001', 36.773123,126.319272, '충남 태안군 태안읍 시장1길 34', 'PUBLIC'),
+('베어트리파크 데이트','2025-04-13 07:50:00', 'couple002', 36.521,127.2873, '세종 전동면 신송로 217', 'PUBLIC'),
+('노을을 보면서 즐기는 중','2025-04-14 23:11:00', 'couple003', 37.67861,129.05167, '강원 강릉시 강동면 정동진리', 'PUBLIC'),
+('맛집 기달리는 중..','2025-04-15 21:09:00', 'steve12',37.5141939,127.1040148, '서울특별시 송파구 올림픽로 300 롯데월드몰 1층', 'PUBLIC'),
+('캠핑(노숙 라이프)','2025-04-11 11:40:00', 'couple001',37.9275,127.0567, '경기 동두천시 안흥로 78', 'PUBLIC'),
+('생애 첫 열기구','2025-04-16 19:10:00', 'couple002',35.8430,128.6263, '대구 수성구 들안로 285-6 (수성동2가)', 'PUBLIC'),
+('난 애순이 넌 관식이','2025-04-23 16:20:00', 'couple003',36.3926,127.3120, '대전광역시 유성구 노은2동 771-51', 'PUBLIC'),
+('등산은 너무 힘들어','2025-04-20 18:03:00', 'couple003',35.1461,126.9995, '광주 북구 무등산천왕봉길 792', 'PUBLIC'),
+('콰당잼','2025-04-05 22:40:00', 'steve12',37.5111,127.0982, '서울 송파구 올림픽로 240', 'PUBLIC'),
+('화장 안하고 오길 잘했다ㅠㅠ','2025-04-17 23:15:00', 'couple001',36.8155,127.1130, '충남 천안시 서북구 공원로 196', 'PUBLIC'),
+('여친 이기니까 좋아??','2025-04-10 15:30:00', 'couple002',37.6485,127.0331, '서울 도봉구 도봉로 468 홍일빌딩 206호', 'PUBLIC');
+
 
 
 INSERT INTO album_tag (album_id, tag_id) VALUES (1, 1),(1, 2),(1, 2),(1,19);
@@ -199,6 +209,15 @@ INSERT INTO album_tag (album_id, tag_id) VALUES (6, 1),(6,20),(6, 8);
 INSERT INTO album_tag (album_id, tag_id) VALUES (7, 2),(7,6),(7,12);
 INSERT INTO album_tag (album_id, tag_id) VALUES (8,1),(8, 2),(8,14);
 
+INSERT INTO album_tag (album_id, tag_id) VALUES (9,21),(9, 22),(9,23);
+INSERT INTO album_tag (album_id, tag_id) VALUES (10,24),(10, 25),(10,26);
+INSERT INTO album_tag (album_id, tag_id) VALUES (11,27),(11, 28),(11,29);
+INSERT INTO album_tag (album_id, tag_id) VALUES (12,30),(12,31),(12,32);
+INSERT INTO album_tag (album_id, tag_id) VALUES (13,33),(13, 34),(13,35);
+INSERT INTO album_tag (album_id, tag_id) VALUES (14,36),(14, 37),(14,38);
+INSERT INTO album_tag (album_id, tag_id) VALUES (15,39),(15, 40),(15,41),(15,42);
+
+
 --앨범 시연용 이미지들
 INSERT INTO media (media_url, media_type) VALUES
 ('/api/album/download/1.jpg',0),('/api/album/download/7.jpg',0),('/api/album/download/8.jpg',0),
@@ -208,13 +227,33 @@ INSERT INTO media (media_url, media_type) VALUES
 ('/api/album/download/18.jpg',0),('/api/album/download/19.jpg',0),('/api/album/download/20.jpg',0),
 ('/api/album/download/21.jpg',0),('/api/album/download/22.jpg',0),('/api/album/download/23.jpg',0),
 ('/api/album/download/2.mp4',1),('/api/album/download/3.mp4',1),('/api/album/download/4.mp4',1),
-('/api/album/download/5.mp4',1),('/api/album/download/6.mp4',1);
+('/api/album/download/5.mp4',1),('/api/album/download/6.mp4',1),
+('/api/album/download/24.mp4',1),('/api/album/download/28.jpg',0),('/api/album/download/29.jpg',0),
+('/api/album/download/25.mp4',1),('/api/album/download/30.jpg',0),('/api/album/download/31.jpg',0),
+('/api/album/download/26.mp4',1),('/api/album/download/32.jpg',0),('/api/album/download/33.jpg',0),
+('/api/album/download/27.mp4',1),('/api/album/download/34.jpg',0),('/api/album/download/35.jpg',0),
+('/api/album/download/36.jpg',0),('/api/album/download/37.mp4',1),('/api/album/download/38.jpg',0),
+('/api/album/download/39.jpg',0),('/api/album/download/40.jpg',0),
+('/api/album/download/41.jpg',0),('/api/album/download/42.jpg',0);
 
 
 ---- album_media 연결 (media_id: 1, 2 -> album_id: 1), (media_id: 3 -> album_id: 2)
 INSERT INTO album_media (media_id, album_id) VALUES
- (8, 1), (11, 1), (20, 1), (26, 2), (9, 2),(14, 3), (18, 3), (28, 4), (16, 4), (12, 4), (15, 5), (22, 6),
-  (24, 6), (29, 7), (21, 7), (23, 8), (13, 8);
+  (8, 1), (11, 1), (20, 1),
+  (26, 2), (9, 2),
+  (14, 3), (18, 3),
+  (28, 4), (16, 4), (12, 4),
+  (15, 5),
+  (22, 6), (24, 6),
+  (29, 7), (21, 7),
+  (23, 8), (13, 8),
+  (31, 9), (32, 9), (33, 9),
+  (34, 10), (35, 10), (36, 10),
+  (37, 11), (38, 11), (39, 11),
+  (40, 12), (41, 12), (42, 12),
+  (43, 13), (44, 13), (45, 13),
+  (46, 14), (47, 14),
+  (48, 15),(49, 15);
 
 
 -- Step 1. 미디어 등록 (사진 있는 거로!)
