@@ -6,6 +6,7 @@ import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceDTO;
 import com.dw.NAMANSOLOJAVA.DTO.RecommendPlaceMultipartDTO;
 import com.dw.NAMANSOLOJAVA.Service.RecommendPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -90,27 +91,22 @@ public class RecommendPlaceController {
         return ResponseEntity.ok(updatedMedia);
     }
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
         try {
-            // 파일 경로 설정
-            Path basePath = Paths.get("./uploads/couple001");
-            Path filePath = basePath.resolve(fileName).normalize();
+            Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();  // ✅ 핵심: 그냥 uploadDir만
 
-            // 디버깅 로그
             System.out.println("📂 요청된 파일명: [" + fileName + "]");
-            System.out.println("📏 파일명 길이: " + fileName.length());
             System.out.println("📂 최종 경로: " + filePath.toAbsolutePath());
 
-            URI uri = filePath.toUri();
-            System.out.println("📂 URI: " + uri);
-
-            Resource resource = new UrlResource(uri);
+            Resource resource = new UrlResource(filePath.toUri());
 
             System.out.println("📄 resource.exists(): " + resource.exists());
             System.out.println("📄 resource.isReadable(): " + resource.isReadable());
 
-            // 리턴
             if (resource.exists() && resource.isReadable()) {
                 String contentType = Files.probeContentType(filePath);
                 return ResponseEntity.ok()

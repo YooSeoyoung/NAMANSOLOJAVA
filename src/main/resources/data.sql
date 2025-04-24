@@ -236,25 +236,25 @@ VALUES (
     '2025-04-09 11:00:00', false, null
 );
 
--- Step 1. 미디어 등록 (파일명 실제로 존재하는 걸로)
+-- Step 1. 미디어 등록 (사진 있는 거로!)
 INSERT INTO media (id, media_type, media_url)
-VALUES (1002, 0, '/api/recommend_place/download/3bf946f7-a568-4b59-91d5-c327f7046e17_course2.jpg');
+VALUES (3001, 0, '/api/recommend_place/download/0a369d24-610c-4287-b169-f5a399a778b4_baby2.jpg');
 
--- Step 2. 추천 장소
+-- Step 2. 장소 등록
 INSERT INTO recommend_place (
     id, address, city, description, detail, latitude, longitude, name
 ) VALUES (
-    10002, '충남 천안시 신방동 200', '충청남도', '연인과 함께 걷기 좋은 분위기 좋은 골목', '포토존 많음',
+    30001, '충남 천안시 신방동 200', '충청남도', '연인과 함께 걷기 좋은 분위기 좋은 골목', '포토존 많음',
     36.8123, 127.1155, '골목데이트'
 );
 
--- Step 3. 미디어 연결
+-- Step 3. 장소 <-> 미디어 연결
 INSERT INTO recommend_place_media (media_id, recommend_place_id)
-VALUES (1002, 10002);
+VALUES (3001, 30001);
 
--- Step 4. 카테고리 연결
+-- Step 4. 장소 <-> 카테고리 연결
 INSERT INTO category_place (id, category_name, recommend_place_id)
-VALUES (1002, '포토존', 10002);
+VALUES (3001, '포토존', 30001);
 
 
 
