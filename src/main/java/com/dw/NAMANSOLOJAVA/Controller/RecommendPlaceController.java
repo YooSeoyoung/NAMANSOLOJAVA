@@ -94,7 +94,7 @@ public class RecommendPlaceController {
     public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
         try {
             // 파일 경로 설정
-            Path basePath = Paths.get("C:/Users/user/Pictures");
+            Path basePath = Paths.get("./uploads/couple001");
             Path filePath = basePath.resolve(fileName).normalize();
 
             // 디버깅 로그
