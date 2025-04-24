@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -89,28 +90,38 @@ public class RecommendPlaceController {
         return ResponseEntity.ok(updatedMedia);
     }
 
-
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get("./var/uploads").resolve(fileName).normalize();
+            // 파일 경로 설정
+            Path basePath = Paths.get("C:/Users/user/Pictures");
+            Path filePath = basePath.resolve(fileName).normalize();
 
-            System.out.println("📂 파일 절대 경로: " + filePath.toAbsolutePath());
+            // 디버깅 로그
+            System.out.println("📂 요청된 파일명: [" + fileName + "]");
+            System.out.println("📏 파일명 길이: " + fileName.length());
+            System.out.println("📂 최종 경로: " + filePath.toAbsolutePath());
 
-            Resource resource = new UrlResource(filePath.toUri());
+            URI uri = filePath.toUri();
+            System.out.println("📂 URI: " + uri);
 
+            Resource resource = new UrlResource(uri);
+
+            System.out.println("📄 resource.exists(): " + resource.exists());
+            System.out.println("📄 resource.isReadable(): " + resource.isReadable());
+
+            // 리턴
             if (resource.exists() && resource.isReadable()) {
                 String contentType = Files.probeContentType(filePath);
-                if (contentType == null) {
-                    contentType = "application/octet-stream";
-                }
                 return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(contentType))
+                        .contentType(MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
                         .body(resource);
             } else {
                 return ResponseEntity.notFound().build();
             }
+
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

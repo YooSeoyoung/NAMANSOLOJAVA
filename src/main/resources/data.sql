@@ -94,9 +94,6 @@ INSERT INTO follow (follower_name, following_name) VALUES ('couple001', 'couple0
 
 INSERT INTO follow (follower_name, following_name) VALUES ('couple003', 'couple002');
 
-
-
-
 INSERT INTO tag (name) VALUES ('데이트'), ('야경'),
 ('감성'), ('바다'),
 ('뷰맛집'), ('인생샷'),
@@ -238,3 +235,26 @@ VALUES (
     'couple002', 'FOLLOW', 'couple003님이 당신을 팔로우했습니다.',
     '2025-04-09 11:00:00', false, null
 );
+
+-- Step 1. 미디어 등록 (파일명 실제로 존재하는 걸로)
+INSERT INTO media (id, media_type, media_url)
+VALUES (1002, 0, '/api/recommend_place/download/3bf946f7-a568-4b59-91d5-c327f7046e17_course2.jpg');
+
+-- Step 2. 추천 장소
+INSERT INTO recommend_place (
+    id, address, city, description, detail, latitude, longitude, name
+) VALUES (
+    10002, '충남 천안시 신방동 200', '충청남도', '연인과 함께 걷기 좋은 분위기 좋은 골목', '포토존 많음',
+    36.8123, 127.1155, '골목데이트'
+);
+
+-- Step 3. 미디어 연결
+INSERT INTO recommend_place_media (media_id, recommend_place_id)
+VALUES (1002, 10002);
+
+-- Step 4. 카테고리 연결
+INSERT INTO category_place (id, category_name, recommend_place_id)
+VALUES (1002, '포토존', 10002);
+
+
+
