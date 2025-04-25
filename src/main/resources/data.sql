@@ -365,8 +365,7 @@ INSERT INTO media (media_url,media_type) VALUES
  ('/api/recommend_place/download/Jeollanamdo/ChogaoYeosuGeobukseonBranch2.jpg', 0),
  ('/api/recommend_place/download/Jeollanamdo/Colombang.png', 0),
  ('/api/recommend_place/download/Jeollanamdo/Colombang1.jpg', 0),
- ('/api/recommend_place/download/Jeollanamdo/Colombang2.jpg', 0),
- ;
+ ('/api/recommend_place/download/Jeollanamdo/Colombang2.jpg', 0);
 
 
 
