@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,9 +49,9 @@ public class GreatService {
         return new GreatToggleResultDTO(album.getId(), liked, user.getUsername());
     }
 
-//    public String deleteGreat(GreatDTO greatDTO){
-//            User user = userService.getCurrentUser();
-//            Great great = greatRepository.findById(greatDTO.getId()).orElseThrow(()-> new ResourceNotFoundException())
-//        return null;
-//    }
+    public List<String> getAllGreats(Long albumId){
+        Album album = albumRepository.findById(albumId).orElseThrow(()-> new ResourceNotFoundException("존재하지 않은 앨범ID입니다"));
+      return   greatRepository.findByAlbum(album).stream().map(great -> great.getUser().getUsername()).toList();
+    }
+
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/great")
 public class GreatController {
@@ -22,12 +24,12 @@ public class GreatController {
                 greatService.toggleGreat(greatDTO),
                 HttpStatus.OK);
     }
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<String> deleteGreat(@RequestBody GreatDTO greatDTO) {
-//        return new ResponseEntity<>(
-//                greatService.deleteGreat(greatDTO),
-//                HttpStatus.OK);
-//    }
+    @GetMapping("/albumId/{albumId}")
+    public ResponseEntity<List<String>> getAllGreats(@PathVariable Long albumId) {
+        return new ResponseEntity<>(
+                greatService.getAllGreats(albumId),
+                HttpStatus.OK);
+    }
 
 
 

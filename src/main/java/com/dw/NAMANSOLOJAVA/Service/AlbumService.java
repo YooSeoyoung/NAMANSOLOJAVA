@@ -57,7 +57,7 @@ public class AlbumService {
         List<Album> albums= albumRepository.findAllById(id);
         return albums.stream().map(
                 album ->
-        new BookmarkDTO(album.getId(),album.getMedia().get(0).getMediaUrl(),album.getUser().getUsername())
+        new BookmarkDTO(album.getId(),album.getMedia().get(0).toDTO(),album.getUser().getUsername())
         ).toList();
     }
 

@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 public class BookmarkDTO {
     private Long albumId;
-    private String url;
+    private MediaDTO url;
     private  String username;
 }
