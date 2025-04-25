@@ -6,13 +6,12 @@ import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Service.AlarmService;
 import com.dw.NAMANSOLOJAVA.model.Alarm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,4 +46,16 @@ public class AlarmController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return alarmService.getAlarmsByUsername(username);
     }
+
+    @DeleteMapping("/{alarmId}")
+    public ResponseEntity<?> deleteAlarm(@PathVariable Long alarmId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        boolean deleted = alarmService.deleteAlarmById(alarmId, username);
+        if (deleted) {
+            return ResponseEntity.ok("알람 삭제 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한 없음 또는 존재하지 않는 알람");
+        }
+    }
+
 }
