@@ -113,7 +113,8 @@ public class UserService {
             helper.setTo(toEmail);
             helper.setFrom("ojungjae@gmail.com"); // Gmail에서는 이 주소여야 함
             helper.setSubject("🎉 회원가입을 축하드립니다!");
-            helper.setText("<h1>" + realName + "님 환영합니다!</h1><p>감사합니다 😊</p>", true);
+            helper.setText("<h1>" + realName + "님 환영합니다!</h1><p>저희 사이트에 가입해주셔서 감사합니다!"+
+                    "<br/><br/><strong>본 메일은 회신 전용 메일입니다. 답신을 하실 수 있으나 해당 메일은 무시됩니다.</strong><br/>사이트의 약관은 본 사이트의 주석 참조바랍니다.</p>", true);
 
             mailSender.send(message);
             System.out.println("✅ 이메일 전송 완료!");
