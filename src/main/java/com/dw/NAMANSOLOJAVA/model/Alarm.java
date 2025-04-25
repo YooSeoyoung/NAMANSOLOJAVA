@@ -24,7 +24,7 @@ public class Alarm {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user; // 어떤 유저에게 보내는 알람
 
 
