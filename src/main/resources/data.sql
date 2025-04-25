@@ -147,33 +147,6 @@ VALUES
 INSERT INTO todo_media (media_id, todo_id) VALUES (5, 2);
 INSERT INTO todo_media (media_id, todo_id) VALUES (6, 2);
 
--- 알람
-INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
-VALUES (
-    'couple001', 'COMMENT', 'couple002님이 앨범에 댓글을 남겼습니다.',
-    '2025-04-09 10:15:00', false, null
-);
-
-INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
-VALUES (
-    'couple001', 'GREAT', 'couple003님이 앨범을 좋아합니다.',
-    '2025-04-09 10:16:00', false, null
-);
-
-INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
-VALUES (
-    'couple001', 'TODO', '여름 제주도 여행의 날씨 정보가 도착했습니다.',
-    '2025-04-09 09:00:00', false, '맑음, 최고기온 24°C, 강수 확률 10%'
-);
-
-INSERT INTO alarm (username, type, message, add_date, is_read, weather_info)
-VALUES (
-    'couple002', 'FOLLOW', 'couple003님이 당신을 팔로우했습니다.',
-    '2025-04-09 11:00:00', false, null
-);
-
-
-
 INSERT INTO tag (name) VALUES
  ('#데이트'),('#커플'),('#프로필'),('#바다'),('#뷰맛집'), ('#인생샷'),('#봄 소풍'), ('#산책'), ('#사랑'), ('#행복'),
  ('#돗자리'),('#노을'),('#떡볶이'), ('#대기중'),('#롯데월드'), ('#파전'),('#스쿠버다이빙'), ('#수목원'), ('#인생네컷'), ('#파크'),
