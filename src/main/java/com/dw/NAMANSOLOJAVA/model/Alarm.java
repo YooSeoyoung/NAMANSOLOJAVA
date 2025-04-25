@@ -54,11 +54,7 @@ public class Alarm {
         );
     }
     public AlarmDTO toAlarmDTO(){
-        return new AlarmDTO(
-                this.id, this.user.getUsername(),
-                this.alarmType, this.message,
-                this.addDate,this.isRead,
-                this.icon
-        );
+            return new AlarmDTO(this);
+        }
     }
-}
+
