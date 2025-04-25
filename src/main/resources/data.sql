@@ -231,7 +231,9 @@ INSERT INTO album_media (media_id, album_id) VALUES
 
 -- Step 1. 미디어 등록 (사진 있는 거로!) 50번부터
 INSERT INTO media (media_url,media_type) VALUES
-('/api/recommend_place/download/Jeju/SeasonTable.jpg', 0),
+-- 제주
+-- 맛집
+ ('/api/recommend_place/download/Jeju/SeasonTable.jpg', 0),
  ('/api/recommend_place/download/Jeju/SeasonTable1.jpg', 0),
  ('/api/recommend_place/download/Jeju/SeasonTable2.jpg', 0),
  ('/api/recommend_place/download/Jeju/SeasonTable3.jpg', 0),
@@ -324,7 +326,49 @@ INSERT INTO media (media_url,media_type) VALUES
  ('/api/recommend_place/download/Jeju/JeolmulForestPark2.jpg', 0),
  ('/api/recommend_place/download/Jeju/JejuFolkVillage.jpg', 0),
  ('/api/recommend_place/download/Jeju/JejuFolkVillage1.jpg', 0),
- ('/api/recommend_place/download/Jeju/JejuFolkVillage2.jpg', 0);
+ ('/api/recommend_place/download/Jeju/JejuFolkVillage2.jpg', 0),
+-- 전라남도
+-- 맛집
+ ('/api/recommend_place/download/Jeollanamdo/KkotdolSoyCrab.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/KkotdolSoyCrab1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/KkotdolSoyCrab2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Nanulteo.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Nanulteo1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Nanulteo2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/RomanticPocha18.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/RomanticPocha181.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/RomanticPocha182.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MadameSo.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MadameSo1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MadameSo2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/SuniKitchenTable.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/SuniKitchenTable1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/SuniKitchenTable2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/YeosuSoyCrab.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/YeosuSoyCrab1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/YeosuSoyCrab2.jpg', 0),
+ -- 카페
+ ('/api/recommend_place/download/Jeollanamdo/GoodysPie.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/GoodysPie1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/GoodysPie2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MoyfinOcean.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MoyfinOcean1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/MoyfinOcean2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/BrewWorks.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/BrewWorks1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/BrewWorks2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/CLBBakery.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/CLBBakery1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/CLBBakery2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/ChogaoYeosuGeobukseonBranch.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/ChogaoYeosuGeobukseonBranch1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/ChogaoYeosuGeobukseonBranch2.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Colombang.png', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Colombang1.jpg', 0),
+ ('/api/recommend_place/download/Jeollanamdo/Colombang2.jpg', 0),
+ ;
+
+
 
 -- Step 2. 장소 등록
 INSERT INTO recommend_place (id, address, city, description, detail, latitude, longitude, name) VALUES
@@ -360,8 +404,21 @@ INSERT INTO recommend_place (id, address, city, description, detail, latitude, l
 (26, '제주특별자치도 서귀포시 남원읍 태위로 522', '제주도', '바위 절벽과 자연동굴이 어우러진 독특한 해안 지형', null, 33.2559, 126.6736, '산안큰엉곶'),
 (27, '제주특별자치도 제주시 이호일동 1665-13', '제주도', '말등대가 있는 아름다운 해수욕장', null, 33.5145, 126.4813, '이호테우해수욕장'),
 (28, '제주특별자치도 제주시 봉개동 산78-1', '제주도', '삼나무 숲 속에서 힐링할 수 있는 자연 휴양림', null, 33.4363, 126.6244, '절물자연휴양림'),
-(29, '제주특별자치도 서귀포시 표선면 민속해안로 631-34', '제주도', '제주의 옛 생활문화를 체험할 수 있는 전통 테마 마을', null, 33.3254, 126.8346, '제주민속촌');
-
+(29, '제주특별자치도 서귀포시 표선면 민속해안로 631-34', '제주도', '제주의 옛 생활문화를 체험할 수 있는 전통 테마 마을', null, 33.3254, 126.8346, '제주민속촌'),
+-- 전남 맛집
+(30, '전라남도 여수시 봉산2로 36', '전라남도', '간장게장을 메인으로 한 여수의 인기 맛집 거리', null, 34.7395, 127.7365, '꽃돌게장1번가'),
+(31, '전라남도 순천시 연향3로 45', '전라남도', '따뜻한 정과 나눔을 실천하는 순천의 로컬 맛집', null, 34.9502, 127.5177, '나눌터'),
+(32, '전라남도 여수시 수산시장2길 18', '전라남도', '이순신 장군과 해산물 삼합을 테마로 한 포차', null, 34.7390, 127.7403, '낭만포차18번이순신해산물삼합'),
+(33, '전라남도 여수시 교동로 36', '전라남도', '고급스러운 감성을 더한 한식 포장마차 스타일', null, 34.7464, 127.7372, '소마담'),
+(34, '전라남도 여수시 종화동 345-3', '전라남도', '푸짐한 밥상과 정겨운 분위기를 담은 식당', null, 34.7443, 127.7398, '순이네밥상'),
+(35, '전라남도 여수시 여문1로 5', '전라남도', '두꺼비 캐릭터로 유명한 여수 대표 게장 전문점', null, 34.7549, 127.7156, '여수게장두꺼비게장'),
+-- 카페
+(36, '전라남도 여수시 학동 137-3', '전라남도', '정통 파이와 홈메이드 디저트를 즐길 수 있는 카페', null, 34.7597, 127.7431, '구디스파이'),
+(37, '전라남도 여수시 돌산읍 무술목길 50', '전라남도', '바다 전망이 아름다운 대형 오션뷰 카페', null, 34.7150, 127.7364, '모이핀 오션점'),
+(38, '전라남도 여수시 교동로 20', '전라남도', '수제 맥주와 분위기 있는 야외 좌석이 특징인 펍', null, 34.7458, 127.7382, '브루웍스'),
+(39, '전라남도 목포시 영산로75번길 14', '전라남도', '크림치즈 바게트로 유명한 목포 로컬 베이커리', null, 34.7936, 126.3872, '씨엘비베이커리'),
+(40, '전라남도 여수시 진남상가길 9-1', '전라남도', '크림 커피와 소금빵으로 인기 있는 감성 카페', null, 34.7353, 127.7421, '초가오 여수거북선점'),
+(41, '전라남도 목포시 영산로75번길 7', '전라남도', '1949년부터 운영 중인 전통 제과점, 명물 팥빵 유명', null, 34.7934, 126.3870, '코롬방제과점');
 
 -- Step 3. 장소 <-> 미디어 연결
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (50, 1),(51, 1),(52, 1),(53, 1);
@@ -382,7 +439,7 @@ INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (88, 13)
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (91, 14),(92, 14),(93, 14);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (94, 15),(95, 15),(96, 15);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (97, 16),(98, 16),(99, 16);
-INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (100, 17),(101, 17),(102, 17),(103, 14);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (100, 17),(101, 17),(102, 17),(103, 17);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (104, 18),(105, 18),(106, 18);
 -- 관광지
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (107, 19),(108, 19),(109, 19);
@@ -397,6 +454,20 @@ INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (128, 26
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (131, 27),(132, 27),(133, 27);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (134, 28),(135, 28),(136, 28);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (137, 29),(138, 29),(139, 29);
+-- 전남 맛집
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (140, 30),(141, 30),(142, 30);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (143, 31),(144, 31),(145, 31);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (146, 32),(147, 32),(148, 32);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (149, 33),(150, 33),(151, 33);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (152, 34),(153, 34),(154, 34);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (155, 35),(156, 35),(157, 35);
+-- 카페
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (158, 36),(159, 36),(160, 36);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (161, 37),(162, 37),(163, 37);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (164, 38),(165, 38),(166, 38);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (167, 39),(168, 39),(169, 39);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (170, 40),(171, 40),(172, 40);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (173, 41),(174, 41),(175, 41);
 
 -- Step 4. 장소 <-> 카테고리 연결
 INSERT INTO category_place (id, category_name, recommend_place_id)VALUES
@@ -428,4 +499,16 @@ INSERT INTO category_place (id, category_name, recommend_place_id)VALUES
 (75, '포토존', 26), -- 산안큰엉곶
 (76, '포토존', 27), -- 이호테우해수욕장
 (77, '포토존', 28), -- 절물자연휴양림
-(78, '포토존', 29); -- 제주민속촌
+(78, '포토존', 29), -- 제주민속촌
+(79, '맛집', 30), -- 꽃돌게장1번가
+(80, '맛집', 31), -- 나눌터
+(81, '맛집', 32), -- 낭만포차18번이순신해산물삼합
+(82, '맛집', 33), -- 소마담
+(83, '맛집', 34), -- 순이네밥상
+(84, '맛집', 35), -- 여수게장두꺼비게장
+(85, '카페', 36), -- 구디스파이
+(86, '카페', 37), -- 모이핀오션점
+(87, '카페', 38), -- 브루웍스
+(88, '카페', 39), -- 씨엘비베이커리
+(89, '카페', 40), -- 초가오 여수거북선점
+(90, '카페', 41); --코롬방제과점
