@@ -10,8 +10,11 @@ import com.dw.NAMANSOLOJAVA.model.Album;
 import com.dw.NAMANSOLOJAVA.model.Authority;
 import com.dw.NAMANSOLOJAVA.model.Media;
 import com.dw.NAMANSOLOJAVA.model.User;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +48,8 @@ public class UserService {
     AlbumRepository albumRepository;
     @Autowired
     OfficialEventService officialEventService;
+    @Autowired
+    private JavaMailSender mailSender;
 
     public UserDTO registerUser(UserDTO userDTO){ // 회원가입
         Optional<User> existingUser = userRepository.findById(userDTO.getUsername());
@@ -94,7 +99,27 @@ public class UserService {
 
         officialEventService.applyOfficialEventsToUser(newUser);
 
+        sendWelcomeEmail(newUser.getEmailF(), newUser.getRealNameF());
+        sendWelcomeEmail(newUser.getEmailM(), newUser.getRealNameM());
+
         return newUser.toUserDTO();
+    }
+
+    public void sendWelcomeEmail(String toEmail, String realName) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(toEmail);
+            helper.setFrom("ojungjae@gmail.com"); // Gmail에서는 이 주소여야 함
+            helper.setSubject("🎉 회원가입을 축하드립니다!");
+            helper.setText("<h1>" + realName + "님 환영합니다!</h1><p>감사합니다 😊</p>", true);
+
+            mailSender.send(message);
+            System.out.println("✅ 이메일 전송 완료!");
+        } catch (Exception e) {
+            System.err.println("❌ 이메일 전송 실패: " + e.getMessage());
+        }
     }
 
     public List<UserDTO> getAllUsers() {
