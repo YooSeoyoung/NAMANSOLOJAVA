@@ -256,25 +256,95 @@ INSERT INTO album_media (media_id, album_id) VALUES
   (48, 15),(49, 15);
 
 
--- Step 1. 미디어 등록 (사진 있는 거로!)
-INSERT INTO media (id, media_type, media_url)
-VALUES (3001, 0, '/api/recommend_place/download/0a369d24-610c-4287-b169-f5a399a778b4_baby2.jpg');
+-- Step 1. 미디어 등록 (사진 있는 거로!) 50번부터
+INSERT INTO media (media_url,media_type) VALUES
+('/api/recommend_place/download/Jeju/SeasonTable.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SeasonTable1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SeasonTable2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SeasonTable3.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FlatfishdaPyoseon.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FlatfishdaPyoseon1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FlatfishdaPyoseon2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Gwanghae.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Gwanghae1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Gwanghae2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Gwanghae3.jpg', 0),
+ ('/api/recommend_place/download/Jeju/GimnyeongAlright.jpg', 0),
+ ('/api/recommend_place/download/Jeju/GimnyeongAlright1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/GimnyeongAlright2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RomanticShrimpAewol.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RomanticShrimpAewol1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RomanticShrimpAewol2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuHwadoBlackPork.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuHwadoBlackPork1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuHwadoBlackPork2.jpg', 0),
+ -- 카페
+ ('/api/recommend_place/download/Jeju/Antoinette.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Antoinette1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Antoinette2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TheCliff.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TheCliff1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TheCliff2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean.jpg', 0),
+ ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean2.jpg', 0);
+ -- 숙소
+
 
 -- Step 2. 장소 등록
-INSERT INTO recommend_place (
-    id, address, city, description, detail, latitude, longitude, name
-) VALUES (
-    30001, '충남 천안시 신방동 200', '충청남도', '연인과 함께 걷기 좋은 분위기 좋은 골목', '포토존 많음',
-    36.8123, 127.1155, '골목데이트'
-);
+INSERT INTO recommend_place (id, address, city, description, detail, latitude, longitude, name) VALUES
+(1, '제주특별자치도 제주시 조천읍 조함해안로 510, 2층', '제주도', ' 오션뷰를 즐기기 좋은 분위기 좋은 해산물 맛집', null ,33.5415, 126.6722, '계절식탁 함덕점'),
+(2, '제주특별자치도 서귀포시 표선면 민속해안로 73, 광해수산 2층', '제주도', '바다 전망과 함께 신선한 광어회를 즐길 수 있는 맛집', NULL, 33.3250, 126.8340, '광어다 표선 본점'),
+(3, '제주특별자치도 제주시 애월읍 애월해안로 867', '제주도', '애월 바다를 바라보며 갈치조림을 맛볼 수 있는 분위기 좋은 식당', NULL, 33.4622, 126.3097, '광해 애월점'),
+(4, '제주특별자치도 제주시 구좌읍 김녕로21길 21', '제주도', '김녕해수욕장 근처에서 신선한 해산물을 즐길 수 있는 맛집', NULL, 33.5570, 126.7540, '김녕오라이'),
+(5, '제주특별자치도 제주시 애월읍 애월해안로 872', '제주도', '애월 해안도로에서 로맨틱한 분위기와 함께 새우 요리를 즐길 수 있는 식당', NULL, 33.4625, 126.3099, '로맨틱새우애월'),
+(6, '제주특별자치도 제주시 승천로 53, 1층', '제주도', '제주 흑돼지를 고급스럽게 즐길 수 있는 분위기 좋은 고깃집', NULL, 33.5008, 126.5311, '제주화도흑돼지'),
+-- 카페
+(7, '제주특별자치도 서귀포시 중문관광로 154-17', '제주도', '오션뷰와 함께 즐기는 감성 레스토랑', NULL, 33.2449, 126.4123, '앙뚜아네트'),
+(8, '제주특별자치도 제주시 구좌읍 해맞이해안로 522', '제주도', '모던한 감성의 뷰 맛집 카페', NULL, 33.2465, 126.6730, '모노클제주'),
+(9, '제주특별자치도 제주시 애월읍 애월해안로 25', '제주도', '분위기 있는 디저트 카페', NULL, 33.4550, 126.3095, '오른'),
+(10, '제주특별자치도 제주시 한경면 판포로 56', '제주도', '조용한 해안가의 감성 식당', NULL, 33.2395, 126.5678, '팀블로우'),
+(11, '제주특별자치도 제주시 한림읍 협재리 2497-1', '제주도', '협재 바다를 바라보는 감성카페', NULL, 33.3942, 126.2367, '더클리프'),
+(12, '제주특별자치도 제주시 구좌읍 김녕로 567', '제주도', '감각적인 인테리어의 트렌디 카페', NULL, 33.4590, 126.3090, '웨이뷰협재바다');
 
 -- Step 3. 장소 <-> 미디어 연결
-INSERT INTO recommend_place_media (media_id, recommend_place_id)
-VALUES (3001, 30001);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (50, 1),(51, 1),(52, 1),(53, 1);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (54, 2),(55, 2), (56, 2);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (57, 3),(58, 3),(59, 3),(60, 3);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (61, 4),(62, 4),(63, 4);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (64, 5),(65, 5),(66, 5);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (67, 6),(68, 6),(69, 6);
+-- 카페
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (70, 7),(71, 7),(72, 7);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (73, 8),(74, 8),(75, 8);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (76, 9),(77, 9),(78, 9);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (79, 10),(80, 10),(81, 10);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (82, 11),(83, 11),(84, 11);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (85, 12),(86, 12),(87, 12);
 
 -- Step 4. 장소 <-> 카테고리 연결
-INSERT INTO category_place (id, category_name, recommend_place_id)
-VALUES (3001, '포토존', 30001);
+INSERT INTO category_place (id, category_name, recommend_place_id)VALUES
+(50, '맛집', 1),  -- 계절식탁
+(51, '맛집', 2),  -- 광어다 표선
+(52, '맛집', 3),  -- 광해 애월점
+(53, '맛집', 4),  -- 김녕오라이
+(54, '맛집', 5),  -- 로맨틱새우애월
+(55, '맛집', 6),  -- 제주화도흑돼지
+(56, '카페', 7),  -- 더클리프
+(57, '카페', 8),  -- 모노클제주
+(58, '카페', 9),  -- 앙뚜아네트
+(59, '카페', 10), -- 오른
+(60, '카페', 11), -- 웨이뷰 협재바다점
+(61, '카페', 12); -- 팀블로우
 
 
 

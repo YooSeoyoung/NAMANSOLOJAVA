@@ -161,4 +161,18 @@ public class AlarmService {
         List<Alarm> alarms = alarmRepository.findByUser_UsernameOrderByAddDateDesc(username);
         return alarms.stream().map(Alarm::toAlarmDTO).collect(Collectors.toList());
     }
+
+    public boolean deleteAlarmById(Long alarmId, String username) {
+        Optional<Alarm> optionalAlarm = alarmRepository.findById(alarmId);
+        if (optionalAlarm.isEmpty()) return false;
+
+        Alarm alarm = optionalAlarm.get();
+        if (!alarm.getUser().getUsername().equals(username)) {
+            return false; // 본인 알람만 삭제 가능
+        }
+
+        alarmRepository.delete(alarm);
+        return true;
+    }
+
 }

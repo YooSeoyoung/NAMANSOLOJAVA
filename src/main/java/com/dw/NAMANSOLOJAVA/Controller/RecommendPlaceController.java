@@ -97,7 +97,7 @@ public class RecommendPlaceController {
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadPlaceImage(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();  // ✅ 핵심: 그냥 uploadDir만
+            Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
 
             System.out.println("📂 요청된 파일명: [" + fileName + "]");
             System.out.println("📂 최종 경로: " + filePath.toAbsolutePath());
