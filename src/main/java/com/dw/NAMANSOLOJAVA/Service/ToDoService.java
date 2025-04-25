@@ -193,10 +193,12 @@ public class ToDoService {
                 .toList();
         for (Media media : deleteMedia) {
             String relativePath = media.getMediaUrl().replace("/api/todo/download/" + user.getUsername() + "/", "");
-            Path filePath = Paths.get("./var/uploads").resolve(user.getUsername()).resolve(relativePath);
 
             try {
-                Files.deleteIfExists(filePath);
+                if (!relativePath.contains("http") && !relativePath.contains("https")) {
+                    Path filePath = Paths.get("./var/uploads").resolve(user.getUsername()).resolve(relativePath);
+                    Files.deleteIfExists(filePath);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
