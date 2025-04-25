@@ -279,26 +279,79 @@ INSERT INTO media (media_url,media_type) VALUES
  ('/api/recommend_place/download/Jeju/JejuHwadoBlackPork1.jpg', 0),
  ('/api/recommend_place/download/Jeju/JejuHwadoBlackPork2.jpg', 0),
  -- 카페
- ('/api/recommend_place/download/Jeju/Antoinette.jpg', 0),
- ('/api/recommend_place/download/Jeju/Antoinette1.jpg', 0),
- ('/api/recommend_place/download/Jeju/Antoinette2.jpg', 0),
- ('/api/recommend_place/download/Jeju/MonocleJeju.jpg', 0),
- ('/api/recommend_place/download/Jeju/MonocleJeju1.jpg', 0),
- ('/api/recommend_place/download/Jeju/MonocleJeju2.jpg', 0),
- ('/api/recommend_place/download/Jeju/Oren.jpg', 0),
- ('/api/recommend_place/download/Jeju/Oren1.jpg', 0),
- ('/api/recommend_place/download/Jeju/Oren2.jpg', 0),
- ('/api/recommend_place/download/Jeju/TeamBlow.jpg', 0),
- ('/api/recommend_place/download/Jeju/TeamBlow1.jpg', 0),
- ('/api/recommend_place/download/Jeju/TeamBlow2.jpg', 0),
  ('/api/recommend_place/download/Jeju/TheCliff.jpg', 0),
  ('/api/recommend_place/download/Jeju/TheCliff1.jpg', 0),
  ('/api/recommend_place/download/Jeju/TheCliff2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/MonocleJeju2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Antoinette.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Antoinette1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Antoinette2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Oren2.jpg', 0),
  ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean.jpg', 0),
  ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean1.jpg', 0),
- ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean2.jpg', 0);
+ ('/api/recommend_place/download/Jeju/WayviewHyeopjaeOcean2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/TeamBlow2.jpg', 0),
  -- 숙소
-
+ ('/api/recommend_place/download/Jeju/646MetersPerSecond.jpg', 0),
+ ('/api/recommend_place/download/Jeju/646MetersPerSecond1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/646MetersPerSecond2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RaffiaHouse.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RaffiaHouse1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/RaffiaHouse2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AtCorner.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AtCorner1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AtCorner2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuTimeTravelHealingPension.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuTimeTravelHealingPension1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuTimeTravelHealingPension2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ConstHyeopjae.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ConstHyeopjae1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ConstHyeopjae2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ConstHyeopjae3.jpg', 0),
+ ('/api/recommend_place/download/Jeju/LogwoodPark.jpg', 0),
+ ('/api/recommend_place/download/Jeju/LogwoodPark1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/LogwoodPark2.jpg', 0),
+ -- 관광지
+ ('/api/recommend_place/download/Jeju/Lunapole.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Lunapole1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/Lunapole2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ManoirBlanc.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ManoirBlanc1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/ManoirBlanc2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AivaGarden.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AivaGarden1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AivaGarden2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AquaPlanetJeju.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AquaPlanetJeju1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/AquaPlanetJeju2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/CamelliaHill.jpg', 0),
+ ('/api/recommend_place/download/Jeju/CamelliaHill1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/CamelliaHill2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FigureMuseum.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FigureMuseum1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/FigureMuseum2.jpg', 0),
+ -- 포토존
+ ('/api/recommend_place/download/Jeju/SagyeCoast.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SagyeCoast1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SagyeCoast2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SananCliffPoint.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SananCliffPoint1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/SananCliffPoint2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/IhoTewooBeach.jpg', 0),
+ ('/api/recommend_place/download/Jeju/IhoTewooBeach1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/IhoTewooBeach2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JeolmulForestPark.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JeolmulForestPark1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JeolmulForestPark2.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuFolkVillage.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuFolkVillage1.jpg', 0),
+ ('/api/recommend_place/download/Jeju/JejuFolkVillage2.jpg', 0);
 
 -- Step 2. 장소 등록
 INSERT INTO recommend_place (id, address, city, description, detail, latitude, longitude, name) VALUES
@@ -309,12 +362,33 @@ INSERT INTO recommend_place (id, address, city, description, detail, latitude, l
 (5, '제주특별자치도 제주시 애월읍 애월해안로 872', '제주도', '애월 해안도로에서 로맨틱한 분위기와 함께 새우 요리를 즐길 수 있는 식당', NULL, 33.4625, 126.3099, '로맨틱새우애월'),
 (6, '제주특별자치도 제주시 승천로 53, 1층', '제주도', '제주 흑돼지를 고급스럽게 즐길 수 있는 분위기 좋은 고깃집', NULL, 33.5008, 126.5311, '제주화도흑돼지'),
 -- 카페
-(7, '제주특별자치도 서귀포시 중문관광로 154-17', '제주도', '오션뷰와 함께 즐기는 감성 레스토랑', NULL, 33.2449, 126.4123, '앙뚜아네트'),
+(7, '제주특별자치도 서귀포시 중문관광로 154-17', '제주도', '오션뷰와 함께 즐기는 감성 레스토랑', NULL, 33.2449, 126.4123, '더클리프'),
 (8, '제주특별자치도 제주시 구좌읍 해맞이해안로 522', '제주도', '모던한 감성의 뷰 맛집 카페', NULL, 33.2465, 126.6730, '모노클제주'),
-(9, '제주특별자치도 제주시 애월읍 애월해안로 25', '제주도', '분위기 있는 디저트 카페', NULL, 33.4550, 126.3095, '오른'),
-(10, '제주특별자치도 제주시 한경면 판포로 56', '제주도', '조용한 해안가의 감성 식당', NULL, 33.2395, 126.5678, '팀블로우'),
-(11, '제주특별자치도 제주시 한림읍 협재리 2497-1', '제주도', '협재 바다를 바라보는 감성카페', NULL, 33.3942, 126.2367, '더클리프'),
-(12, '제주특별자치도 제주시 구좌읍 김녕로 567', '제주도', '감각적인 인테리어의 트렌디 카페', NULL, 33.4590, 126.3090, '웨이뷰협재바다');
+(9, '제주특별자치도 제주시 애월읍 애월해안로 25', '제주도', '분위기 있는 디저트 카페', NULL, 33.4550, 126.3095, '앙뚜아네트'),
+(10, '제주특별자치도 제주시 한경면 판포로 56', '제주도', '조용한 해안가의 감성 식당', NULL, 33.2395, 126.5678, '오른'),
+(11, '제주특별자치도 제주시 한림읍 협재리 2497-1', '제주도', '협재 바다를 바라보는 감성카페', NULL, 33.3942, 126.2367, '웨이뷰협재바다'),
+(12, '제주특별자치도 제주시 구좌읍 김녕로 567', '제주도', '감각적인 인테리어의 트렌디 카페', NULL, 33.4590, 126.3090, '팀블로우'),
+--숙소
+(13, '제주특별자치도 제주시 애월읍 하귀1리 646', '제주도', '감각적인 네이밍이 돋보이는 감성 공간', null, 33.4910, 126.4440, '646미터퍼세크'),
+(14, '제주특별자치도 제주시 애월읍 구엄길 51', '제주도', '자연 소재와 조용한 감성이 어우러진 숙소', null, 33.4875, 126.4225, '라피아하우스'),
+(15, '제주특별자치도 제주시 구좌읍 해맞이해안로 2054', '제주도', '감성 가득한 포토존과 여유로운 카페 공간', null, 33.5231, 126.8503, '앳코너'),
+(16, '제주특별자치도 서귀포시 표선면 가시로 101', '제주도', '제주 감성과 힐링을 담은 시간 여행형 펜션', null, 33.3082, 126.8379, '제주시간여행휴향펜션'),
+(17, '제주특별자치도 제주시 한림읍 협재리 1234', '제주도', '세련된 감성 숙소 브랜드, 협재 바다 근처', null, 33.3922, 126.2405, '콘스트협재'),
+(18, '제주특별자치도 제주시 애월읍 어음13길 77', '제주도', '자연 속에서 통나무 감성을 즐길 수 있는 체험 공간', null, 33.4511, 126.3666, '통나무파크'),
+-- 관광지
+(19, '제주특별자치도 서귀포시 안덕면 일주서로 1836', '제주도', '달빛 아래 분위기 좋은 감성 카페', null, 33.2394, 126.3103, '루나폴'),
+(20, '제주특별자치도 서귀포시 안덕면 일주서로2100번길 46', '제주도', '하얀 저택을 닮은 고급스러운 정원 카페', null, 33.2504, 126.3731, '마노르블랑'),
+(21, '제주특별자치도 제주시 애월읍 고성남서길 8', '제주도', '넓은 정원 속 자연을 즐길 수 있는 힐링 카페', null, 33.4497, 126.3086, '아이바가든'),
+(22, '제주특별자치도 서귀포시 성산읍 섭지코지로 95', '제주도', '아이들과 함께 즐기기 좋은 대형 수족관', null, 33.4316, 126.9277, '아쿠아플라넷제주'),
+(23, '제주특별자치도 서귀포시 안덕면 병악로 166', '제주도', '동백꽃으로 가득한 사계절 아름다운 정원', null, 33.2467, 126.3684, '카멜리아힐'),
+(24, '제주특별자치도 서귀포시 안덕면 상창리 1839-1', '제주도', '다양한 캐릭터와 피규어 전시가 가득한 박물관', null, 33.2544, 126.3616, '피규어뮤지엄'),
+-- 포토존
+(25, '제주특별자치도 서귀포시 안덕면 사계리 112-1', '제주도', '드라이브 명소로 유명한 절경의 해안도로', null, 33.2198, 126.3102, '사계해안'),
+(26, '제주특별자치도 서귀포시 남원읍 태위로 522', '제주도', '바위 절벽과 자연동굴이 어우러진 독특한 해안 지형', null, 33.2559, 126.6736, '산안큰엉곶'),
+(27, '제주특별자치도 제주시 이호일동 1665-13', '제주도', '말등대가 있는 아름다운 해수욕장', null, 33.5145, 126.4813, '이호테우해수욕장'),
+(28, '제주특별자치도 제주시 봉개동 산78-1', '제주도', '삼나무 숲 속에서 힐링할 수 있는 자연 휴양림', null, 33.4363, 126.6244, '절물자연휴양림'),
+(29, '제주특별자치도 서귀포시 표선면 민속해안로 631-34', '제주도', '제주의 옛 생활문화를 체험할 수 있는 전통 테마 마을', null, 33.3254, 126.8346, '제주민속촌');
+
 
 -- Step 3. 장소 <-> 미디어 연결
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (50, 1),(51, 1),(52, 1),(53, 1);
@@ -330,6 +404,26 @@ INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (76, 9),
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (79, 10),(80, 10),(81, 10);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (82, 11),(83, 11),(84, 11);
 INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (85, 12),(86, 12),(87, 12);
+-- 숙소
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (88, 13),(89, 13),(90, 13);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (91, 14),(92, 14),(93, 14);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (94, 15),(95, 15),(96, 15);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (97, 16),(98, 16),(99, 16);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (100, 17),(101, 17),(102, 17),(103, 14);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (104, 18),(105, 18),(106, 18);
+-- 관광지
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (107, 19),(108, 19),(109, 19);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (110, 20),(111, 20),(112, 20);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (113, 21),(114, 21),(115, 21);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (116, 22),(117, 22),(118, 22);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (119, 23),(120, 23),(121, 23);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (122, 24),(123, 24),(124, 24);
+-- 포토존
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (125, 25),(126, 25),(127, 25);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (128, 26),(129, 26),(130, 26);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (131, 27),(132, 27),(133, 27);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (134, 28),(135, 28),(136, 28);
+INSERT INTO recommend_place_media (media_id, recommend_place_id) VALUES (137, 29),(138, 29),(139, 29);
 
 -- Step 4. 장소 <-> 카테고리 연결
 INSERT INTO category_place (id, category_name, recommend_place_id)VALUES
@@ -344,7 +438,21 @@ INSERT INTO category_place (id, category_name, recommend_place_id)VALUES
 (58, '카페', 9),  -- 앙뚜아네트
 (59, '카페', 10), -- 오른
 (60, '카페', 11), -- 웨이뷰 협재바다점
-(61, '카페', 12); -- 팀블로우
-
-
-
+(61, '카페', 12), -- 팀블로우
+(62, '호텔', 13), -- 646미터퍼세크
+(63, '호텔', 14), -- 라피아하우스
+(64, '호텔', 15), -- 앳코너
+(65, '호텔', 16), -- 제주시간여행휴향펜션
+(66, '호텔', 17), -- 콘스트협재
+(67, '호텔', 18), -- 통나무파크
+(68, '관광지', 19), -- 루나폴
+(69, '관광지', 20), -- 마노르블랑
+(70, '관광지', 21), -- 아이바가든
+(71, '관광지', 22), -- 아쿠아플라넷제주
+(72, '관광지', 23), -- 카멜리아힐
+(73, '관광지', 24), -- 피규어뮤지엄
+(74, '포토존', 25), -- 사계해안
+(75, '포토존', 26), -- 산안큰엉곶
+(76, '포토존', 27), -- 이호테우해수욕장
+(77, '포토존', 28), -- 절물자연휴양림
+(78, '포토존', 29); -- 제주민속촌
