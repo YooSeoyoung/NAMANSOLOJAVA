@@ -153,20 +153,21 @@ public class RecommendPlaceService {
                 .collect(Collectors.toList());
     }
 
-    public List<MediaDTO> saveMediaFiles(List<MultipartFile> files) {
+    public List<MediaDTO> saveMediaFiles(List<MultipartFile> files, String region) {
         String uploadDir = "./var/uploads";
 
-        File folder = new File(uploadDir);
-        if (!folder.exists()) {
-            boolean created = folder.mkdirs();
-            System.out.println("📂 폴더 생성됨? " + created);
+        Path regionFolder = Paths.get(uploadDir, region);
+        try {
+            Files.createDirectories(regionFolder);
+        } catch (IOException e) {
+            throw new RuntimeException("폴더 생성 실패", e);
         }
 
         return files.stream().map(file -> {
             String originalFilename = file.getOriginalFilename();
             String uuidFilename = UUID.randomUUID() + "_" + originalFilename;
 
-            Path savePath = Paths.get(uploadDir, uuidFilename);
+            Path savePath = regionFolder.resolve(uuidFilename);
 
             try {
                 Files.copy(file.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
@@ -175,7 +176,7 @@ public class RecommendPlaceService {
             }
 
             Media media = new Media();
-            media.setMediaUrl("/api/recommend_place/download/" + uuidFilename);  // ✔️ URL 형식도 명확하게
+            media.setMediaUrl("/api/recommend_place/download/" + region + "/" + uuidFilename); // ✅ URL에 region 포함
             media.setMediaType(file.getContentType().startsWith("video") ? MediaType.VIDEO : MediaType.PICTURE);
             mediaRepository.save(media);
 
@@ -187,6 +188,7 @@ public class RecommendPlaceService {
         }).collect(Collectors.toList());
     }
 
+
     public List<MediaDTO> updateMediaForPlace(Long placeId, MultipartFile file) {
         RecommendPlace place = recommendPlaceRepository.findById(placeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Place not found"));
@@ -196,7 +198,7 @@ public class RecommendPlaceService {
             mediaRepository.delete(media);
         }
 
-        List<MediaDTO> newMediaList = saveMediaFiles(List.of(file));
+        List<MediaDTO> newMediaList = saveMediaFiles(List.of(file), place.getCity());
 
 
         List<Media> mediaList = new ArrayList<>();
