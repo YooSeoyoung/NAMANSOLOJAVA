@@ -67,7 +67,7 @@ public class RecommendPlaceController {
             @RequestPart("place") RecommendPlaceAdmDTO dto,
             @RequestPart("files") List<MultipartFile> files
     ) {
-        List<MediaDTO> mediaList = recommendPlaceService.saveMediaFiles(files);
+        List<MediaDTO> mediaList = recommendPlaceService.saveMediaFiles(files, dto.getCity()); // ✅ 수정
         dto.setMediaUrl(mediaList);
         return ResponseEntity.ok(recommendPlaceService.savePlaceWithMedia(dto));
     }
