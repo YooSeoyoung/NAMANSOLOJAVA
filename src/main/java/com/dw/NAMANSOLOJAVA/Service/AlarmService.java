@@ -30,6 +30,9 @@ public class AlarmService {
     @Autowired
     private AlarmSettingRepository alarmSettingRepository;
 
+    @Autowired
+    private UserService userService;
+
     private final SimpMessagingTemplate messagingTemplate;
 
     public AlarmService(SimpMessagingTemplate messagingTemplate) {
@@ -162,12 +165,13 @@ public class AlarmService {
         return alarms.stream().map(Alarm::toAlarmDTO).collect(Collectors.toList());
     }
 
-    public boolean deleteAlarmById(Long alarmId, String username) {
+    public boolean deleteAlarmById(Long alarmId) {
         Optional<Alarm> optionalAlarm = alarmRepository.findById(alarmId);
         if (optionalAlarm.isEmpty()) return false;
 
+        User user = userService.getCurrentUser();
         Alarm alarm = optionalAlarm.get();
-        if (!alarm.getUser().getUsername().equals(username)) {
+        if (!alarm.getUser().getUsername().equals(user.getUsername())) {
             return false; // 본인 알람만 삭제 가능
         }
 

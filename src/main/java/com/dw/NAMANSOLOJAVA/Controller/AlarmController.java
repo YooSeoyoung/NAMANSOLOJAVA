@@ -49,8 +49,7 @@ public class AlarmController {
 
     @DeleteMapping("/{alarmId}")
     public ResponseEntity<?> deleteAlarm(@PathVariable Long alarmId) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        boolean deleted = alarmService.deleteAlarmById(alarmId, username);
+        boolean deleted = alarmService.deleteAlarmById(alarmId);
         if (deleted) {
             return ResponseEntity.ok("알람 삭제 성공");
         } else {
