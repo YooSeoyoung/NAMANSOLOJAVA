@@ -71,6 +71,16 @@ public class RecommentService {
         return  "대댓글이 정상 삭제되었습니다";
     }
 
+    public String deleteReCommentByAdmin(Long id){
+        User user =userService.getCurrentUser();
+        ReComment reComment = recommentRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 ID입니다"));
+        if (!user.getAuthority().getAuthorityName().equals("ROLE_ADMIN")){
+            throw new PermissionDeniedException("본인의 대댓글에 대해서만 삭제가 가능합니다");
+        }
+        recommentRepository.deleteById(id);
+        return  "관리자가 해당 대댓글에 대해 삭제되었습니다";
+    }
+
     public AddOrUpdateReCommentDTO updateReComment(AddOrUpdateReCommentDTO addOrUpdateReCommentDTO){
         User user= userService.getCurrentUser();
         ReComment reComment = recommentRepository.findById(addOrUpdateReCommentDTO.getId()).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 ID입니다"));

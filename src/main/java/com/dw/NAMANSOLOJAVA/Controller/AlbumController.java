@@ -79,6 +79,12 @@ public class AlbumController {
                 albumService.deleteAlbumById(id),
                 HttpStatus.OK);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity <String> deleteAlbumByAdmin(@PathVariable Long id) {
+        return new ResponseEntity<>(
+                albumService.deleteAlbumByAdmin(id),
+                HttpStatus.OK);
+    }
 
     @GetMapping("/username-visibility/{username}")
     public ResponseEntity <List<AlbumDTO>> getAlbumByUsernameAndVisibility(@PathVariable String username) {

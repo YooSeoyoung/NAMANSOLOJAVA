@@ -7,10 +7,7 @@ import com.dw.NAMANSOLOJAVA.Exception.ResourceNotFoundException;
 import com.dw.NAMANSOLOJAVA.Repository.AlbumRepository;
 import com.dw.NAMANSOLOJAVA.Repository.CommentRepository;
 import com.dw.NAMANSOLOJAVA.Repository.RecommentRepository;
-import com.dw.NAMANSOLOJAVA.model.Album;
-import com.dw.NAMANSOLOJAVA.model.Comment;
-import com.dw.NAMANSOLOJAVA.model.Tag;
-import com.dw.NAMANSOLOJAVA.model.User;
+import com.dw.NAMANSOLOJAVA.model.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +60,19 @@ public class CommentService {
 
         return  "댓글이 정상 삭제되었습니다";
     }
+
+    @Transactional
+    public String deleteCommentByAdmin(Long id){
+        User user =userService.getCurrentUser();
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 ID입니다"));
+        if (!user.getAuthority().getAuthorityName().equals("ROLE_ADMIN")){
+            throw new PermissionDeniedException("본인의 댓글에 대해서만 삭제가 가능합니다");
+        }
+        recommentRepository.deleteAllByCommentId(id);
+        commentRepository.deleteById(id);
+        return  "관리자가 해당 댓글에 대해 삭제되었습니다";
+    }
+
 
     public AddOrUpdateCommentDTO updateComment( AddOrUpdateCommentDTO addOrUpdateCommentDTO){
             User user= userService.getCurrentUser();

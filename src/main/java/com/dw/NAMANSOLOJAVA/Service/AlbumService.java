@@ -190,6 +190,25 @@ public class AlbumService {
         albumRepository.deleteById(id);
         return "정상 삭제되었습니다";
     }
+
+    @Transactional
+    public String deleteAlbumByAdmin(Long id){
+        User user =userService.getCurrentUser();
+        Album album = albumRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("존재하지 않은 ID입니다"));
+        if (!user.getAuthority().getAuthorityName().equals("ROLE_ADMIN")){
+            throw new PermissionDeniedException("본인의 댓글에 대해서만 삭제가 가능합니다");
+        }
+        List<Comment> comments =commentRepository.findByAlbumId(id);
+        List<Long> commentId = comments.stream().map(Comment::getId).toList();
+        List<ReComment> reComments =recommentRepository.findByCommentIdIn(commentId);
+        greatRepository.deleteByAlbumId(id);
+        albumTagRepository.deleteByAlbumId(id);
+        commentRepository.deleteAll(comments);
+        recommentRepository.deleteAll(reComments);
+        albumRepository.deleteById(id);
+        return  "관리자가 해당 앨범에 대해 삭제되었습니다";
+    }
+
     public List<AlbumDTO> getAlbumByUsernameAndVisibility(String username){
         List<Album> albums = albumRepository.findByUser_UsernameAndVisibility(username,Visibility.PUBLIC);
         return albums.stream()

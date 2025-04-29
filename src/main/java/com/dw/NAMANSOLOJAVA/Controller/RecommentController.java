@@ -41,6 +41,13 @@ public class RecommentController {
                 recommentService.deleteReCommentById(id),
                 HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity <String> deleteReCommentByAdmin(@PathVariable Long id) {
+        return new ResponseEntity<>(
+                recommentService.deleteReCommentByAdmin(id),
+                HttpStatus.OK);
+    }
     @PutMapping("/update")
     public ResponseEntity<AddOrUpdateReCommentDTO> updateReComment(@RequestBody AddOrUpdateReCommentDTO addOrUpdateReCommentDTO) {
         return new ResponseEntity<>(
