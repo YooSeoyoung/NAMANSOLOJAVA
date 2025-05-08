@@ -2,6 +2,7 @@ package com.dw.NAMANSOLOJAVA.DTO;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.List;
 public class RecommendPlaceAdmDTO { // 어드민 추가/수정용
     private Long id;
     private String name;
-    private List<MediaDTO> mediaUrl;
+    private List<MediaDTO> mediaUrl = new ArrayList<>();
     private String address;
     private String city;
     private Double latitude;
