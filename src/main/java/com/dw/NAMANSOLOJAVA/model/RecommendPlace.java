@@ -40,6 +40,9 @@ public class RecommendPlace {
     @Column(name = "description", length = 1000)
     private String description; // 상세 설명 (선택)
 
+    @Column(name = "category")
+    private String category;
+
     @OneToMany(mappedBy = "recommendPlace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryPlace> categoryPlaces = new ArrayList<>();
 

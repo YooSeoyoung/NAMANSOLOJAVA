@@ -68,15 +68,26 @@ public class CategoryPlaceService {
         // 기존 매핑 삭제
         categoryPlaceRepository.deleteByRecommendPlaceId(placeId);
 
-        // 새 매핑 추가
-        for (String categoryName : categoryIds) {
-            Category category = categoryRepository.findByName(categoryName)
-                    .orElseThrow(() -> new RuntimeException("카테고리 없음: " + categoryName));
-            RecommendPlace place = recommendPlaceRepository.findById(placeId)
-                    .orElseThrow(() -> new RuntimeException("장소 없음: " + placeId));
+        RecommendPlace place = recommendPlaceRepository.findById(placeId)
+                .orElseThrow(() -> new RuntimeException("장소 없음: " + placeId));
 
-            categoryPlaceRepository.save(new CategoryPlace(category, place));
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            for (String categoryName : categoryIds) {
+                Category category = categoryRepository.findByName(categoryName)
+                        .orElseThrow(() -> new RuntimeException("카테고리 없음: " + categoryName));
+
+                categoryPlaceRepository.save(new CategoryPlace(category, place));
+            }
+
+            // ✅ 대표 카테고리 업데이트
+            Category firstCategory = categoryRepository.findByName(categoryIds.get(0))
+                    .orElseThrow(() -> new RuntimeException("대표 카테고리 없음: " + categoryIds.get(0)));
+            place.setCategory(firstCategory.getName());
+        } else {
+            place.setCategory(null); // 카테고리 없으면 null
         }
+
+        recommendPlaceRepository.save(place); // ✅ 반드시 save()로 업데이트
     }
 
 }
